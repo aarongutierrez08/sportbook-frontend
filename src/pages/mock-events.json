@@ -1,0 +1,174 @@
+[
+  {
+    "sport": "VOLLEY",
+    "minPlayers": 10,
+    "maxPlayers": 20,
+    "dateTime": "2025-08-18T16:00:00",
+    "location": {
+      "x": 10.0,
+      "y": 10.0
+    },
+    "cost": 20000.00,
+    "cbu": "123124312312",
+    "alias": "obi.juan.kenobi",
+    "players": [ "Fabi","Aaron", "Margo"],
+    "creator": "Fabi",
+    "organizer": "Fabi",
+    "matchDetails": {
+      "teams": [
+        {
+          "color": "BLUE",
+          "players": ["Fabi"]
+        },
+        {
+          "color": "GREEN",
+          "players": ["Aaron"]
+        },
+        {
+          "color": "RED",
+          "players": ["Margo"]
+        }
+      ]
+    }
+  },
+  {
+    "sport": "PADDEL",
+    "minPlayers": 10,
+    "maxPlayers": 20,
+    "dateTime": "2025-08-19T20:00:00",
+    "location": {
+      "x": 10.0,
+      "y": 10.0
+    },
+    "cost": 20000.00,
+    "cbu": "123124312312",
+    "alias": "obi.juan.kenobi",
+    "players": [ "Fabi","Aaron", "Brian", "Franco", "Tobi"],
+    "creator": "Fabi",
+    "organizer": "Fabi",
+    "matchDetails": {
+      "teams": [
+        {
+          "color": "BLUE",
+          "players": ["Fabi", "Franco"]
+        },
+        {
+          "color": "GREEN",
+          "players": ["Aaron", "Tobi"]
+        },
+        {
+          "color": "RED",
+          "players": ["Brian"]
+        }
+      ]
+    }
+  },
+  {
+    "sport": "FOOTBALL",
+    "minPlayers": 10,
+    "maxPlayers": 14,
+    "dateTime": "2025-08-18 13:00:00",
+    "location": {
+      "x": 10.0,
+      "y": 10.0
+    },
+    "cost": 20000.00,
+    "cbu": "123124312312",
+    "alias": "obi.juan.kenobi",
+    "players": [ "Fabi","Aaron", "Brian", "Franco", "Tobi", "Margo", "Luqui", "Fabri", "Nico", "Ale"],
+    "creator": "Fabi",
+    "organizer": "Fabi",
+    "matchDetails": {
+      "pitchSize": 5,
+      "firstTeam": {
+        "color": "BLACK",
+        "players": ["Fabi","Aaron", "Brian","Margo","Luqui"]
+      },
+      "secondTeam": {
+        "color": "WHITE",
+        "players": ["Franco", "Tobi","Fabri","Nico", "Ale"]
+      }
+    }
+  },
+  {
+    "sport": "FOOTBALL",
+    "minPlayers": 10,
+    "maxPlayers": 14,
+    "dateTime": "2025-08-18 14:00:00",
+    "location": {
+      "x": 10.0,
+      "y": 10.0
+    },
+    "cost": 20000.00,
+    "cbu": "123124312312",
+    "alias": "obi.juan.kenobi",
+    "players": [ "Fabi","Aaron", "Brian", "Franco", "Tobi", "Margo", "Luqui", "Fabri", "Nico", "Ale"],
+    "creator": "Fabi",
+    "organizer": "Fabi",
+    "matchDetails": {
+      "pitchSize": 5,
+      "firstTeam": {
+        "color": "BLACK",
+        "players": ["Fabi","Aaron", "Brian","Margo","Luqui"]
+      },
+      "secondTeam": {
+        "color": "RED",
+        "players": ["Franco", "Tobi","Fabri","Nico", "Ale"]
+      }
+    }
+  },
+  {
+    "sport": "FOOTBALL",
+    "minPlayers": 10,
+    "maxPlayers": 14,
+    "dateTime": "2025-08-21 16:00:00",
+    "location": {
+      "x": 10.0,
+      "y": 10.0
+    },
+    "cost": 20000.00,
+    "cbu": "123124312312",
+    "alias": "obi.juan.kenobi",
+    "players": [ "Fabi","Aaron", "Brian", "Franco", "Tobi", "Margo", "Luqui", "Fabri", "Nico", "Ale"],
+    "creator": "Fabi",
+    "organizer": "Fabi",
+    "matchDetails": {
+      "pitchSize": 5,
+      "firstTeam": {
+        "color": "BLACK",
+        "players": ["Fabi","Aaron", "Brian","Margo","Luqui"]
+      },
+      "secondTeam": {
+        "color": "GREEN",
+        "players": ["Franco", "Tobi","Fabri","Nico", "Ale"]
+      }
+    }
+  },
+  {
+    "sport": "FOOTBALL",
+    "minPlayers": 10,
+    "maxPlayers": 14,
+    "dateTime": "2025-08-19 17:00:00",
+    "location": {
+      "x": 10.0,
+      "y": 10.0
+    },
+    "cost": 20000.00,
+    "cbu": "123124312312",
+    "alias": "obi.juan.kenobi",
+    "players": [ "Fabi","Aaron", "Brian", "Franco", "Tobi", "Margo", "Luqui", "Fabri", "Nico", "Ale"],
+    "creator": "Fabi",
+    "organizer": "Fabi",
+    "matchDetails": {
+      "pitchSize": 5,
+      "firstTeam": {
+        "color": "RED",
+        "players": ["Fabi","Aaron", "Brian","Margo","Luqui"]
+      },
+      "secondTeam": {
+        "color": "BLUE",
+        "players": ["Franco", "Tobi","Fabri","Nico", "Ale"]
+      }
+    }
+  }
+]
