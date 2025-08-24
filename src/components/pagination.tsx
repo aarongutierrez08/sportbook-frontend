@@ -1,8 +1,9 @@
 import {useState} from "react";
 
-const Pagination = ({ onPageChange, totalPages }: { onPageChange: never, totalPages: number}) => {
+const Pagination = ({ onPageChange, totalPages }: { onPageChange: (p: (n: number) => number ) => void, totalPages: number}) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const setPage = (p: number) => Math.max(p - 1, 1)
+    const setPage: (p: number) => number = (p: number) => Math.max(p - 1, 1)
+    const setNextPage: (p: number) => number = (p: number) => Math.min(p + 1, totalPages)
     return (<div
         className="pagination"
         style={{
@@ -27,8 +28,8 @@ const Pagination = ({ onPageChange, totalPages }: { onPageChange: never, totalPa
         </span>
         <button
             onClick={() => {
-                onPageChange((p: number) => Math.min(p + 1, totalPages))
-                return setCurrentPage((p: number) => Math.min(p + 1, totalPages))
+                onPageChange(setNextPage)
+                return setCurrentPage(setNextPage)
             }}
             disabled={currentPage === totalPages}
         >

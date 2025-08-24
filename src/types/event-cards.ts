@@ -1,4 +1,4 @@
-import type {MatchDetails, Team} from "./events.ts";
+import type {MatchDetails} from "./events.ts";
 import {Color} from "./color.ts";
 
 export interface SportEventCard {
