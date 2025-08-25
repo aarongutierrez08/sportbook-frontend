@@ -1,12 +1,13 @@
 import type {MatchDetails} from "./events.ts";
-import {Color} from "./color.ts";
+import type {Color} from "./color.ts";
 
 export interface SportEventCard {
+    id: number,
     sport: string;
     minPlayers: number;
     maxPlayers: number;
     dateTime: string;
-    location: { x: number; y: number };
+    location: { x: number; y: number, placeName: string };
     cost: number;
     cbu: string;
     alias: string;

@@ -1,12 +1,14 @@
 [
   {
+    "id": 1,
     "sport": "VOLLEY",
     "minPlayers": 10,
     "maxPlayers": 20,
     "dateTime": "2025-08-18T16:00:00",
     "location": {
-      "x": 10.0,
-      "y": 10.0
+      "x": -34.713390223118736,
+      "y": -58.28190778950768,
+      "placeName": "ABC Ateneo Bernal"
     },
     "cost": 20000.00,
     "cbu": "123124312312",
@@ -32,13 +34,15 @@
     }
   },
   {
+    "id": 2,
     "sport": "PADDEL",
     "minPlayers": 10,
     "maxPlayers": 20,
     "dateTime": "2025-08-19T20:00:00",
     "location": {
-      "x": 10.0,
-      "y": 10.0
+      "x": -34.713390223118736,
+      "y": -58.28190778950768,
+      "placeName": "ABC Ateneo Bernal"
     },
     "cost": 20000.00,
     "cbu": "123124312312",
@@ -64,13 +68,15 @@
     }
   },
   {
+    "id": 3,
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
     "dateTime": "2025-08-18 13:00:00",
     "location": {
-      "x": 10.0,
-      "y": 10.0
+      "x": -34.713390223118736,
+      "y": -58.28190778950768,
+      "placeName": "ABC Ateneo Bernal"
     },
     "cost": 20000.00,
     "cbu": "123124312312",
@@ -91,13 +97,15 @@
     }
   },
   {
+    "id": 4,
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
     "dateTime": "2025-08-18 14:00:00",
     "location": {
-      "x": 10.0,
-      "y": 10.0
+      "x": -34.713390223118736,
+      "y": -58.28190778950768,
+      "placeName": "ABC Ateneo Bernal"
     },
     "cost": 20000.00,
     "cbu": "123124312312",
@@ -118,13 +126,15 @@
     }
   },
   {
+    "id": 5,
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
     "dateTime": "2025-08-21 16:00:00",
     "location": {
-      "x": 10.0,
-      "y": 10.0
+      "x": -34.713390223118736,
+      "y": -58.28190778950768,
+      "placeName": "ABC Ateneo Bernal"
     },
     "cost": 20000.00,
     "cbu": "123124312312",
@@ -145,13 +155,15 @@
     }
   },
   {
+    "id": 6,
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
     "dateTime": "2025-08-19 17:00:00",
     "location": {
-      "x": 10.0,
-      "y": 10.0
+      "x": -34.713390223118736,
+      "y": -58.28190778950768,
+      "placeName": "ABC Ateneo Bernal"
     },
     "cost": 20000.00,
     "cbu": "123124312312",

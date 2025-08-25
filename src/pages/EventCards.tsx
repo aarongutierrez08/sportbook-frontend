@@ -6,8 +6,8 @@ import type {
     Team,
     VolleyCardMatchDetails,
 } from "../types/event-cards.ts";
-import mockedEvents from "./mock-events.json";
-import { Color } from "../types/color.ts";
+import mockedEvents from "../api/mock-events.json";
+import type {Color} from "../types/color.ts";
 import Grid from "../components/grid.tsx";
 import Pagination from "../components/pagination.tsx";
 
@@ -108,6 +108,8 @@ const EventCards: React.FC = () => {
             <>
                 Organizador: {event.organizer}
                 <br />
+                Lugar: {event.location.placeName}
+                <br />
                 Alias: {event.alias}
                 <br />
                 CBU: {event.cbu}
@@ -121,7 +123,7 @@ const EventCards: React.FC = () => {
 
     const mapGridContent = () => {
         return currentEvents.map((event) => (
-            <div key={event.dateTime + Math.random()} className="card">
+            <div key={event.id} className="card">
                 <div className="card-header">
                     <div className="sport"> {event.sport}</div>
                     <div className="date"> {event.dateTime}</div>

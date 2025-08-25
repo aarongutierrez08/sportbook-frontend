@@ -440,3 +440,15 @@ body {
 .input-error {
     color: var(--text-error);
 }
+
+.card .leaflet-container {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.pitchSize {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
