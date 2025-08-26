@@ -10,6 +10,7 @@ import mockedEvents from "../api/mock-events.json";
 import type {Color} from "../types/color.ts";
 import Grid from "../components/grid.tsx";
 import Pagination from "../components/pagination.tsx";
+import MiniMap from "../components/MiniMap.tsx";
 
 const getEvents = () => {
     return mockedEvents as SportEventCard[];
@@ -131,6 +132,11 @@ const EventCards: React.FC = () => {
                 <div className="players">
                     👥 Jugadores: {event.players.length} / {event.minPlayers}
                 </div>
+
+                {event.location && (
+                    <MiniMap lat={event.location.x} lng={event.location.y} />
+                )}
+
                 <div className="cost">💵 Costo: ${event.cost}</div>
                 <div className="teams">{mapTeams(event)}</div>
                 <div className="footer">{mapFooter(event)}</div>
