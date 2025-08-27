@@ -56,7 +56,7 @@ const EventCards: React.FC = () => {
   const mapVolleyAndPaddelCardDetails = (teams: TeamInfo[], players: PlayerInfo[]) => {
     return (
       <>
-        {teams.map((team) => {
+        {teams && teams.map((team) => {
           return (
             <div key={team.color} className={"team " + team.color}>
               <div key={team.color}>
