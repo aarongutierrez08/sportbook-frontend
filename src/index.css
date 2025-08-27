@@ -246,6 +246,14 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
+    margin-top: 1rem;
+}
+
+.btn:disabled {
+    background: var(--light-gray);   /* gris */
+    color: var(--text-gray);        /* texto apagado */
+    cursor: not-allowed;            /* cambia el cursor */
+    box-shadow: none;               /* opcional: sin sombra */
 }
 
 .btn:hover {
@@ -450,6 +458,8 @@ body {
     margin-top: 1.2rem;
     font-size: 0.85rem;
     color: var(--text-gray);
+    display: flex;
+    justify-content: center;
 }
 
 .mini-map {

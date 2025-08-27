@@ -1,7 +1,7 @@
 import type { Color } from "./color";
 
 export type SportEvent = {
-  id?: string,
+  id: number,
   sport: string;
   minPlayers: number;
   maxPlayers: number;
@@ -12,7 +12,7 @@ export type SportEvent = {
     cbu: string;
     alias: string;
   }
-  players: string[];
+  players: PlayerInfo[];
   creator: string;
   organizer: string;
   matchDetails: MatchDetails;

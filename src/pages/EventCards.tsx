@@ -7,21 +7,17 @@ import type { Color } from "../types/color.ts";
 import Grid from "../components/grid.tsx";
 import Pagination from "../components/pagination.tsx";
 import MiniMap from "../components/MiniMap.tsx";
-import { getAllEvents } from "../api/eventsApi.ts";
+import {getAllEvents, joinEvent} from "../api/eventsApi.ts";
 import type { FootballMatchDetails, PlayerInfo, SportEvent, TeamInfo } from "../types/events.ts";
 import { formatDate, getPitchSizeLabel } from "../utils/events.ts";
-
-// const getEvents = () => {
-//   return mockedEvents as SportEvent[];
-// };
 
 const EventCards: React.FC = () => {
   const [events, setEvents] = useState<SportEvent[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loadingEventId, setLoadingEventId] = useState<number>(0);
   const pageSize = 4;
 
   useEffect(() => {
-    // setEvents([...getEvents()]);
     const fetchAllEvents = async () => {
       try {
         const events = await getAllEvents();
@@ -35,49 +31,94 @@ const EventCards: React.FC = () => {
     fetchAllEvents()
   }, []);
 
-  const mapVolleyAndPaddelCardDetails = (teams: TeamInfo[]) => {
+    const handleJoin = async (eventId: number) => {
+        try {
+            setLoadingEventId(eventId);
+            const username = "playerusername1"; // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
+            const updatedEvent = await joinEvent(eventId, username);
+            setEvents((prev) =>
+                prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev))
+            );
+        } catch (err) {
+            console.error("Error al unirse:", err);
+        } finally {
+            setLoadingEventId(0);
+        }
+    };
+
+  const mapTeamMembers = (players: PlayerInfo[]) => {
+      if (players.length === 0) {
+        return <div className="info-label"> Sin Jugadores </div>
+      }
+      return players.map((player) => (<div key={player.user.userName}> {player.name} </div>))
+  }
+
+  const mapVolleyAndPaddelCardDetails = (teams: TeamInfo[], players: PlayerInfo[]) => {
     return (
       <>
         {teams.map((team) => {
           return (
             <div key={team.color} className={"team " + team.color}>
               <div key={team.color}>
-                {team.players.map((player) => (
-                  <div key={player.user.userName}> {player.name} </div>
-                ))}
+                { mapTeamMembers(team.players) }
               </div>
             </div>
           );
         })}
+          <div className="footer">
+          Jugadores sin equipo: {
+            getUnasignedPlayers(
+              players,
+                teams
+                    .map((teamInfo) => teamInfo.players)
+                    .reduce((accumulator, currentArray) => {
+                        return accumulator.concat(currentArray)
+                    }))
+            }
+          </div>
       </>
     );
   };
 
-  const mapFootballCardDetails = (
+    const getUnasignedPlayers = (players: PlayerInfo[], teamPlayers: PlayerInfo[]): JSX.Element => {
+      const firstTeamPlayersNames = teamPlayers.map((firstTeamPlayer) => {
+        return firstTeamPlayer.user.userName
+      })
+      const unasignedPlayers = players?.filter((player) => {
+        return !firstTeamPlayersNames.includes(player.user.userName)
+      }).map((player) => player.name)
+      return <>
+         {unasignedPlayers?.join(", ")}
+      </>
+    }
+
+    const mapFootballCardDetails = (
     firstTeamColor: Color,
     firstTeamPlayers: PlayerInfo[],
     secondTeamColor: Color,
     secondTeamPlayers: PlayerInfo[],
-    pitchSize?: string
+    pitchSize?: string,
+    players?: PlayerInfo[]
   ) => {
     return (
       <>
         <div className={"team " + firstTeamColor}>
           <div key={firstTeamColor}>
-            {firstTeamPlayers.map((player) => (
-              <div key={player.user.userName}> {player.name} </div>
-            ))}
+              {mapTeamMembers(firstTeamPlayers)}
           </div>
         </div>
 
         <div className={"team " + secondTeamColor}>
           <div key={secondTeamColor}>
-            {secondTeamPlayers.map((player) => (
-              <div key={player.user.userName}> {player.name} </div>
-            ))}
+            {mapTeamMembers(secondTeamPlayers)}
           </div>
         </div>
-        <div className="pitchSize"> Tamaño de cancha: {getPitchSizeLabel(pitchSize)}</div>
+        <div className="pitchSize">
+            Tamaño de cancha: {getPitchSizeLabel(pitchSize)}
+        </div>
+          <div className="footer">
+              Jugadores sin equipo: {players && getUnasignedPlayers(players, [...firstTeamPlayers, ...secondTeamPlayers])}
+          </div>
       </>
     );
   };
@@ -96,18 +137,19 @@ const EventCards: React.FC = () => {
           firstTeamPlayers,
           secondTeamColor,
           secondTeamPlayers,
-          pitchSize
+          pitchSize,
+          event.players,
         );
         break;
       }
       case "PADDEL": {
         const { teams } = event.matchDetails as PaddelCardMatchDetails;
-        content = mapVolleyAndPaddelCardDetails(teams);
+        content = mapVolleyAndPaddelCardDetails(teams, event.players);
         break;
       }
       case "VOLLEY": {
         const { teams } = event.matchDetails as VolleyCardMatchDetails;
-        content = mapVolleyAndPaddelCardDetails(teams);
+        content = mapVolleyAndPaddelCardDetails(teams, event.players);
         break;
       }
     }
@@ -133,25 +175,37 @@ const EventCards: React.FC = () => {
   const currentEvents = events.slice(startIndex, startIndex + pageSize);
 
   const mapGridContent = () => {
-    return currentEvents.map((event) => (
-      <div key={event.id} className="card">
-        <div className="card-header">
-          <div className="sport"> {event.sport}</div>
-          <div className="date"> {formatDate(event.dateTime)}</div>
-        </div>
-        <div className="players">
-          👥 Jugadores: {event.players.length} / {event.minPlayers}
-        </div>
+    return currentEvents.map((event) => {
+        const isAlreadyIn = event.players.some(
+            (p) => p.user.userName === "playerusername1" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
+        );
+        return (
+            <div key={event.id} className="card">
+                <div className="card-header">
+                    <div className="sport"> {event.sport}</div>
+                    <div className="date"> {formatDate(event.dateTime)}</div>
+                </div>
+                <div className="players">
+                    👥 Jugadores: {event.players.length} / {event.minPlayers}
+                </div>
 
-        {event.location && (
-          <MiniMap lat={event.location.x} lng={event.location.y} />
-        )}
+                {event.location && (
+                    <MiniMap lat={event.location.x} lng={event.location.y} />
+                )}
 
-        <div className="cost">💵 Costo: ${event.cost}</div>
-        <div className="teams">{mapTeams(event)}</div>
-        <div className="footer">{mapFooter(event)}</div>
-      </div>
-    ));
+                <div className="cost">💵 Costo: ${event.cost}</div>
+                <div className="teams">{mapTeams(event)}</div>
+                <div className="footer">{mapFooter(event)}</div>
+                <button
+                    className="btn"
+                    disabled={loadingEventId === event.id || isAlreadyIn}
+                    onClick={() => handleJoin(event.id)}
+                >
+                    {isAlreadyIn ? "Ya estás unido" : loadingEventId === event.id ? "Uniéndose..." : "Unirse"}
+                </button>
+            </div>
+        )
+    });
   };
 
   return (
