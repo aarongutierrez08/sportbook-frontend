@@ -6,13 +6,17 @@ export type SportEvent = {
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;
-  location: { x: number; y: number, placeName: string };
+  location: {
+    x: number;
+    y: number;
+    placeName: string;
+  };
   cost: number;
   transferData: {
     cbu: string;
     alias: string;
   }
-  players: PlayerInfo[];
+  players: PlayerInfo[] | string[];
   creator: string;
   organizer: string;
   matchDetails: MatchDetails;
@@ -67,3 +71,5 @@ export interface SportEventForm {
   secondTeamColor?: string;
   teams?: string;
 }
+
+export type PitchSize = "FIVE" | "SEVEN" | "EIGHT" | "NINE" | "ELEVEN"

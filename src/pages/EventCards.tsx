@@ -138,18 +138,18 @@ const EventCards: React.FC = () => {
           secondTeamColor,
           secondTeamPlayers,
           pitchSize,
-          event.players,
+          event.players as PlayerInfo[],
         );
         break;
       }
       case "PADDEL": {
         const { teams } = event.matchDetails as PaddelCardMatchDetails;
-        content = mapVolleyAndPaddelCardDetails(teams, event.players);
+        content = mapVolleyAndPaddelCardDetails(teams, event.players as PlayerInfo[]);
         break;
       }
       case "VOLLEY": {
         const { teams } = event.matchDetails as VolleyCardMatchDetails;
-        content = mapVolleyAndPaddelCardDetails(teams, event.players);
+        content = mapVolleyAndPaddelCardDetails(teams, event.players as PlayerInfo[]);
         break;
       }
     }
@@ -176,7 +176,7 @@ const EventCards: React.FC = () => {
 
   const mapGridContent = () => {
     return currentEvents.map((event) => {
-        const isAlreadyIn = event.players.some(
+        const isAlreadyIn = (event.players as PlayerInfo[]).some(
             (p) => p.user.userName === "playerusername1" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
         );
         return (

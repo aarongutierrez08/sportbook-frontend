@@ -3,7 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { MatchDetails, SportEvent, SportEventForm } from "../types/events";
 import { createEvent } from "../api/eventsApi";
 import { format } from "date-fns";
-import { stringToList } from "../utils/events";
+import {mapPitchSize, stringToList} from "../utils/events";
 
 const CreateEvent: React.FC = () => {
   const {
@@ -23,17 +23,24 @@ const CreateEvent: React.FC = () => {
       let matchDetails: MatchDetails = {}
       if (data.sport === "FOOTBALL") {
         matchDetails = {
-          pitchSize: data.pitchSize,
-          firstTeamColor: data.firstTeamColor,
-          secondTeamColor: data.secondTeamColor,
+          pitchSize: mapPitchSize(data.pitchSize ?? 5),
+          firstTeam: {
+              color: data.firstTeamColor,
+              players: []
+          },
+          secondTeam: {
+              color: data.secondTeamColor,
+              players: []
+          },
         };
       } else if (data.sport === "PADDEL" || data.sport === "VOLLEY") {
         matchDetails = {
           teams: stringToList(data.teams),
         };
       }
-
+      console.log(JSON.stringify(data));
       const payload: SportEvent = {
+        id: 0,
         sport: data.sport,
         minPlayers: Number(data.minPlayers),
         maxPlayers: Number(data.maxPlayers),
@@ -113,7 +120,7 @@ const CreateEvent: React.FC = () => {
                   type="text"
                   placeholder="Nombre del lugar"
                   step="any"
-                  {...register("location.placeName", { valueAsNumber: true })}
+                  {...register("location.placeName", { required: { value: true, message: "Este campo es obligatorio"}})}
                 />
               </div>
             </div>
