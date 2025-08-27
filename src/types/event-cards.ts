@@ -1,5 +1,4 @@
-import type {MatchDetails} from "./events.ts";
-import type {Color} from "./color.ts";
+import type {MatchDetails, TeamInfo} from "./events.ts";
 
 export interface SportEventCard {
     id: number,
@@ -17,24 +16,19 @@ export interface SportEventCard {
     matchDetails: MatchDetails;
 }
 
-export interface Team {
-    color: Color,
-    players: string[],
-}
-
 
 export interface FootballCardMatchDetails {
     pitchSize: number;
-    firstTeam: Team;
-    secondTeam: Team;
+    firstTeam: TeamInfo;
+    secondTeam: TeamInfo;
 }
 
 export interface PaddelCardMatchDetails {
-    teams: Team[];
+    teams: TeamInfo[];
 }
 
 export interface VolleyCardMatchDetails {
-    teams: Team[];
+    teams: TeamInfo[];
 }
 
 export type CardMatchDetails = FootballCardMatchDetails | PaddelCardMatchDetails | VolleyCardMatchDetails;

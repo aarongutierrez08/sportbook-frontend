@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "sport": "VOLLEY",
     "minPlayers": 10,
     "maxPlayers": 20,
@@ -34,7 +34,7 @@
     }
   },
   {
-    "id": 2,
+    "id": "2",
     "sport": "PADDEL",
     "minPlayers": 10,
     "maxPlayers": 20,
@@ -68,7 +68,7 @@
     }
   },
   {
-    "id": 3,
+    "id": "3",
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
@@ -97,7 +97,7 @@
     }
   },
   {
-    "id": 4,
+    "id": "4",
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
@@ -126,7 +126,7 @@
     }
   },
   {
-    "id": 5,
+    "id": "5",
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
@@ -155,7 +155,7 @@
     }
   },
   {
-    "id": 6,
+    "id": "6",
     "sport": "FOOTBALL",
     "minPlayers": 10,
     "maxPlayers": 14,
