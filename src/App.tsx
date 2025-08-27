@@ -13,7 +13,8 @@ function App() {
                     <Route path="events" element={<EventCards />} />
                     <Route
                         path="*"
-                        element={<Navigate to="/events/create" replace />}/>
+                        element={<Navigate to="/events" replace />}
+                    />
                 </Route>
             </Routes>
         </BrowserRouter>

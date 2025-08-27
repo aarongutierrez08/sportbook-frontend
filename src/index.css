@@ -163,11 +163,11 @@ body {
     background: var(--light-gray);
 }
 
-.team.BLUE { border-left: 4px solid blue; }
-.team.GREEN { border-left: 4px solid green; }
-.team.RED { border-left: 4px solid red; }
-.team.BLACK { border-left: 4px solid black; }
-.team.WHITE { border-left: 4px solid whitesmoke; }
+.team.Azul { border-left: 4px solid blue; }
+.team.Verde { border-left: 4px solid green; }
+.team.Rojo { border-left: 4px solid red; }
+.team.Negro { border-left: 4px solid black; }
+.team.Blanco { border-left: 4px solid whitesmoke; }
 
 .footer {
     margin-top: 1.2rem;

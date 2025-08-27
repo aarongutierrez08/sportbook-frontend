@@ -12,7 +12,7 @@ const Header: React.FC = () => {
                 <nav className="nav">
                     <ul className="nav-links">
                         <li><a href="/events">Eventos</a></li>
-                        <li><a href="/create">Crear Evento</a></li>
+                        <li><a href="/events/create">Crear Evento</a></li>
                         <li><a href="/login">Ingresar</a></li>
                     </ul>
                 </nav>

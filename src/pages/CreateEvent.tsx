@@ -38,9 +38,11 @@ const CreateEvent: React.FC = () => {
         minPlayers: Number(data.minPlayers),
         maxPlayers: Number(data.maxPlayers),
         dateTime: format(new Date(data.dateTime), "yyyy-MM-dd HH:mm:ss"),
-        location: { x: Number(data.location.x), y: Number(data.location.y) },
-        cbu: data.cbu,
-        alias: data.alias,
+        location: { x: data.location.x, y: data.location.y, placeName: data.location.placeName },
+        transferData: {
+          cbu: data.cbu,
+          alias: data.alias,
+        },
         creator: data.creator,
         organizer: data.organizer,
         players,
@@ -104,6 +106,14 @@ const CreateEvent: React.FC = () => {
                   placeholder="Longitud (Y)"
                   step="any"
                   {...register("location.y", { valueAsNumber: true })}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Nombre del lugar"
+                  step="any"
+                  {...register("location.placeName", { valueAsNumber: true })}
                 />
               </div>
             </div>
