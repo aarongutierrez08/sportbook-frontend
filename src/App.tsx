@@ -1,4 +1,3 @@
-import './App.css'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import CreateEvent from './pages/CreateEvent'
 
