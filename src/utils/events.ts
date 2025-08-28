@@ -1,4 +1,5 @@
 import { pitchSizeMap } from "../constants";
+import type {PitchSize} from "../types/events.ts";
 
 export const stringToList = (players?: string): string[] => {
   return players
@@ -22,4 +23,15 @@ export const formatDate = (dateString: string): string => {
 
 export function getPitchSizeLabel(key?: string): number {
   return key ? pitchSizeMap[key] : 0;
+}
+
+export function mapPitchSize(size: number) {
+    const mapSize: { [key: number]: PitchSize } = {
+        5: "FIVE",
+        7: "SEVEN",
+        8: "EIGHT",
+        9: "NINE",
+        11: "ELEVEN"
+    }
+    return mapSize[size]
 }

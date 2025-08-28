@@ -1,18 +1,22 @@
 import type { Color } from "./color";
 
 export type SportEvent = {
-  id?: string,
+  id: number,
   sport: string;
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;
-  location: { x: number; y: number, placeName: string };
+  location: {
+    x: number;
+    y: number;
+    placeName: string;
+  };
   cost: number;
   transferData: {
     cbu: string;
     alias: string;
   }
-  players: string[];
+  players: PlayerInfo[] | string[];
   creator: string;
   organizer: string;
   matchDetails: MatchDetails;
@@ -67,3 +71,5 @@ export interface SportEventForm {
   secondTeamColor?: string;
   teams?: string;
 }
+
+export type PitchSize = "FIVE" | "SEVEN" | "EIGHT" | "NINE" | "ELEVEN"

@@ -3,7 +3,8 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { MatchDetails, SportEvent, SportEventForm } from "../types/events";
 import { createEvent } from "../api/eventsApi";
 import { format } from "date-fns";
-import { stringToList } from "../utils/events";
+import {mapPitchSize, stringToList} from "../utils/events";
+import LocationPickerMap from "../components/LocationPickerMap.tsx";
 
 const CreateEvent: React.FC = () => {
   const {
@@ -12,6 +13,7 @@ const CreateEvent: React.FC = () => {
     reset,
     watch,
     formState: { errors, isSubmitting },
+    setValue
   } = useForm<SportEventForm>();
 
   const sport = watch("sport");
@@ -23,17 +25,35 @@ const CreateEvent: React.FC = () => {
       let matchDetails: MatchDetails = {}
       if (data.sport === "FOOTBALL") {
         matchDetails = {
-          pitchSize: data.pitchSize,
-          firstTeamColor: data.firstTeamColor,
-          secondTeamColor: data.secondTeamColor,
+          pitchSize: mapPitchSize(data.pitchSize ?? 5),
+          firstTeam: {
+              color: data.firstTeamColor,
+              players: []
+          },
+          secondTeam: {
+              color: data.secondTeamColor,
+              players: []
+          },
         };
       } else if (data.sport === "PADDEL" || data.sport === "VOLLEY") {
-        matchDetails = {
-          teams: stringToList(data.teams),
-        };
+        if (stringToList(data.teams).length === 0) {
+            matchDetails = {
+                teams: [{ color: "Negro", players: [] }, { color: "Blanco", players: [] }],
+            }
+        } else {
+            matchDetails = {
+                teams: stringToList(data.teams).map(team => {
+                    return {
+                        color: team,
+                        players: []
+                    }
+                }),
+            };
+        }
       }
 
       const payload: SportEvent = {
+        id: 0,
         sport: data.sport,
         minPlayers: Number(data.minPlayers),
         maxPlayers: Number(data.maxPlayers),
@@ -88,38 +108,35 @@ const CreateEvent: React.FC = () => {
             )}
           </div>
 
-          {/* LOCATION */}
-          <div className="form-group form-full">
-            <label>Ubicación (Coordenadas)</label>
-            <div className="location-inputs">
-              <div>
-                <input
-                  type="number"
-                  placeholder="Latitud (X)"
-                  step="any"
-                  {...register("location.x", { valueAsNumber: true })}
+            {/* LOCATION */}
+            <div className="form-group form-full">
+                <label>Ubicación</label>
+                <LocationPickerMap
+                    lat={watch("location.x")}
+                    lng={watch("location.y")}
+                    onChange={(lat, lng, placeName) => {
+                        setValue("location.x", lat, { shouldValidate: true });
+                        setValue("location.y", lng, { shouldValidate: true });
+                        if (placeName) {
+                            setValue("location.placeName", placeName);
+                        }
+                    }}
                 />
-              </div>
-              <div>
-                <input
-                  type="number"
-                  placeholder="Longitud (Y)"
-                  step="any"
-                  {...register("location.y", { valueAsNumber: true })}
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Nombre del lugar"
-                  step="any"
-                  {...register("location.placeName", { valueAsNumber: true })}
-                />
-              </div>
-            </div>
-          </div>
 
-          {/* CREATOR */}
+                <input type="hidden" {...register("location.x", { valueAsNumber: true })} />
+                <input type="hidden" {...register("location.y", { valueAsNumber: true })} />
+
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Nombre del lugar"
+                        {...register("location.placeName", { required: "Este campo es obligatorio" })}
+                    />
+                </div>
+            </div>
+
+
+            {/* CREATOR */}
           <div className="form-group">
             <label>Creador</label>
             <input
