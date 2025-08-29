@@ -1,7 +1,7 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
@@ -24,13 +24,14 @@ body {
   color: #1e293b;
 }
 
+/* ----------- Layout general ----------- */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* Header */
+/* ----------- Header ----------- */
 .header {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary) 100%);
   padding: 1rem 0;
@@ -39,12 +40,12 @@ body {
 }
 
 .nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .logo {
@@ -55,9 +56,9 @@ body {
 }
 
 .nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
+    display: flex;
+    gap: 2rem;
+    list-style: none;
 }
 
 .nav-links a {
@@ -71,32 +72,32 @@ body {
 
 .nav-links a:hover,
 .nav-links a.active {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
-/* Pages */
+/* ----------- Páginas ----------- */
 .page {
-  display: none;
-  animation: fadeIn 0.5s ease-in;
+    display: none;
+    animation: fadeIn 0.5s ease-in;
 }
 
 .page.active {
-  display: block;
+    display: block;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Cards */
+/* ----------- Cards ----------- */
 .card {
   background: var(--color-white);
   border-radius: 16px;
@@ -104,35 +105,100 @@ body {
   box-shadow: 0 10px 40px var(--shadow-default);
   transition: all 0.3s ease;
   border: 1px solid #e2e8f0;
+  max-width: 100%;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 48px var(--shadow);
 }
 
-/* Login/Register */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.sport {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-green);
+}
+
+.date {
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.location {
+    font-size: 0.9rem;
+    color: var(--dark-green);
+    margin-bottom: 1rem;
+}
+
+.players {
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.cost {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--light-orange);
+    margin-bottom: 1rem;
+}
+
+.teams {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.team {
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.5rem;
+    margin: 0.2rem 0;
+    font-size: 0.85rem;
+    background: var(--light-gray);
+}
+
+.team.Azul { border-left: 4px solid blue; }
+.team.Verde { border-left: 4px solid green; }
+.team.Rojo { border-left: 4px solid red; }
+.team.Negro { border-left: 4px solid black; }
+.team.Blanco { border-left: 4px solid whitesmoke; }
+
+.footer {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+}
+
+/* ----------- Formularios (login, registro, crear evento) ----------- */
 .auth-container {
-  max-width: 400px;
-  margin: 2rem auto;
+    max-width: 400px;
+    margin: 2rem auto;
 }
 
 .auth-tabs {
-  display: flex;
-  margin-bottom: 2rem;
-  background: #f1f5f9;
-  border-radius: 12px;
-  padding: 4px;
+    display: flex;
+    margin-bottom: 2rem;
+    background: #f1f5f9;
+    border-radius: 12px;
+    padding: 4px;
 }
 
 .auth-tab {
-  flex: 1;
-  padding: 12px;
-  text-align: center;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .auth-tab.active {
@@ -141,7 +207,7 @@ body {
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .form-group label {
@@ -166,27 +232,35 @@ body {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(56, 145, 72, 0.1);
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(56, 145, 72, 0.1);
 }
 
 .btn {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary) 100%);
-  color: var(--color-white);
-  border: none;
-  padding: 14px 28px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary) 100%);
+    color: var(--color-white);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.btn:disabled {
+    background: var(--color-text-muted);   /* gris */
+    color: var(--color-text-muted);        /* texto apagado */
+    cursor: not-allowed;            /* cambia el cursor */
+    box-shadow: none;               /* opcional: sin sombra */
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(56, 145, 72, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(56, 145, 72, 0.4);
 }
 
 .btn-secondary {
@@ -196,19 +270,19 @@ body {
 
 /* Create Event */
 .create-event-form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
 }
 
 .form-full {
-  grid-column: 1 / -1;
+    grid-column: 1 / -1;
 }
 
 .location-inputs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
 .payment-section {
@@ -223,11 +297,11 @@ body {
   margin-bottom: 1rem;
 }
 
-/* View Events */
+/* ----------- Eventos ----------- */
 .events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
 }
 
 .event-card {
@@ -240,8 +314,8 @@ body {
 }
 
 .event-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .event-header {
@@ -251,25 +325,25 @@ body {
 }
 
 .event-sport {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
 }
 
 .event-date {
-  opacity: 0.9;
-  font-size: 0.9rem;
+    opacity: 0.9;
+    font-size: 0.9rem;
 }
 
 .event-body {
-  padding: 1.5rem;
+    padding: 1.5rem;
 }
 
 .event-info {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .info-item {
@@ -300,10 +374,10 @@ body {
 }
 
 .filters {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
 }
 
 .filter-btn {
@@ -319,38 +393,129 @@ body {
 
 .filter-btn.active,
 .filter-btn:hover {
-  background: var(--color-primary);
-  color: var(--color-white);
+    background: var(--color-primary);
+    color: var(--color-white);
 }
 
-/* Responsive */
+/* ----------- Responsividad ----------- */
+@media (max-width: 1024px) {
+    .create-event-form {
+        grid-template-columns: 1fr;
+    }
+
+    .location-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .events-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 @media (max-width: 768px) {
-  .nav-links {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+    .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 
-  .create-event-form {
-    grid-template-columns: 1fr;
-  }
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .location-inputs {
-    grid-template-columns: 1fr;
-  }
+    .filters {
+        justify-content: center;
+    }
+}
 
-  .events-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 480px) {
+    .card {
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px var(--shadow);
+    }
 
-  .filters {
-    justify-content: center;
-  }
+    .event-card {
+        border-radius: 12px;
+    }
+
+    .event-info {
+        grid-template-columns: 1fr;
+    }
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
 .input-error {
-  color: var(--text-error);
+    color: var(--text-error);
+}
+
+.card .leaflet-container {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.pitchSize {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    display: flex;
+    justify-content: center;
+}
+
+.mini-map {
+    width: 100%;
+    height: 200px;       /* 👈 altura fija */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px var(--shadow);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.mini-map {
+    width: 100%;
+    height: 200px; /* 👈 altura fija */
+    margin-top: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mini-map-container,
+.mini-map .leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }

@@ -1,13 +1,22 @@
+import type { Color } from "./color";
+
 export type SportEvent = {
+  id: number,
   sport: string;
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;
-  location: { x: number; y: number };
+  location: {
+    x: number;
+    y: number;
+    placeName: string;
+  };
   cost: number;
-  cbu: string;
-  alias: string;
-  players: string[];
+  transferData: {
+    cbu: string;
+    alias: string;
+  }
+  players: PlayerInfo[] | string[];
   creator: string;
   organizer: string;
   matchDetails: MatchDetails;
@@ -16,9 +25,23 @@ export type SportEvent = {
 export type MatchDetails = FootballMatchDetails | PaddelMatchDetails | VolleyMatchDetails | object
 
 export interface FootballMatchDetails {
-  pitchSize?: number;
-  firstTeamColor?: string;
-  secondTeamColor?: string;
+  pitchSize?: string;
+  firstTeam: TeamInfo;
+  secondTeam: TeamInfo;
+}
+
+export interface TeamInfo {
+  color: Color,
+  players: PlayerInfo[]
+}
+
+export interface PlayerInfo {
+  name: string,
+  user: UserInfo,
+}
+
+export interface UserInfo {
+  userName: string,
 }
 
 export interface PaddelMatchDetails {
@@ -35,7 +58,7 @@ export interface SportEventForm {
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;
-  location: { x: number; y: number };
+  location: { x: number; y: number, placeName: string };
   cbu: string;
   alias: string;
   creator: string;
@@ -48,3 +71,5 @@ export interface SportEventForm {
   secondTeamColor?: string;
   teams?: string;
 }
+
+export type PitchSize = "FIVE" | "SEVEN" | "EIGHT" | "NINE" | "ELEVEN"

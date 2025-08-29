@@ -8,6 +8,8 @@ import { useMatchDetailsBuilder } from "../hooks/useMatchDetailsBuilder";
 import { FormField } from "../components/FormField";
 import { MatchDetailsFields } from "../components/MatchDetailsFields";
 import { PaymentFields } from "../components/PaymentFields";
+import {mapPitchSize, stringToList} from "../utils/events";
+import LocationPickerMap from "../components/LocationPickerMap.tsx";
 
 const REQUIRED = { value: true, message: "Este campo es obligatorio" };
 
@@ -18,6 +20,7 @@ const CreateEvent: React.FC = () => {
     reset,
     watch,
     formState: { errors, isSubmitting },
+    setValue
   } = useForm<SportEventForm>();
 
   const sport = watch("sport");
@@ -25,11 +28,48 @@ const CreateEvent: React.FC = () => {
 
   const onSubmit: SubmitHandler<SportEventForm> = async (data) => {
     try {
+      const players = stringToList(data.playersText);
+
+      let matchDetails: MatchDetails = {}
+      if (data.sport === "FOOTBALL") {
+        matchDetails = {
+          pitchSize: mapPitchSize(data.pitchSize ?? 5),
+          firstTeam: {
+              color: data.firstTeamColor,
+              players: []
+          },
+          secondTeam: {
+              color: data.secondTeamColor,
+              players: []
+          },
+        };
+      } else if (data.sport === "PADDEL" || data.sport === "VOLLEY") {
+        if (stringToList(data.teams).length === 0) {
+            matchDetails = {
+                teams: [{ color: "Negro", players: [] }, { color: "Blanco", players: [] }],
+            }
+        } else {
+            matchDetails = {
+                teams: stringToList(data.teams).map(team => {
+                    return {
+                        color: team,
+                        players: []
+                    }
+                }),
+            };
+        }
+      }
+
       const payload: SportEvent = {
+        id: 0,
         ...data,
         dateTime: format(new Date(data.dateTime), "yyyy-MM-dd HH:mm:ss"),
-        players: stringToList(data.playersText),
-        matchDetails: buildMatchDetails(data),
+        transferData: {
+          cbu: data.cbu,
+          alias: data.alias,
+        },
+        players,
+        matchDetails,
       };
       await createEvent(payload);
     } catch (e) {
@@ -56,28 +96,44 @@ const CreateEvent: React.FC = () => {
             <input type="datetime-local" {...register("dateTime", { required: REQUIRED })} />
           </FormField>
 
-          {/* Location */}
-          <div className="form-group form-full">
-            <label>Ubicación (Coordenadas)</label>
-            <div className="location-inputs">
-              <input
-                type="number"
-                placeholder="Latitud (X)"
-                step="any"
-                {...register("location.x", { valueAsNumber: true })}
-              />
-              <input
-                type="number"
-                placeholder="Longitud (Y)"
-                step="any"
-                {...register("location.y", { valueAsNumber: true })}
-              />
-            </div>
-          </div>
+            {/* LOCATION */}
+            <div className="form-group form-full">
+                <label>Ubicación</label>
+                <LocationPickerMap
+                    lat={watch("location.x")}
+                    lng={watch("location.y")}
+                    onChange={(lat, lng, placeName) => {
+                        setValue("location.x", lat, { shouldValidate: true });
+                        setValue("location.y", lng, { shouldValidate: true });
+                        if (placeName) {
+                            setValue("location.placeName", placeName);
+                        }
+                    }}
+                />
 
-          <FormField label="Creador" error={errors.creator}>
-            <input type="text" placeholder="Tu nombre" {...register("creator", { required: REQUIRED })} />
-          </FormField>
+                <input type="hidden" {...register("location.x", { valueAsNumber: true })} />
+                <input type="hidden" {...register("location.y", { valueAsNumber: true })} />
+
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Nombre del lugar"
+                        {...register("location.placeName", { required: "Este campo es obligatorio" })}
+                    />
+                </div>
+            </div>
+
+
+            {/* CREATOR */}
+          <div className="form-group">
+            <label>Creador</label>
+            <input
+              type="text"
+              placeholder="Tu nombre"
+              {...register("creator", { required: { value: true, message: "Este campo es obligatorio" } })}
+            />
+            {errors.creator && <div className="input-error">Obligatorio</div>}
+          </div>
 
           <FormField label="Organizador" error={errors.organizer}>
             <input type="text" placeholder="Nombre del organizador" {...register("organizer", { required: REQUIRED })} />
