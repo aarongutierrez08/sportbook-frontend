@@ -1,7 +1,5 @@
-import type { Color } from "./color";
-
 export type SportEvent = {
-  id: number,
+  id: number;
   sport: string;
   minPlayers: number;
   maxPlayers: number;
@@ -15,14 +13,18 @@ export type SportEvent = {
   transferData: {
     cbu: string;
     alias: string;
-  }
-  players: PlayerInfo[] | string[];
+  };
+  players: PlayerInfo[];
   creator: string;
   organizer: string;
-  matchDetails: MatchDetails;
+  matchDetails?: MatchDetails;
 };
 
-export type MatchDetails = FootballMatchDetails | PaddelMatchDetails | VolleyMatchDetails | object
+export type MatchDetails =
+  | FootballMatchDetails
+  | PaddelMatchDetails
+  | VolleyMatchDetails
+  | object;
 
 export interface FootballMatchDetails {
   pitchSize?: string;
@@ -31,34 +33,33 @@ export interface FootballMatchDetails {
 }
 
 export interface TeamInfo {
-  color: Color,
-  players: PlayerInfo[]
+  color: Color;
+  players: PlayerInfo[];
 }
 
 export interface PlayerInfo {
-  name: string,
-  user: UserInfo,
+  name: string;
+  user: UserInfo;
 }
 
 export interface UserInfo {
-  userName: string,
+  userName: string;
 }
 
 export interface PaddelMatchDetails {
-  teams?: string[];
+  teams?: TeamInfo[];
 }
 
 export interface VolleyMatchDetails {
-  teams?: string[];
+  teams?: TeamInfo[];
 }
-
 
 export interface SportEventForm {
   sport: string;
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;
-  location: { x: number; y: number, placeName: string };
+  location: { x: number; y: number; placeName: string };
   cbu: string;
   alias: string;
   creator: string;
@@ -70,6 +71,10 @@ export interface SportEventForm {
   firstTeamColor?: string;
   secondTeamColor?: string;
   teams?: string;
+  firstTeamPlayers?: string;
+  secondTeamPlayers?: string;
 }
 
-export type PitchSize = "FIVE" | "SEVEN" | "EIGHT" | "NINE" | "ELEVEN"
+export type PitchSize = "FIVE" | "SIX" | "SEVEN" | "EIGHT" | "NINE" | "ELEVEN";
+
+export type Color = "Rojo" | "Azul" | "Verde" | "Negro" | "Blanco";

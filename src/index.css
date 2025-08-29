@@ -12,7 +12,6 @@
   --color-surface: #f8fafc;
   --color-text-muted: #64748b;
   --color-error: #D72638;
-
   --shadow-default-default: rgba(0, 0, 0, 0.1);
 }
 
@@ -252,10 +251,10 @@ body {
 }
 
 .btn:disabled {
-    background: var(--color-text-muted);   /* gris */
-    color: var(--color-text-muted);        /* texto apagado */
-    cursor: not-allowed;            /* cambia el cursor */
-    box-shadow: none;               /* opcional: sin sombra */
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .btn:hover {
