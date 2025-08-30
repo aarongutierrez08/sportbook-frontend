@@ -8,6 +8,8 @@
   --color-primary: #389148;
   --color-primary-dark: #044510;
   --color-accent: #E98E26;
+  --color-accent-light: #E6F4EA;
+  --color-accent-intermediate: #FFDAB9;
   --color-white: #ffffff;
   --color-surface: #f8fafc;
   --color-text-muted: #64748b;
@@ -81,6 +83,9 @@ body {
     animation: fadeIn 0.5s ease-in;
 }
 
+.page-title {
+    padding-bottom: 1rem;
+}
 .page.active {
     display: block;
 }
@@ -263,7 +268,7 @@ body {
 }
 
 .btn-secondary {
-  background: var(--color-accent);
+  background: var(--color-accent-intermediate);
   color: var(--color-primary);
 }
 
@@ -285,7 +290,7 @@ body {
 }
 
 .payment-section {
-  background: var(--color-accent);
+  background: var(--color-accent-light);
   padding: 1.5rem;
   border-radius: 12px;
   margin: 1rem 0;
