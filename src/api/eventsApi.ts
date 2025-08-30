@@ -11,14 +11,14 @@ export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
 
 export const getAllEvents = async (): Promise<SportEvent[]> => {
   const res = await api.get<SportEvent[]>(
-    "/sportbook/events",
+    "/sportbook/event",
   );
   return res.data;
 };
 
 export const joinEvent = async (eventId: number, username: string): Promise<SportEvent> => {
     const res = await api.put<SportEvent>(
-        "/sportbook/events/" + eventId + "/join?username=" + username,
+        "/sportbook/event/" + eventId + "/join?username=" + username,
     );
     return res.data;
 }
