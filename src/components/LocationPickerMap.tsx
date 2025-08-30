@@ -40,7 +40,7 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
         const fetchSuggestions = async () => {
             try {
                 const res = await fetch(
-                    `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(
+                    `${import.meta.env.VITE_OPEN_STREET_API_URL}search?format=json&addressdetails=1&q=${encodeURIComponent(
                         address
                     )}`,
                     { signal: controller.signal, headers: { "Accept-Language": "es" } }

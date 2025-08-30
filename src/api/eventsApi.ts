@@ -10,6 +10,7 @@ export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
 };
 
 export const getAllEvents = async (): Promise<SportEvent[]> => {
+    console.log(api.getUri())
   const res = await api.get<SportEvent[]>(
     "/sportbook/events",
   );
