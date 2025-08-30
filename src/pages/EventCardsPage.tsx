@@ -37,7 +37,7 @@ const EventCardsPage: React.FC = () => {
   const handleJoin = async (eventId: number) => {
     try {
       setLoadingEventId(eventId);
-      const username = "playerusername1"; // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
+      const username = "Fabi"; // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
       const updatedEvent = await joinEvent(eventId, username);
       setEvents((prev) =>
         prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev))
@@ -188,7 +188,7 @@ const EventCardsPage: React.FC = () => {
   const mapGridContent = () => {
     return currentEvents.map((event) => {
       const isAlreadyIn = (event.players as PlayerInfo[]).some(
-        (p) => p.user.userName === "playerusername1" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
+        (p) => p.user.userName === "Fabi" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
       );
       return (
         <div key={event.id} className="card">
