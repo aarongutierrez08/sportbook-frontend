@@ -58,7 +58,7 @@ const CreateEventPage: React.FC = () => {
             <select {...register("sport", { required: REQUIRED })}>
               <option value="">Seleccionar deporte...</option>
               <option value="FOOTBALL">⚽ Fútbol</option>
-              <option value="PADDEL">🏓 Pádel</option>
+              <option value="PADDLE">🏓 Pádel</option>
               <option value="VOLLEY">🏐 Vóley</option>
             </select>
           </FormField>

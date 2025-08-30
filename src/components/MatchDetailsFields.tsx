@@ -85,7 +85,7 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
     );
   }
 
-  if (sport === "PADDEL" || sport === "VOLLEY") {
+  if (sport === "PADDLE" || sport === "VOLLEY") {
     return (
       <div className="form-group form-full">
         <FormField
