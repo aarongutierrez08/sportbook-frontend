@@ -1,50 +1,44 @@
-import type { MatchDetails, PlayerInfo, SportEventForm } from "../types/events";
-import { mapPitchSize, stringToPlayerInfoList } from "./events";
+import type { SportEventForm } from "../types/events";
+import { stringToPlayerInfoList } from "./events";
 
 export const matchDetailsBuilder = (
   data: SportEventForm
-): { players?: PlayerInfo[]; matchDetails?: MatchDetails } => {
+): object => {
   if (data.sport === "FOOTBALL") {
     const firstTeamPlayers = stringToPlayerInfoList(data.firstTeamPlayers);
     const secondTeamPlayers = stringToPlayerInfoList(data.secondTeamPlayers);
     return {
       players: firstTeamPlayers.concat(secondTeamPlayers),
-      matchDetails: {
-        pitchSize: mapPitchSize(data.pitchSize ?? 5),
-        firstTeam: {
-          color: data.firstTeamColor,
-          players: firstTeamPlayers,
-        },
-        secondTeam: {
-          color: data.secondTeamColor,
-          players: secondTeamPlayers,
-        },
+      pitchSize: data.pitchSize ?? 5,
+      firstTeam: {
+        color: data.firstTeamColor,
+        players: firstTeamPlayers,
+      },
+      secondTeam: {
+        color: data.secondTeamColor,
+        players: secondTeamPlayers,
       },
     };
   }
-  if (data.sport === "PADDEL" || data.sport === "VOLLEY") {
+  if (data.sport === "PADDLE" || data.sport === "VOLLEY") {
     if (stringToPlayerInfoList(data.teams).length) {
       return {
         players: [],
-        matchDetails: {
-          teams: [
-            { color: "Negro", players: [] },
-            { color: "Blanco", players: [] },
-          ],
-        },
+        teams: [
+          { color: "Negro", players: [] },
+          { color: "Blanco", players: [] },
+        ],
       };
     }
   } else {
     return {
       players: [],
-      matchDetails: {
-        teams: stringToPlayerInfoList(data.teams).map((team) => {
-          return {
-            color: team,
-            players: [],
-          };
-        }),
-      },
+      teams: stringToPlayerInfoList(data.teams).map((team) => {
+        return {
+          color: team,
+          players: [],
+        };
+      }),
     };
   }
   return {};

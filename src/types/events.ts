@@ -17,16 +17,9 @@ export type SportEvent = {
   players: PlayerInfo[];
   creator: string;
   organizer: string;
-  matchDetails?: MatchDetails;
 };
 
-export type MatchDetails =
-  | FootballMatchDetails
-  | PaddelMatchDetails
-  | VolleyMatchDetails
-  | object;
-
-export interface FootballMatchDetails {
+export type FootballEvent = SportEvent & {
   pitchSize?: string;
   firstTeam: TeamInfo;
   secondTeam: TeamInfo;
@@ -43,14 +36,14 @@ export interface PlayerInfo {
 }
 
 export interface UserInfo {
-  userName: string;
+  username: string;
 }
 
-export interface PaddelMatchDetails {
+export type PaddleEvent = SportEvent & {
   teams?: TeamInfo[];
 }
 
-export interface VolleyMatchDetails {
+export type VolleyEvent = SportEvent & {
   teams?: TeamInfo[];
 }
 
@@ -75,6 +68,6 @@ export interface SportEventForm {
   secondTeamPlayers?: string;
 }
 
-export type PitchSize = "FIVE" | "SIX" | "SEVEN" | "EIGHT" | "NINE" | "ELEVEN";
+export type PitchSize = 5 | 6 | 7 | 8 |9 | 11;
 
 export type Color = "Rojo" | "Azul" | "Verde" | "Negro" | "Blanco";

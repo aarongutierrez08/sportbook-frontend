@@ -1,11 +1,11 @@
 import { PITCH_SIZE_MAP } from "../constants/events.ts";
-import type { PitchSize, PlayerInfo } from "../types/events.ts";
+import type { PlayerInfo } from "../types/events.ts";
 
 export const stringToPlayerInfoList = (players?: string): PlayerInfo[] => {
   return (
     players
       ?.split(/[\n,]/g)
-      .map((s) => ({ name: s.trim(), user: { userName: s.trim() } }))
+      .map((s) => ({ name: s.trim(), user: { username: s.trim() } }))
       .filter(Boolean) || []
   );
 };
@@ -25,16 +25,4 @@ export const formatDate = (dateString: string): string => {
 
 export function getPitchSizeLabel(key?: string): number {
   return key ? PITCH_SIZE_MAP[key] : 0;
-}
-
-export function mapPitchSize(size: number) {
-  const mapSize: { [key: number]: PitchSize } = {
-    5: "FIVE",
-    6: "SIX",
-    7: "SEVEN",
-    8: "EIGHT",
-    9: "NINE",
-    11: "ELEVEN",
-  };
-  return mapSize[size];
 }

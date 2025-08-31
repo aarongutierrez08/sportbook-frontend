@@ -4,13 +4,10 @@ import Pagination from "../components/Pagination.tsx";
 import MiniMap from "../components/MiniMap.tsx";
 import { getAllEvents, joinEvent } from "../api/eventsApi.ts";
 import type {
-  Color,
-  FootballMatchDetails,
-  PaddelMatchDetails,
-  PlayerInfo,
-  SportEvent,
-  TeamInfo,
-  VolleyMatchDetails,
+    Color, FootballEvent, PaddleEvent,
+    PlayerInfo,
+    SportEvent,
+    TeamInfo, VolleyEvent,
 } from "../types/events.ts";
 import { formatDate, getPitchSizeLabel } from "../utils/events.ts";
 
@@ -54,11 +51,11 @@ const EventCardsPage: React.FC = () => {
       return <div className="info-label"> Sin Jugadores </div>;
     }
     return players.map((player) => (
-      <div key={player.user.userName}> {player.name} </div>
+      <div key={player.user.username}> {player.name} </div>
     ));
   };
 
-  const mapVolleyAndPaddelCardDetails = (
+  const mapVolleyAndPaddleCardDetails = (
     players: PlayerInfo[],
     teams?: TeamInfo[]
   ) => {
@@ -92,11 +89,11 @@ const EventCardsPage: React.FC = () => {
     teamPlayers?: PlayerInfo[]
   ): JSX.Element => {
     const firstTeamPlayersNames = teamPlayers?.map((firstTeamPlayer) => {
-      return firstTeamPlayer.user.userName;
+      return firstTeamPlayer.user.username;
     });
     const unasignedPlayers = players
       ?.filter((player) => {
-        return !firstTeamPlayersNames?.includes(player.user.userName);
+        return !firstTeamPlayersNames?.includes(player.user.username);
       })
       .map((player) => player.name);
     return <>{unasignedPlayers?.join(", ")}</>;
@@ -142,7 +139,7 @@ const EventCardsPage: React.FC = () => {
           firstTeam: { color: firstTeamColor, players: firstTeamPlayers },
           pitchSize,
           secondTeam: { color: secondTeamColor, players: secondTeamPlayers },
-        } = event.matchDetails as FootballMatchDetails;
+        } = event as FootballEvent;
         content = mapFootballCardDetails(
           firstTeamColor,
           firstTeamPlayers,
@@ -153,14 +150,14 @@ const EventCardsPage: React.FC = () => {
         );
         break;
       }
-      case "PADDEL": {
-        const { teams } = event.matchDetails as PaddelMatchDetails;
-        content = mapVolleyAndPaddelCardDetails(event.players, teams);
+      case "PADDLE": {
+        const { teams } = event as PaddleEvent;
+        content = mapVolleyAndPaddleCardDetails(event.players, teams);
         break;
       }
       case "VOLLEY": {
-        const { teams } = event.matchDetails as VolleyMatchDetails;
-        content = mapVolleyAndPaddelCardDetails(event.players, teams);
+        const { teams } = event as VolleyEvent;
+        content = mapVolleyAndPaddleCardDetails(event.players, teams);
         break;
       }
     }
@@ -174,9 +171,9 @@ const EventCardsPage: React.FC = () => {
         <br />
         Lugar: {event.location.placeName}
         <br />
-        Alias: {event.transferData.alias}
+        Alias: {event.transferData?.alias}
         <br />
-        CBU: {event.transferData.cbu}
+        CBU: {event.transferData?.cbu}
       </>
     );
   };
@@ -188,7 +185,7 @@ const EventCardsPage: React.FC = () => {
   const mapGridContent = () => {
     return currentEvents.map((event) => {
       const isAlreadyIn = (event.players as PlayerInfo[]).some(
-        (p) => p.user.userName === "Fabi" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
+        (p) => p.user.username === "Fabi" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
       );
       return (
         <div key={event.id} className="card">
