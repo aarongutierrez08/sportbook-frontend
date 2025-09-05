@@ -70,7 +70,6 @@ const CreateEventPage: React.FC = () => {
             />
           </FormField>
 
-          {/* LOCATION */}
           <div className="form-group form-full">
             <label>Ubicación</label>
             <LocationPickerMap
@@ -105,7 +104,6 @@ const CreateEventPage: React.FC = () => {
             </div>
           </div>
 
-          {/* CREATOR */}
           <div className="form-group">
             <label>Creador</label>
             <input

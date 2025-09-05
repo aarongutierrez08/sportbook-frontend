@@ -3,7 +3,7 @@ import api from "./axios";
 
 export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
   const res = await api.post<SportEvent>(
-    "/sportbook/event",
+    "/event",
     params,
   );
   return res.data;
@@ -11,14 +11,14 @@ export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
 
 export const getAllEvents = async (): Promise<SportEvent[]> => {
   const res = await api.get<SportEvent[]>(
-    "/sportbook/event",
+    "/event",
   );
   return res.data;
 };
 
-export const joinEvent = async (eventId: number, username: string): Promise<SportEvent> => {
+export const joinEvent = async (eventId: number): Promise<SportEvent> => {
     const res = await api.put<SportEvent>(
-        "/sportbook/event/" + eventId + "/join?username=" + username,
+        "/event/" + eventId + "/join",
     );
     return res.data;
 }

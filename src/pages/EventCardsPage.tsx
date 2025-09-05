@@ -1,4 +1,4 @@
-import React, { type JSX, useEffect, useState } from "react";
+import React, { type JSX, useEffect, useMemo, useState } from "react";
 import Grid from "../components/Grid.tsx";
 import Pagination from "../components/Pagination.tsx";
 import MiniMap from "../components/MiniMap.tsx";
@@ -10,13 +10,19 @@ import type {
     TeamInfo, VolleyEvent,
 } from "../types/events.ts";
 import { formatDate, getPitchSizeLabel } from "../utils/events.ts";
+import toast from "react-hot-toast";
+import type { SportUser } from "../types/user.ts";
 
 const EventCardsPage: React.FC = () => {
   const [events, setEvents] = useState<SportEvent[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loadingEventId, setLoadingEventId] = useState<number>(0);
   const pageSize = 4;
 
+  const loggedUser = useMemo(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  }, []);
+  
   useEffect(() => {
     const fetchAllEvents = async () => {
       try {
@@ -32,18 +38,21 @@ const EventCardsPage: React.FC = () => {
   }, []);
 
   const handleJoin = async (eventId: number) => {
-    try {
-      setLoadingEventId(eventId);
-      const username = "Fabi"; // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
-      const updatedEvent = await joinEvent(eventId, username);
-      setEvents((prev) =>
-        prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev))
-      );
-    } catch (err) {
-      console.error("Error al unirse:", err);
-    } finally {
-      setLoadingEventId(0);
-    }
+    await toast.promise(
+      joinEvent(eventId).then((updatedEvent) => {
+        setEvents((prev) =>
+          prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev))
+        );
+      }),
+      {
+        loading: "Uniéndote al evento...",
+        success: "¡Te uniste al evento!",
+        error: (err) => {
+          const msg = err?.response?.data?.message || "Error al unirse al evento";
+          return msg;
+        },
+      }
+    );
   };
 
   const mapTeamMembers = (players: PlayerInfo[]) => {
@@ -184,9 +193,6 @@ const EventCardsPage: React.FC = () => {
 
   const mapGridContent = () => {
     return currentEvents.map((event) => {
-      const isAlreadyIn = (event.players as PlayerInfo[]).some(
-        (p) => p.user.username === "Fabi" // Esto por ahora va hardcodeado, luego ser cambia por el user loggeado
-      );
       return (
         <div key={event.id} className="card">
           <div className="card-header">
@@ -206,14 +212,10 @@ const EventCardsPage: React.FC = () => {
           <div className="footer">{mapFooter(event)}</div>
           <button
             className="btn"
-            disabled={loadingEventId === event.id || isAlreadyIn}
             onClick={() => handleJoin(event.id)}
+            disabled={isUserInEvent(event, loggedUser)}
           >
-            {isAlreadyIn
-              ? "Ya estás unido"
-              : loadingEventId === event.id
-              ? "Uniéndose..."
-              : "Unirse"}
+            {isUserInEvent(event, loggedUser) ? "Ya estás unido" : "Unirse"}
           </button>
         </div>
       );
@@ -229,3 +231,10 @@ const EventCardsPage: React.FC = () => {
 };
 
 export default EventCardsPage;
+
+const isUserInEvent = (event: SportEvent, loggedUser: SportUser): boolean => {
+  if (!loggedUser) return false;
+  return event.players.some(
+    (player) => player.user.username === loggedUser.username
+  );
+};
