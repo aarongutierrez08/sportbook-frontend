@@ -40,7 +40,7 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
         const fetchSuggestions = async () => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_OPEN_STREET_API_URL}search?format=json&addressdetails=1&q=${encodeURIComponent(
+                    `${import.meta.env.VITE_OPEN_STREET_API_URL}/search?format=json&addressdetails=1&q=${encodeURIComponent(
                         address
                     )}`,
                     { signal: controller.signal, headers: { "Accept-Language": "es" } }
@@ -81,8 +81,8 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
     };
 
     return (
-        <div className="mini-map">
-            <div className="form-group form-full" style={{ position: "relative" }}>
+        <>
+            <div className="form-group form-full">
                 <input
                     type="text"
                     placeholder="Ingresar dirección"
@@ -101,6 +101,7 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
                     </ul>
                 )}
             </div>
+        <div className="mini-map" style={{ marginBottom: 10 }}>
 
             <MapContainer
                 center={marker ?? [-34.6037, -58.3816]}
@@ -125,6 +126,7 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
                 )}
             </MapContainer>
         </div>
+        </>
     );
 };
 

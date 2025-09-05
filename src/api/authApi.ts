@@ -1,8 +1,11 @@
+
 import api from "./axios";
+import type { SportUser } from "../types/user";
 
 export interface LoginResponse {
   token: string;
   expiresIn: number;
+  user: SportUser;
 }
 
 export const loginUser = async (credentials: {
@@ -10,10 +13,9 @@ export const loginUser = async (credentials: {
   password: string;
 }): Promise<LoginResponse> => {
   const res = await api.post<LoginResponse>("/auth/login", credentials);
+  localStorage.setItem("user", JSON.stringify(res.data.user));
   return res.data;
 };
-
-import type { SportUser } from "../types/user";
 
 export const registerUser = async (user: SportUser): Promise<SportUser> => {
   const res = await api.post<SportUser>("/auth/register", user);

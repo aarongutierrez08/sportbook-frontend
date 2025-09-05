@@ -1,4 +1,4 @@
-import React, { type JSX, useEffect, useState } from "react";
+import React, { type JSX, useEffect, useMemo, useState } from "react";
 import Grid from "../components/Grid.tsx";
 import Pagination from "../components/Pagination.tsx";
 import MiniMap from "../components/MiniMap.tsx";
@@ -11,12 +11,18 @@ import type {
 } from "../types/events.ts";
 import { formatDate, getPitchSizeLabel } from "../utils/events.ts";
 import toast from "react-hot-toast";
+import type { SportUser } from "../types/user.ts";
 
 const EventCardsPage: React.FC = () => {
   const [events, setEvents] = useState<SportEvent[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 4;
 
+  const loggedUser = useMemo(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  }, []);
+  
   useEffect(() => {
     const fetchAllEvents = async () => {
       try {
@@ -207,8 +213,9 @@ const EventCardsPage: React.FC = () => {
           <button
             className="btn"
             onClick={() => handleJoin(event.id)}
+            disabled={isUserInEvent(event, loggedUser)}
           >
-            Unirse
+            {isUserInEvent(event, loggedUser) ? "Ya estás unido" : "Unirse"}
           </button>
         </div>
       );
@@ -224,3 +231,10 @@ const EventCardsPage: React.FC = () => {
 };
 
 export default EventCardsPage;
+
+const isUserInEvent = (event: SportEvent, loggedUser: SportUser): boolean => {
+  if (!loggedUser) return false;
+  return event.players.some(
+    (player) => player.user.username === loggedUser.username
+  );
+};
