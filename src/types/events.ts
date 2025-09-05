@@ -59,7 +59,6 @@ export interface SportEventForm {
   organizer: string;
   playersText: string;
   cost: number;
-  // matchDetails será dinámico según deporte
   pitchSize?: number;
   firstTeamColor?: string;
   secondTeamColor?: string;

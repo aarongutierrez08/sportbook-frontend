@@ -23,7 +23,7 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
                 const { lat, lng } = e.latlng;
                 setMarker([lat, lng]);
                 onChange(lat, lng);
-                map.flyTo([lat, lng], map.getZoom()); // mover el mapa al punto clickeado
+                map.flyTo([lat, lng], map.getZoom());
             },
         });
         return null;
@@ -64,7 +64,7 @@ const LocationPickerMap: React.FC<LocationPickerMapProps> = ({ lat, lng, onChang
         const map = useMap();
         useEffect(() => {
             if (coords) {
-                map.flyTo(coords, 15); // zoom 15 para ver la ubicación de cerca
+                map.flyTo(coords, 15);
             }
         }, [coords, map]);
         return null;

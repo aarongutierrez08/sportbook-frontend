@@ -18,7 +18,7 @@ const Header: React.FC = () => {
               <a href="/events/create">Crear Evento</a>
             </li>
             <li>
-              <a href="/login">Ingresar</a>
+              <a href="/auth">Ingresar</a>
             </li>
           </ul>
         </nav>
