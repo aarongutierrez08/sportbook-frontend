@@ -12,6 +12,8 @@ import type {
 import { formatDate, getPitchSizeLabel } from "../utils/events.ts";
 import toast from "react-hot-toast";
 import type { SportUser } from "../types/user.ts";
+import "../styles/eventCards.css";
+import AddPlayerButton from "../components/AddPlayerButton.tsx";
 
 const EventCardsPage: React.FC = () => {
   const [events, setEvents] = useState<SportEvent[]>([]);
@@ -22,7 +24,7 @@ const EventCardsPage: React.FC = () => {
     const raw = localStorage.getItem("user");
     return raw ? JSON.parse(raw) : null;
   }, []);
-  
+
   useEffect(() => {
     const fetchAllEvents = async () => {
       try {
@@ -33,9 +35,12 @@ const EventCardsPage: React.FC = () => {
         return [];
       }
     };
-
     fetchAllEvents();
   }, []);
+
+  const onPlayerAdded = (updatedEvent: SportEvent) => {
+    setEvents((prev) => prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev)));
+  }
 
   const handleJoin = async (eventId: number) => {
     await toast.promise(
@@ -66,8 +71,25 @@ const EventCardsPage: React.FC = () => {
 
   const mapVolleyAndPaddleCardDetails = (
     players: PlayerInfo[],
-    teams?: TeamInfo[]
+    teams?: TeamInfo[],
+    eventId?: number,
+    userIsNotInEvent: boolean = true,
   ) => {
+    const isUserInTeam = (teamId: number): boolean => {
+      if (!eventId || !loggedUser) return false;
+
+      const event = events.find(event => event.id === eventId);
+      if (!event) return false;
+
+      const eventTeams = 'teams' in event ? event.teams : null;
+      if (!eventTeams) return false;
+
+      const team = (eventTeams as TeamInfo[]).find(team => team.id === teamId);
+      if (!team) return false;
+
+      return team.players.some(player => player.user.username === loggedUser.username);
+    };
+
     return (
       <>
         {teams &&
@@ -75,6 +97,7 @@ const EventCardsPage: React.FC = () => {
             return (
               <div key={team.color} className={"team " + team.color}>
                 <div key={team.color}>{mapTeamMembers(team.players)}</div>
+                <AddPlayerButton eventId={eventId!} teamId={team.id!} onPlayerAdded={onPlayerAdded} disabled={userIsNotInEvent || isUserInTeam(team.id)}/>
               </div>
             );
           })}
@@ -114,16 +137,33 @@ const EventCardsPage: React.FC = () => {
     secondTeamColor: Color,
     secondTeamPlayers: PlayerInfo[],
     pitchSize?: string,
-    players?: PlayerInfo[]
+    players?: PlayerInfo[],
+    eventId?: number,
+    firstTeamId?: number,
+    secondTeamId?: number,
+    userIsNotInEvent: boolean = true,
   ) => {
+
+    const isUserInTeam = (firstTeam: boolean) => {
+        const event = events.find(event => event.id === eventId);
+        if (firstTeam) {
+            return (event! as FootballEvent).firstTeam.players
+                .some((player) => player.user.username === loggedUser.username);
+        } else {
+            return (event! as FootballEvent).secondTeam.players
+                .some((player) => player.user.username === loggedUser.username);
+        }
+    }
+
     return (
       <>
         <div className={"team " + firstTeamColor}>
           <div key={firstTeamColor}>{mapTeamMembers(firstTeamPlayers)}</div>
+          <AddPlayerButton eventId={eventId!} teamId={firstTeamId!} onPlayerAdded={onPlayerAdded} disabled={userIsNotInEvent || isUserInTeam(true)}/>
         </div>
-
         <div className={"team " + secondTeamColor}>
           <div key={secondTeamColor}>{mapTeamMembers(secondTeamPlayers)}</div>
+          <AddPlayerButton eventId={eventId!} teamId={secondTeamId!} onPlayerAdded={onPlayerAdded} disabled={userIsNotInEvent || isUserInTeam(false)}/>
         </div>
         <div className="pitchSize">
           Tamaño de cancha: {getPitchSizeLabel(pitchSize)}
@@ -155,18 +195,22 @@ const EventCardsPage: React.FC = () => {
           secondTeamColor,
           secondTeamPlayers,
           pitchSize,
-          event.players as PlayerInfo[]
+          event.players as PlayerInfo[],
+          event.id,
+          (event as FootballEvent).firstTeam.id,
+          (event as FootballEvent).secondTeam.id,
+          !isUserInEvent(event, loggedUser),
         );
         break;
       }
       case "PADDLE": {
         const { teams } = event as PaddleEvent;
-        content = mapVolleyAndPaddleCardDetails(event.players, teams);
+        content = mapVolleyAndPaddleCardDetails(event.players, teams, event.id, !isUserInEvent(event, loggedUser),);
         break;
       }
       case "VOLLEY": {
         const { teams } = event as VolleyEvent;
-        content = mapVolleyAndPaddleCardDetails(event.players, teams);
+        content = mapVolleyAndPaddleCardDetails(event.players, teams, event.id, !isUserInEvent(event, loggedUser),);
         break;
       }
     }

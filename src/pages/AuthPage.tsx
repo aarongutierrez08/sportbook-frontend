@@ -74,7 +74,8 @@ const AuthPage: React.FC = () => {
     }
   };
 
-  return (
+    // @ts-ignore
+    return (
     <div className="container">
       <div className="card">
         <h2 className="page-title">{isLogin ? "Iniciar Sesión" : "Registrarse"}</h2>

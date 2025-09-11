@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/pagination.css";
 
 const Pagination = ({
   onPageChange,
@@ -11,17 +12,9 @@ const Pagination = ({
   const setPage: (p: number) => number = (p: number) => Math.max(p - 1, 1);
   const setNextPage: (p: number) => number = (p: number) =>
     Math.min(p + 1, totalPages);
+
   return (
-    <div
-      className="pagination"
-      style={{
-        marginTop: "1.5rem",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "1rem",
-      }}
-    >
+    <div className="pagination">
       <button
         onClick={() => {
           onPageChange(setPage);
@@ -29,7 +22,8 @@ const Pagination = ({
         }}
         disabled={currentPage === 1}
       >
-        ⬅️ Anterior
+        <span className="arrow">←</span>
+        <span>Anterior</span>
       </button>
       <span>
         Página {currentPage} de {totalPages}
@@ -41,7 +35,8 @@ const Pagination = ({
         }}
         disabled={currentPage === totalPages}
       >
-        Siguiente ➡️
+        <span>Siguiente</span>
+        <span className="arrow">→</span>
       </button>
     </div>
   );
