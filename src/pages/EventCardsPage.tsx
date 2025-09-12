@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Grid from "../components/Grid.tsx";
 import Pagination from "../components/Pagination.tsx";
 import MiniMap from "../components/MiniMap.tsx";
-import { getAllEvents, joinEvent } from "../api/eventsApi.ts";
+import { getAllEvents, joinEvent, leaveEvent } from "../api/eventsApi.ts";
 import type {
     Color, FootballEvent, PaddleEvent,
     PlayerInfo,
@@ -56,6 +56,24 @@ const EventCardsPage: React.FC = () => {
         success: "¡Te uniste al evento!",
         error: (err) => {
           const msg = err?.response?.data?.message || "Error al unirse al evento";
+          return msg;
+        },
+      }
+    );
+  };
+
+  const handleLeave = async (eventId: number) => {
+    await toast.promise(
+      leaveEvent(eventId).then((updatedEvent) => {
+        setEvents((prev) =>
+          prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev))
+        );
+      }),
+      {
+        loading: "Saliendo del evento...",
+        success: "Has salido del evento",
+        error: (err) => {
+          const msg = err?.response?.data?.message || "Error al salir del evento";
           return msg;
         },
       }
@@ -239,6 +257,7 @@ const EventCardsPage: React.FC = () => {
 
   const mapGridContent = () => {
     return currentEvents.map((event) => {
+      const userInEvent = isUserInEvent(event, loggedUser);
       return (
         <div
           key={event.id}
@@ -261,11 +280,10 @@ const EventCardsPage: React.FC = () => {
           <div className="footer">{mapFooter(event)}</div>
           <div className="buttons-container">
             <button
-              className="btn"
-              onClick={() => handleJoin(event.id)}
-              disabled={isUserInEvent(event, loggedUser)}
+              className={`btn ${userInEvent ? 'btn-danger' : ''}`}
+              onClick={() => userInEvent ? handleLeave(event.id) : handleJoin(event.id)}
             >
-              {isUserInEvent(event, loggedUser) ? "Ya estás unido" : "Unirse"}
+              {userInEvent ? "Salir" : "Unirse"}
             </button>
             <button
               className="btn btn-secondary"

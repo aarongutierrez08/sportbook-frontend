@@ -37,3 +37,10 @@ export const getEvent = async (eventId: number): Promise<SportEvent> => {
     return res.data;
 };
 
+export const leaveEvent = async (eventId: number): Promise<SportEvent> => {
+    const res = await api.delete<SportEvent>(
+        "/event/" + eventId + "/leave",
+    );
+    return res.data;
+};
+
