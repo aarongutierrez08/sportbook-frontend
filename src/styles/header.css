@@ -29,6 +29,12 @@
     display: flex;
     gap: 1.5rem;
     list-style: none;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
 }
 
 .nav-links a {
@@ -43,4 +49,19 @@
 .nav-links a:hover,
 .nav-links a.active {
     background: rgba(255, 255, 255, 0.2);
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    line-height: normal;
+    display: flex;
+    align-items: center;
 }

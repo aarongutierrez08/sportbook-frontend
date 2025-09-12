@@ -49,6 +49,8 @@ const AuthPage: React.FC = () => {
               "tokenExpiresAt",
               (Date.now() + res.expiresIn).toString()
             );
+            // Dispatch custom event after successful login
+            window.dispatchEvent(new Event("authStateChanged"));
             navigate("/events");
           }
         ),
@@ -74,7 +76,7 @@ const AuthPage: React.FC = () => {
     }
   };
 
-    return (
+  return (
     <div className="container">
       <div className="card">
         <h2 className="page-title">{isLogin ? "Iniciar Sesión" : "Registrarse"}</h2>
