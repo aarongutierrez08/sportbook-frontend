@@ -1,4 +1,3 @@
-
 import CreateEventPage from "./pages/CreateEventPage.tsx";
 import EventCardsPage from "./pages/EventCardsPage.tsx";
 import Layout from "./components/layout.tsx";
@@ -7,6 +6,7 @@ import AuthPage from "./pages/AuthPage.tsx";
 import { BrowserRouter, Route, Routes } from "react-router";
 import RequireAuth from "./components/RequiereAuth.tsx";
 import { Navigate } from "react-router";
+import EventPage from "./pages/EventPage.tsx";
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="events" element={<EventCardsPage />} />
               <Route path="events/create" element={<CreateEventPage />} />
+              <Route path="events/:id" element={<EventPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/events" replace />} />

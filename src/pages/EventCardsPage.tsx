@@ -1,4 +1,5 @@
 import React, { type JSX, useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Grid from "../components/Grid.tsx";
 import Pagination from "../components/Pagination.tsx";
 import MiniMap from "../components/MiniMap.tsx";
@@ -16,6 +17,7 @@ import "../styles/eventCards.css";
 import AddPlayerButton from "../components/AddPlayerButton.tsx";
 
 const EventCardsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [events, setEvents] = useState<SportEvent[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 4;
@@ -91,7 +93,7 @@ const EventCardsPage: React.FC = () => {
     };
 
     return (
-      <>
+      <div className="teams-container">
         {teams &&
           teams.map((team) => {
             return (
@@ -112,7 +114,7 @@ const EventCardsPage: React.FC = () => {
               })
           )}
         </div>
-      </>
+      </div>
     );
   };
 
@@ -156,7 +158,7 @@ const EventCardsPage: React.FC = () => {
     }
 
     return (
-      <>
+      <div className="teams-container">
         <div className={"team " + firstTeamColor}>
           <div key={firstTeamColor}>{mapTeamMembers(firstTeamPlayers)}</div>
           <AddPlayerButton eventId={eventId!} teamId={firstTeamId!} onPlayerAdded={onPlayerAdded} disabled={userIsNotInEvent || isUserInTeam(true)}/>
@@ -176,7 +178,7 @@ const EventCardsPage: React.FC = () => {
               ...secondTeamPlayers,
             ])}
         </div>
-      </>
+      </div>
     );
   };
 
@@ -238,7 +240,10 @@ const EventCardsPage: React.FC = () => {
   const mapGridContent = () => {
     return currentEvents.map((event) => {
       return (
-        <div key={event.id} className="card">
+        <div
+          key={event.id}
+          className="card"
+        >
           <div className="card-header">
             <div className="sport"> {event.sport}</div>
             <div className="date"> {formatDate(event.dateTime)}</div>
@@ -254,23 +259,31 @@ const EventCardsPage: React.FC = () => {
           <div className="cost">💵 Costo: ${event.cost}</div>
           <div className="teams">{mapTeams(event)}</div>
           <div className="footer">{mapFooter(event)}</div>
-          <button
-            className="btn"
-            onClick={() => handleJoin(event.id)}
-            disabled={isUserInEvent(event, loggedUser)}
-          >
-            {isUserInEvent(event, loggedUser) ? "Ya estás unido" : "Unirse"}
-          </button>
+          <div className="buttons-container">
+            <button
+              className="btn"
+              onClick={() => handleJoin(event.id)}
+              disabled={isUserInEvent(event, loggedUser)}
+            >
+              {isUserInEvent(event, loggedUser) ? "Ya estás unido" : "Unirse"}
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => navigate(`/events/${event.id}`)}
+            >
+              Ver detalles
+            </button>
+          </div>
         </div>
       );
     });
   };
 
   return (
-    <div>
+    <>
       <Grid content={mapGridContent()} />
       <Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
-    </div>
+    </>
   );
 };
 
