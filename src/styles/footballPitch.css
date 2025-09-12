@@ -1,0 +1,113 @@
+.football-pitch-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  overflow: hidden;
+}
+
+.football-pitch {
+  width: 100%;
+  height: auto;
+  display: block;
+  mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 1%,
+      black 99%,
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 1%,
+      black 99%,
+      transparent
+    );
+  mask-composite: intersect;
+}
+
+.players-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.team-pitch {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+}
+
+.first-team {
+  left: 0;
+}
+
+.second-team {
+  right: 0;
+}
+
+.player {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  pointer-events: auto;
+  background-color: var(--color-accent);
+  border: 2px solid var(--color-white);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.player-name {
+  display: none;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-white);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -25px;
+}
+
+.player:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+/* En pantallas pequeñas, mostrar el nombre solo en hover */
+.player:hover .player-name {
+  display: block;
+}
+
+/* En pantallas grandes, mostrar siempre el nombre */
+@media (min-width: 1024px) {
+  .player-name {
+    display: block;
+  }
+
+  .player {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+/* Asegurar que los nombres no se salgan de la cancha */
+.first-team .player-name {
+  transform: translateX(-25%);
+}
+
+.second-team .player-name {
+  transform: translateX(-75%);
+}

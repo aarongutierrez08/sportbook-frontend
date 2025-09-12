@@ -26,6 +26,7 @@ export type FootballEvent = SportEvent & {
 }
 
 export interface TeamInfo {
+  id: number;
   color: Color;
   players: PlayerInfo[];
 }

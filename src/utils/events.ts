@@ -2,6 +2,7 @@ import { PITCH_SIZE_MAP } from "../constants/events.ts";
 import type { PlayerInfo } from "../types/events.ts";
 
 export const stringToPlayerInfoList = (players?: string): PlayerInfo[] => {
+  if (!players) return [];
   return (
     players
       ?.split(/[\n,]/g)

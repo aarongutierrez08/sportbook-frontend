@@ -22,3 +22,18 @@ export const joinEvent = async (eventId: number): Promise<SportEvent> => {
     );
     return res.data;
 }
+
+export const joinTeam = async (eventId: number, teamId: number): Promise<SportEvent> => {
+    const res = await api.put<SportEvent>(
+        "/event/" + eventId + "/join/" + teamId,
+    );
+    return res.data;
+}
+
+export const getEvent = async (eventId: number): Promise<SportEvent> => {
+    const res = await api.get<SportEvent>(
+        "/event/" + eventId,
+    );
+    return res.data;
+};
+

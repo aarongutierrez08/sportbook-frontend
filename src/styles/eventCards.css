@@ -1,0 +1,29 @@
+.team-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+}
+
+.add-player-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.add-player-btn:hover {
+  background-color: #45a049;
+}
+
+.add-player-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
