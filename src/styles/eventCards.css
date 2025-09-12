@@ -26,6 +26,13 @@
   cursor: not-allowed;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 2rem;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -33,9 +40,11 @@
   min-height: 500px;
   position: relative;
   padding: 1rem;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: var(--color-accent-background);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px var(--shadow-default);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .card-header {

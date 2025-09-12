@@ -83,7 +83,7 @@ const AuthPage: React.FC = () => {
 
         <Tabs
           value={mode}
-          onChange={(e, newMode) => {
+          onChange={(_e, newMode) => {
             setSearchParams({ mode: newMode });
             reset();
           }}

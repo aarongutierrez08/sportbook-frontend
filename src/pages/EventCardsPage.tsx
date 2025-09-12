@@ -10,7 +10,7 @@ import type {
     SportEvent,
     TeamInfo, VolleyEvent,
 } from "../types/events.ts";
-import { formatDate, getPitchSizeLabel } from "../utils/events.ts";
+import { formatDate } from "../utils/events.ts";
 import toast from "react-hot-toast";
 import type { SportUser } from "../types/user.ts";
 import "../styles/eventCards.css";
@@ -168,7 +168,7 @@ const EventCardsPage: React.FC = () => {
           <AddPlayerButton eventId={eventId!} teamId={secondTeamId!} onPlayerAdded={onPlayerAdded} disabled={userIsNotInEvent || isUserInTeam(false)}/>
         </div>
         <div className="pitchSize">
-          Tamaño de cancha: {getPitchSizeLabel(pitchSize)}
+          Tamaño de cancha: {pitchSize}
         </div>
         <div className="footer">
           Jugadores sin equipo:{" "}
