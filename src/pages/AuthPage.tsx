@@ -74,7 +74,6 @@ const AuthPage: React.FC = () => {
     }
   };
 
-    // @ts-ignore
     return (
     <div className="container">
       <div className="card">
