@@ -68,6 +68,15 @@ export interface SportEventForm {
   secondTeamPlayers?: string;
 }
 
+export interface Lineup {
+    id: number,
+    positionsByPlayer: Map<Position, PlayerInfo>;
+    bench: PlayerInfo[];
+    initialLineup: PlayerInfo[];
+    event: SportEvent;
+}
+
 export type PitchSize = 5 | 6 | 7 | 8 |9 | 11;
+export type Position = "GK" | "RB" | "LB" | "CB" | "CM" | "RM" | "LM" | "RW" | "LW" | "CT" | "ST";
 
 export type Color = "Rojo" | "Azul" | "Verde" | "Negro" | "Blanco";

@@ -1,4 +1,4 @@
-import type { SportEvent } from "../types/events";
+import type {Lineup, Position, SportEvent} from "../types/events";
 import api from "./axios";
 
 export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
@@ -37,8 +37,29 @@ export const getEvent = async (eventId: number): Promise<SportEvent> => {
     return res.data;
 };
 
-export const leaveEvent = async (eventId: number): Promise<SportEvent> => {
-    const res = await api.delete<SportEvent>(
+export const getLineups = async (eventId: number): Promise<Lineup[]> => {
+    const res = await api.get<Lineup[]>(
+        "/event/" + eventId + "/lineup",
+    );
+    return res.data;
+};
+
+export const addPlayerToPosition = async (eventId: number, lineupId: number, position: Position, playerId: number): Promise<Lineup> => {
+    const res = await api.put<Lineup>(
+        "/event/" + eventId + "/lineup/" + lineupId + "?position=" + position + "&playerId=" + playerId,
+    );
+    return res.data;
+};
+
+export const removeFromPosition = async (eventId: number, lineupId: number, position: Position): Promise<Lineup> => {
+    const res = await api.delete<Lineup>(
+        "/event/" + eventId + "/lineup/" + lineupId + "/position?position=" + position,
+    );
+    return res.data;
+};
+
+export const leaveEvent = async (eventId: number): Promise<Lineup> => {
+    const res = await api.delete<Lineup>(
         "/event/" + eventId + "/leave",
     );
     return res.data;

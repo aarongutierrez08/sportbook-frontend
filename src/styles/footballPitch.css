@@ -3,7 +3,8 @@
   width: 100%;
   max-width: 800px;
   margin: 2rem auto;
-  overflow: hidden;
+  overflow: visible; /* Cambiado de hidden a visible */
+  user-select: none;
 }
 
 .football-pitch {
@@ -25,6 +26,7 @@
       transparent
     );
   mask-composite: intersect;
+  pointer-events: none;
 }
 
 .players-container {
@@ -34,6 +36,7 @@
   right: 0;
   bottom: 0;
   pointer-events: none;
+  z-index: 100; /* Aseguramos que esté por encima de otros elementos */
 }
 
 .team-pitch {
@@ -41,6 +44,7 @@
   top: 0;
   bottom: 0;
   width: 50%;
+  pointer-events: none;
 }
 
 .first-team {
@@ -57,13 +61,20 @@
   height: 25px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  cursor: pointer;
-  pointer-events: auto;
+  cursor: grab;
+  pointer-events: all !important; /* Forzamos que siempre reciba eventos */
   background-color: var(--color-accent);
   border: 2px solid var(--color-white);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  z-index: 110; /* Por encima del contenedor */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  touch-action: none;
+}
+
+.player:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.1);
+  opacity: 0.8;
 }
 
 .player-name {
@@ -84,6 +95,16 @@
 .player:hover {
   transform: translate(-50%, -50%) scale(1.2);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+.bench-player {
+  position: absolute;
+  z-index: 20;
+}
+
+.bench-player .player-name {
+  bottom: -25px;
+  top: auto;
 }
 
 /* En pantallas pequeñas, mostrar el nombre solo en hover */
@@ -110,4 +131,32 @@
 
 .second-team .player-name {
   transform: translateX(-75%);
+}
+
+.position-dropzone {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all !important; /* Forzamos que siempre reciba eventos */
+  transition: all 0.2s ease;
+  z-index: 105; /* Entre el contenedor y los jugadores */
+}
+
+.position-dropzone:hover,
+.position-dropzone.drag-over {
+  border-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.position-label {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  pointer-events: none;
 }
