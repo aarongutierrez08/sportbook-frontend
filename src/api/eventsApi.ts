@@ -44,16 +44,16 @@ export const getLineups = async (eventId: number): Promise<Lineup[]> => {
     return res.data;
 };
 
-export const addPlayerToPosition = async (eventId: number, lineupId: number, position: Position, playerId: number): Promise<Lineup> => {
+export const addPlayerToPosition = async (lineupId: number, position: Position, playerId: number): Promise<Lineup> => {
     const res = await api.put<Lineup>(
-        "/event/" + eventId + "/lineup/" + lineupId + "?position=" + position + "&playerId=" + playerId,
+        "/event/lineup/" + lineupId + "/position?position=" + position + "&playerId=" + playerId,
     );
     return res.data;
 };
 
-export const removeFromPosition = async (eventId: number, lineupId: number, position: Position): Promise<Lineup> => {
+export const removeFromPosition = async (lineupId: number, position: Position): Promise<Lineup> => {
     const res = await api.delete<Lineup>(
-        "/event/" + eventId + "/lineup/" + lineupId + "/position?position=" + position,
+        "/event/lineup/" + lineupId + "/position?position=" + position,
     );
     return res.data;
 };

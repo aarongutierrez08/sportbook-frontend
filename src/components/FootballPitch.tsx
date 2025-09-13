@@ -58,12 +58,20 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
   };
 
   const handleDragStart = (e: React.DragEvent, player: PlayerInfo, fromPosition?: Position) => {
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('application/json', JSON.stringify({
+    // Guardamos los datos en el estado para evitar problemas con el dataTransfer
+    const dragData = {
       player,
       fromPosition,
       lineupId: e.currentTarget.getAttribute('data-lineup-id')
-    }));
+    };
+
+    // Guardamos en el estado global del componente
+    (window as any).__dragData = dragData;
+
+    e.dataTransfer.effectAllowed = 'move';
+    // Usamos un identificador simple en lugar de JSON
+    e.dataTransfer.setData('text/plain', 'player-drag');
+
     if (fromPosition) {
       setDraggedPosition(fromPosition);
     }
@@ -112,11 +120,15 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
     }
 
     try {
-      const data = JSON.parse(e.dataTransfer.getData('application/json'));
+      // Recuperamos los datos del estado global
+      const data = (window as any).__dragData;
+      if (!data) return;
+
       const { player, fromPosition, lineupId: fromLineupId } = data;
+      delete (window as any).__dragData;
 
       // Si hay un jugador en la posición destino, lo removemos primero
-      const playerInPosition: PlayerInfo | null = lineups.find(l => l.id === lineupId)?.positionsByPlayer.get(position) || null;
+      const playerInPosition = lineups.find(l => l.id === lineupId)?.positionsByPlayer[position];
 
       if (playerInPosition) {
         await removeFromPosition(eventId, lineupId, position);
@@ -124,11 +136,11 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
 
       // Si el jugador venía de otra posición, lo removemos de ahí
       if (fromPosition) {
-        await removeFromPosition(eventId, Number(fromLineupId), fromPosition as Position);
+        await removeFromPosition(Number(fromLineupId), fromPosition as Position);
       }
 
       // Agregamos el jugador a la nueva posición
-      await addPlayerToPosition(eventId, lineupId, position, player.user.id);
+      await addPlayerToPosition(lineupId, position, player.id);
 
       // Actualizamos los lineups
       await fetchLineups();
