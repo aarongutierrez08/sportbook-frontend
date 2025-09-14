@@ -129,7 +129,7 @@ const EventCardsPage: React.FC = () => {
               ?.map((teamInfo) => teamInfo.players)
               .reduce((accumulator, currentArray) => {
                 return accumulator.concat(currentArray);
-              })
+              }, [] as PlayerInfo[]),
           )}
         </div>
       </div>
