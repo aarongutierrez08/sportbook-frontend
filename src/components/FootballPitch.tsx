@@ -3,11 +3,13 @@ import footballPitch from '../assets/footballpitch.png';
 import type {Lineup, PlayerInfo, Position} from '../types/events';
 import '../styles/footballPitch.css';
 import { getLineups, addPlayerToPosition, removeFromPosition } from '../api/eventsApi';
+import toast from 'react-hot-toast';
 
 interface FootballPitchProps {
   eventId: number;
   firstTeamColor: string;
   secondTeamColor: string;
+  pitchSize: number;
 }
 
 // Definimos un tipo para los datos del drag & drop
@@ -20,7 +22,8 @@ interface DragData {
 const FootballPitch: React.FC<FootballPitchProps> = ({
   eventId,
   firstTeamColor,
-  secondTeamColor
+  secondTeamColor,
+  pitchSize
 }) => {
   const [lineups, setLineups] = useState<Lineup[]>([]);
   const [draggedPosition, setDraggedPosition] = useState<string | null>(null);
@@ -145,10 +148,21 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
       const { player, fromPosition, lineupId: fromLineupId } = dragData;
       setDragData(null);
 
-      // Si hay un jugador en la posición destino, lo removemos primero
+      // Validamos que no se exceda el límite de jugadores en cancha según pitchSize
       const currentLineup = lineups.find(l => l.id === lineupId);
-      const playerInPosition = currentLineup?.positionsByPlayer[position];
+      if (!currentLineup) return;
 
+      // Contamos los jugadores actuales en cancha (excluyendo al que está en la posición destino si hay uno)
+      const playersInField = Object.values(currentLineup.positionsByPlayer).length;
+
+      // Si el jugador no viene de otra posición en cancha y ya hay pitchSize jugadores, no permitimos agregar más
+      if (!fromPosition && playersInField >= pitchSize) {
+        toast.error(`No puedes poner más de ${pitchSize} jugadores en cancha`);
+        return;
+      }
+
+      // Si hay un jugador en la posición destino, lo removemos primero
+      const playerInPosition = currentLineup.positionsByPlayer[position];
       if (playerInPosition) {
         await removeFromPosition(lineupId, position);
       }
@@ -165,6 +179,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
       await fetchLineups();
     } catch (error) {
       console.error('Error updating player position:', error);
+      toast.error('Error al actualizar la posición del jugador');
     }
   };
 

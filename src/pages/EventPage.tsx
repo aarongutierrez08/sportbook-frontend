@@ -132,6 +132,7 @@ const EventPage: React.FC = () => {
                 eventId={Number(event.id)}
                 firstTeamColor={(event as FootballEvent).firstTeam.color}
                 secondTeamColor={(event as FootballEvent).secondTeam.color}
+                pitchSize={Number((event as FootballEvent).pitchSize)}
               />
             </div>
           </div>
