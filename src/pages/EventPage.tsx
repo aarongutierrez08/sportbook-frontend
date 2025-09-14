@@ -129,10 +129,10 @@ const EventPage: React.FC = () => {
             <div className="event-page-pitch-container">
               <h3>Distribución táctica</h3>
               <FootballPitch
-                firstTeamPlayers={(event as FootballEvent).firstTeam.players}
-                secondTeamPlayers={(event as FootballEvent).secondTeam.players}
+                eventId={Number(event.id)}
                 firstTeamColor={(event as FootballEvent).firstTeam.color}
                 secondTeamColor={(event as FootballEvent).secondTeam.color}
+                pitchSize={Number((event as FootballEvent).pitchSize)}
               />
             </div>
           </div>

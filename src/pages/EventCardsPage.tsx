@@ -54,28 +54,24 @@ const EventCardsPage: React.FC = () => {
       {
         loading: "Uniéndote al evento...",
         success: "¡Te uniste al evento!",
-        error: (err) => {
-          const msg = err?.response?.data?.message || "Error al unirse al evento";
-          return msg;
-        },
+        error: (err) => err?.response?.data?.message || "Error al unirse al evento"
       }
     );
   };
 
   const handleLeave = async (eventId: number) => {
     await toast.promise(
-      leaveEvent(eventId).then((updatedEvent) => {
-        setEvents((prev) =>
-          prev.map((ev) => (ev.id === updatedEvent.id ? updatedEvent : ev))
-        );
+      leaveEvent(eventId).then(() => {
+        // Actualizamos el evento después de salir haciendo un nuevo fetch
+        return getAllEvents().then(events => {
+          setEvents(events);
+          return events.find(ev => ev.id === eventId)!;
+        });
       }),
       {
         loading: "Saliendo del evento...",
         success: "Has salido del evento",
-        error: (err) => {
-          const msg = err?.response?.data?.message || "Error al salir del evento";
-          return msg;
-        },
+        error: "Error al salir del evento"
       }
     );
   };
@@ -129,7 +125,7 @@ const EventCardsPage: React.FC = () => {
               ?.map((teamInfo) => teamInfo.players)
               .reduce((accumulator, currentArray) => {
                 return accumulator.concat(currentArray);
-              })
+              }, [] as PlayerInfo[]),
           )}
         </div>
       </div>
