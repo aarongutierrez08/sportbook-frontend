@@ -1,4 +1,4 @@
-import type { Color } from "../types/events";
+import type { Color, Position } from "../types/events";
 
 export const REQUIRED = { value: true, message: "Este campo es obligatorio" };
 
@@ -19,3 +19,18 @@ export const TEAM_COLORS: Color[] = [
   "Negro",
   "Blanco",
 ];
+
+export const positionLabels: Record<Position, string> = {
+  GK: "Arquero",
+  RB: "Lateral Derecho",
+  LB: "Lateral Izquierdo",
+  CB: "Defensor Central",
+  LIB: "Líbero",
+  CM: "Mediocampista Central",
+  RM: "Mediocampista Derecho",
+  LM: "Mediocampista Izquierdo",
+  RW: "Extremo Derecho",
+  LW: "Extremo Izquierdo",
+  CT: "Centrodelantero",
+  ST: "Segundo Delantero",
+};

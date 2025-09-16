@@ -1,0 +1,51 @@
+.profile-card {
+  background: var(--color-white);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px var(--shadow-default);
+  border: 1px solid #e2e8f0;
+  margin-top: 1.5rem;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-tabs {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* dos columnas */
+  gap: 1.5rem;
+}
+
+.profile-form .form-group {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-accent-light);
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 120px;
+}
+
+.profile-form label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary-dark);
+}
+
+.profile-form input,
+.profile-form select,
+.profile-form .MuiSlider-root {
+  flex: 1;
+}
+
+.profile-submit {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+}
