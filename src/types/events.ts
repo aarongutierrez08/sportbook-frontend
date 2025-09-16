@@ -1,6 +1,8 @@
+import type { Sport } from "./user";
+
 export type SportEvent = {
   id: number;
-  sport: string;
+  sport: Sport;
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;
@@ -50,7 +52,7 @@ export type VolleyEvent = SportEvent & {
 }
 
 export interface SportEventForm {
-  sport: string;
+  sport: Sport;
   minPlayers: number;
   maxPlayers: number;
   dateTime: string;

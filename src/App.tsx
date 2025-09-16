@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import RequireAuth from "./components/RequiereAuth.tsx";
 import { Navigate } from "react-router";
 import EventPage from "./pages/EventPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="events" element={<EventCardsPage />} />
               <Route path="events/create" element={<CreateEventPage />} />
               <Route path="events/:id" element={<EventPage />} />
+              <Route path="profile" element={<ProfilePage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/events" replace />} />
