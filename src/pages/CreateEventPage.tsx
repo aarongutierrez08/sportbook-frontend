@@ -51,7 +51,7 @@ const CreateEventPage: React.FC = () => {
   return (
     <div className="container">
       <div className="card">
-        <h2 className="page-title">🏆 Crear Evento Deportivo</h2>
+        <h2 className="page-title">Nuevo evento</h2>
 
         <form className="create-event-form" onSubmit={handleSubmit(onSubmit)}>
           <FormField label="Deporte" error={errors.sport}>
@@ -162,14 +162,14 @@ const CreateEventPage: React.FC = () => {
 
           <div className="form-full">
             <button type="submit" className="btn" disabled={isSubmitting}>
-              🚀 Crear Evento
+              Crear
             </button>
             <button
               type="button"
               onClick={() => reset()}
               className="btn btn-secondary"
             >
-              🔄 Limpiar
+              Limpiar
             </button>
           </div>
         </form>
