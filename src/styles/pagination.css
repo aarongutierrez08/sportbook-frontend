@@ -20,10 +20,20 @@
   align-items: center;
   gap: 0.5rem;
   font-weight: 500;
+  font-family: var(--font-family);
+  min-width: 110px; /* Asegura que ambos botones tengan el mismo ancho mínimo */
+  justify-content: center; /* Centra el contenido */
+}
+
+.pagination button span {
+  color: var(--color-white);
+  padding: 0; /* Removemos el padding del span */
+  background: none; /* Removemos el background del span */
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: var(--color-accent-light);
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
 }
 
 .pagination button:disabled {
@@ -33,12 +43,13 @@
 }
 
 .pagination button span.arrow {
-  color: var(--color-accent-light);
+  color: var(--color-white);
   font-size: 18px;
 }
 
-.pagination span {
-  color: var(--color-primary-dark);
+.pagination > span {
+  color: var(--color-text-dark);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: var(--font-family);
 }
