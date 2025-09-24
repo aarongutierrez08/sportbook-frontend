@@ -1,4 +1,4 @@
-import type {Lineup, Position, SportEvent} from "../types/events";
+import type {Lineup, Position, SportEvent, UpdateEventParams} from "../types/events";
 import api from "./axios";
 
 export const createEvent = async (params: SportEvent): Promise<SportEvent> => {

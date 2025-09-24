@@ -6,13 +6,15 @@ import MiniMap from "../components/MiniMap";
 import FootballPitch from "../components/FootballPitch";
 import { formatDate } from "../utils/events";
 import "../styles/eventPage.css";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+import LocationPickerMap from "../components/LocationPickerMap";
 
 const EventPage: React.FC = () => {
   const { id } = useParams();
   const [event, setEvent] = useState<SportEvent | null>(null);
   const [editForm, setEditForm] = useState<UpdateEventParams>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [isEditingLocation, setIsEditingLocation] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -34,6 +36,17 @@ const EventPage: React.FC = () => {
       [field]: value
     }));
     setHasChanges(true);
+  };
+
+  const handleLocationChange = (lat: number, lng: number, placeName?: string) => {
+    setEditForm(prev => ({
+      ...prev,
+      locationX: lat,
+      locationY: lng,
+      locationPlaceName: placeName
+    }));
+    setHasChanges(true);  // Aseguramos que esto esté presente
+    setIsEditingLocation(false);
   };
 
   const handleSave = async () => {
@@ -70,7 +83,15 @@ const EventPage: React.FC = () => {
 
   function getPitchSize() {
     if (event && 'pitchSize' in event && event.pitchSize) {
-      return renderEditableField('Tamaño de cancha', (event as FootballEvent).pitchSize, 'pitchSize', 'number');
+      const footballEvent = event as FootballEvent;
+      // Aseguramos que pitchSize sea un número
+      const pitchSizeValue = typeof footballEvent.pitchSize === 'string'
+        ? parseInt(footballEvent.pitchSize)
+        : footballEvent.pitchSize;
+
+      if (!isNaN(pitchSizeValue!)) {
+        return renderEditableField('Tamaño de cancha', pitchSizeValue!, 'pitchSize', 'number');
+      }
     }
     return null;
   }
@@ -92,9 +113,33 @@ const EventPage: React.FC = () => {
           <div className="event-page-section">
             <h3>Ubicación</h3>
             {renderEditableField('Lugar', event.location.placeName, 'locationPlaceName')}
-            <div className="event-page-minimap">
-              {event.location && (
-                <MiniMap lat={event.location.x} lng={event.location.y} />
+            <div className="location-edit-container">
+              {!isEditingLocation ? (
+                <div className="event-page-minimap">
+                  {event.location && (
+                    <MiniMap lat={event.location.x} lng={event.location.y} />
+                  )}
+                  <button
+                    className="edit-location-button"
+                    onClick={() => setIsEditingLocation(true)}
+                  >
+                    Cambiar ubicación ✏️
+                  </button>
+                </div>
+              ) : (
+                <div className="location-picker-container">
+                  <LocationPickerMap
+                    lat={editForm.locationX ?? event.location.x}
+                    lng={editForm.locationY ?? event.location.y}
+                    onChange={handleLocationChange}
+                  />
+                  <button
+                    className="cancel-location-button"
+                    onClick={() => setIsEditingLocation(false)}
+                  >
+                    Cancelar
+                  </button>
+                </div>
               )}
             </div>
           </div>
