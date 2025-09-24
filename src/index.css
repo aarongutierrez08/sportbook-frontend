@@ -6,20 +6,29 @@
 
 :root {
   --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  --color-primary: #389148;
-  --color-primary-dark: #044510;
-  --color-accent: #E98E26;
-  --color-accent-dark: #044510;
-  --color-accent-light: #E6F4EA;
-  --color-accent-intermediate: #E6E6FA;
+  /* Colores principales */
+  --color-primary: #389148;         /* Verde principal */
+  --color-primary-dark: #2A6B35;    /* Verde oscuro para contraste */
+  --color-primary-light: #4CAF50;   /* Verde claro para hover */
+
+  --color-accent: #E98E26;          /* Naranja principal */
+  --color-accent-dark: #C67620;     /* Naranja oscuro para contraste */
+  --color-accent-light: #FFE0B2;    /* Naranja muy claro para fondos suaves */
+
+  /* Colores complementarios */
+  --color-accent-intermediate: #F5F0FF;  /* Lila muy claro para fondos alternativos */
+  --color-accent-background: #F8FFF9;    /* Verde muy claro para fondos */
+
+  /* Colores de texto y superficie */
   --color-white: #ffffff;
   --color-surface: #f8fafc;
-  --color-text-muted: #64748b;
-  --color-error: #D72638;
+  --color-text-dark: #2D3748;       /* Gris muy oscuro para texto principal */
+  --color-text-muted: #718096;      /* Gris medio para texto secundario */
+  --color-text-gray: #4A5568;       /* Gris oscuro para texto terciario */
+
+  /* Colores de estado */
+  --color-error: #E53E3E;           /* Rojo accesible */
   --shadow-default: rgba(0, 0, 0, 0.1);
-  --color-accent-background: #F0F7F5;
-  --color-text-dark: #000000;
-  --color-text-gray: #475569;
 }
 
 
@@ -299,7 +308,7 @@ body {
 
 .btn-secondary {
   background: var(--color-accent-intermediate);
-  color: var(--color-primary);
+  color: var(--color-text-dark);
 }
 
 /* Create Event */
