@@ -83,3 +83,15 @@ export type PitchSize = 5 | 6 | 7 | 8 |9 | 11;
 export type Position = "GK" | "RB" | "LB" | "CB" | "LIB" | "CM" | "RM" | "LM" | "RW" | "LW" | "CT" | "ST";
 
 export type Color = "Rojo" | "Azul" | "Verde" | "Negro" | "Blanco";
+
+export interface UpdateEventParams {
+    cost?: number;
+    pitchSize?: number;
+    locationPlaceName?: string;
+    transferDataCbu?: string;
+    transferDataAlias?: string;
+    creator?: string;
+    organizer?: string;
+    locationX?: number;
+    locationY?: number;
+}

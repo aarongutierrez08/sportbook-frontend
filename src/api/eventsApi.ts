@@ -65,3 +65,10 @@ export const leaveEvent = async (eventId: number): Promise<Lineup> => {
     return res.data;
 };
 
+export const updateEvent = async (eventId: number, params: UpdateEventParams): Promise<SportEvent> => {
+    const res = await api.put<SportEvent>(
+        "/event/" + eventId,
+        params
+    );
+    return res.data;
+};
