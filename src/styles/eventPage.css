@@ -138,6 +138,7 @@
     font-size: inherit;
     background: transparent;
     width: 100%;
+    font-family: var(--font-family);
 }
 
 .inline-edit-input:hover {
@@ -183,6 +184,7 @@
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s;
+    font-family: var(--font-family);
 }
 
 .save-changes-button:hover {
@@ -199,6 +201,7 @@
     font-weight: bold;
     transition: background-color 0.3s;
     margin-top: 1rem;
+    font-family: var(--font-family);
 }
 
 .edit-location-button:hover {
@@ -215,6 +218,7 @@
     font-weight: bold;
     transition: background-color 0.3s;
     margin-top: 1rem;
+    font-family: var(--font-family);
 }
 
 .cancel-location-button:hover {

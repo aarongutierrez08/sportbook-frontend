@@ -145,3 +145,15 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 30px rgba(204, 0, 0, 0.4);
 }
+
+.event-card-button {
+    font-family: var(--font-family);
+    // ...existing code...
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    font-family: var(--font-family);
+    // ...existing code...
+}
