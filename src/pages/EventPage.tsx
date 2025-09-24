@@ -67,9 +67,42 @@ const EventPage: React.FC = () => {
   const handleEditClick = (field: keyof UpdateEventParams) => {
     setEditingField(field);
     if (!editForm[field]) {
+      let value: string | number = '';
+      if (event) {
+        switch (field) {
+          case 'cost':
+            value = event.cost;
+            break;
+          case 'pitchSize':
+            value = 'pitchSize' in event ? (event as any).pitchSize : '';
+            break;
+          case 'locationPlaceName':
+            value = event.location.placeName;
+            break;
+          case 'transferDataCbu':
+            value = event.transferData.cbu;
+            break;
+          case 'transferDataAlias':
+            value = event.transferData.alias;
+            break;
+          case 'creator':
+            value = event.creator;
+            break;
+          case 'organizer':
+            value = event.organizer;
+            break;
+          case 'locationX':
+            value = event.location.x;
+            break;
+          case 'locationY':
+            value = event.location.y;
+            break;
+        }
+      }
+
       setEditForm(prev => ({
         ...prev,
-        [field]: event?.[field] || ''
+        [field]: value
       }));
     }
   };
