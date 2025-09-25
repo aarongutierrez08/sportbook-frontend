@@ -91,6 +91,7 @@
   transform: translateX(-50%);
   top: -25px;
   pointer-events: none;
+  font-family: var(--font-family);
 }
 
 .player:hover {
@@ -101,6 +102,7 @@
 .bench-player {
   position: absolute;
   z-index: 999999;
+  font-family: var(--font-family);
 }
 
 .bench-player .player-name {

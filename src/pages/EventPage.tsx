@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getEvent } from "../api/eventsApi";
-import type {FootballEvent, PlayerInfo, SportEvent, TeamInfo} from "../types/events";
-import MiniMap from "../components/MiniMap";
-import FootballPitch from "../components/FootballPitch";
-import { formatDate } from "../utils/events";
+import { getEvent, updateEvent } from "../api/eventsApi";
+import type {FootballEvent, PaddleEvent, VolleyEvent, SportEvent, UpdateEventParams} from "../types/events";
 import "../styles/eventPage.css";
+import toast from "react-hot-toast";
+import FootballEventDetails from "../components/events/FootballEventDetails";
+import PaddleEventDetails from "../components/events/PaddleEventDetails";
+import VolleyEventDetails from "../components/events/VolleyEventDetails";
 
 const EventPage: React.FC = () => {
   const { id } = useParams();
   const [event, setEvent] = useState<SportEvent | null>(null);
+  const [editForm, setEditForm] = useState<UpdateEventParams>({});
+  const [hasChanges, setHasChanges] = useState(false);
+  const [isEditingLocation, setIsEditingLocation] = useState(false);
+  const [editingField, setEditingField] = useState<keyof UpdateEventParams | null>(null);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -24,119 +29,158 @@ const EventPage: React.FC = () => {
     fetchEvent();
   }, [id]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof UpdateEventParams) => {
+    const value = e.target.type === 'number' ? Number(e.target.value) : e.target.value;
+    setEditForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+    setHasChanges(true);
+  };
+
+  const handleLocationChange = (lat: number, lng: number, placeName?: string) => {
+    setEditForm(prev => ({
+      ...prev,
+      locationX: lat,
+      locationY: lng,
+      locationPlaceName: placeName
+    }));
+    setHasChanges(true);
+    setIsEditingLocation(false);
+  };
+
+  const handleSave = async () => {
+    try {
+      if (!id || !event || !hasChanges) return;
+      
+      const updatedEvent = await updateEvent(Number(id), editForm);
+      setEvent(updatedEvent);
+      setEditForm({});
+      setHasChanges(false);
+      toast.success("¡Evento actualizado exitosamente!");
+    } catch (error) {
+      console.error("Error updating event:", error);
+      toast.error("Error al actualizar el evento");
+    }
+  };
+
+  const handleEditClick = (field: keyof UpdateEventParams) => {
+    setEditingField(field);
+    if (!editForm[field]) {
+      let value: string | number = '';
+      if (event) {
+        switch (field) {
+          case 'cost':
+            value = event.cost;
+            break;
+          case 'pitchSize':
+            value = 'pitchSize' in event ? (event as any).pitchSize : '';
+            break;
+          case 'locationPlaceName':
+            value = event.location.placeName;
+            break;
+          case 'transferDataCbu':
+            value = event.transferData.cbu;
+            break;
+          case 'transferDataAlias':
+            value = event.transferData.alias;
+            break;
+          case 'creator':
+            value = event.creator;
+            break;
+          case 'organizer':
+            value = event.organizer;
+            break;
+          case 'locationX':
+            value = event.location.x;
+            break;
+          case 'locationY':
+            value = event.location.y;
+            break;
+        }
+      }
+
+      setEditForm(prev => ({
+        ...prev,
+        [field]: value
+      }));
+    }
+  };
+
+  const renderEditableField = (label: string, value: string | number, field: keyof UpdateEventParams, type: string = 'text') => (
+    <p className="editable-field">
+      {label}: {' '}
+      {editingField === field ? (
+        <input
+          type={type}
+          value={editForm[field] !== undefined ? editForm[field] : value}
+          onChange={(e) => handleInputChange(e, field)}
+          onBlur={() => setEditingField(null)}
+          className="inline-edit-input"
+          autoFocus
+        />
+      ) : (
+        <span>{editForm[field] !== undefined ? editForm[field] : value}</span>
+      )}
+      <span
+        className="edit-icon"
+        title="Editar"
+        onClick={() => handleEditClick(field)}
+        style={{ cursor: 'pointer' }}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          style={{ verticalAlign: 'middle' }}
+        >
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+      </span>
+    </p>
+  );
+
   if (!event) {
     return <div>Cargando evento...</div>;
   }
 
-    function getPitchSize()  {
-        if (event && 'pitchSize' in event && event.pitchSize) {
-          return (<>
-              <p>Tamaño de cancha: {(event as FootballEvent).pitchSize}</p>
-          </>);
-        }
-        return <></>
-    }
+  const renderEventDetails = () => {
+    const commonProps = {
+      editForm,
+      isEditingLocation,
+      setIsEditingLocation,
+      handleLocationChange,
+      renderEditableField
+    };
 
-    return (
+    switch (event.sport) {
+      case "FOOTBALL":
+        return <FootballEventDetails event={event as FootballEvent} {...commonProps} />;
+      case "PADDLE":
+        return <PaddleEventDetails event={event as PaddleEvent} {...commonProps} />;
+      case "VOLLEY":
+        return <VolleyEventDetails event={event as VolleyEvent} {...commonProps} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
     <div className="event-page-root">
       <div className="event-page-container">
         <h2>{event.sport}</h2>
-        <div className="event-page-details">
-          <div className="event-page-section">
-            <h3>Detalles del Evento</h3>
-            <p>Fecha y hora: {formatDate(event.dateTime)}</p>
-            <p>Organizador: {event.organizer}</p>
-            <p>Jugadores: {event.players.length} / {event.minPlayers}</p>
-            <p>Costo: ${event.cost}</p>
-            {getPitchSize()}
+        {renderEventDetails()}
+        {hasChanges && (
+          <div className="save-changes-container">
+            <button onClick={handleSave} className="save-changes-button">
+              Guardar Cambios
+            </button>
           </div>
-
-          <div className="event-page-section">
-            <h3>Ubicación</h3>
-            <p>Lugar: {event.location.placeName}</p>
-            <div className="event-page-minimap">
-              {event.location && (
-                <MiniMap lat={event.location.x} lng={event.location.y} />
-              )}
-            </div>
-          </div>
-
-          <div className="event-page-section">
-            <h3>Datos de Pago</h3>
-            <div className="event-page-payment-info">
-              <p>Alias: {event.transferData?.alias}</p>
-              <p>CBU: {event.transferData?.cbu}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="event-page-section">
-          <h3>Jugadores</h3>
-          <ul className="event-page-players-list">
-            {event.players.map(player => (
-              <li key={player.user.username}>{player.name}</li>
-            ))}
-          </ul>
-        </div>
-
-        {'teams' in event ? (
-          <div className="event-page-section">
-            <h3>Equipos</h3>
-            <div className="event-page-team-section">
-              {(event.teams as TeamInfo[]).map((team: TeamInfo) => (
-                <div
-                  key={team.id}
-                  className="event-page-team-card"
-                  data-color={team.color}
-                >
-                  <h4>Equipo {team.color}</h4>
-                  <ul className="event-page-players-list">
-                    {team.players.map((player: PlayerInfo) => (
-                      <li key={player.user.username}>{player.name}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : 'firstTeam' in event && 'secondTeam' in event? (
-          <div className="event-page-section">
-            <h3>Equipos</h3>
-            <div className="event-page-team-section">
-              <div
-                className="event-page-team-card"
-                data-color={(event as FootballEvent).firstTeam.color}
-              >
-                <h4>Equipo {(event as FootballEvent).firstTeam.color}</h4>
-                <ul className="event-page-players-list">
-                  {(event as FootballEvent).firstTeam.players.map(player => (
-                    <li key={player.user.username}>{player.name}</li>
-                  ))}
-                </ul>
-              </div>
-              <div
-                className="event-page-team-card"
-                data-color={(event as FootballEvent).secondTeam.color}
-              >
-                <h4>Equipo {(event as FootballEvent).secondTeam.color}</h4>
-                <ul className="event-page-players-list">
-                  {(event as FootballEvent).secondTeam.players.map(player => (
-                    <li key={player.user.username}>{player.name}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="event-page-pitch-container">
-              <h3>Distribución táctica</h3>
-              <FootballPitch
-                eventId={Number(event.id)}
-                firstTeamColor={(event as FootballEvent).firstTeam.color}
-                secondTeamColor={(event as FootballEvent).secondTeam.color}
-                pitchSize={Number((event as FootballEvent).pitchSize)}
-              />
-            </div>
-          </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
