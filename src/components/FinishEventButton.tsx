@@ -40,6 +40,18 @@ const FinishEventButton: React.FC<FinishEventButtonProps> = ({ event, onFinish, 
         }
     };
 
+    if (event.isFinished) {
+        return (
+            <button
+                disabled
+                className={`finish-event-button finished ${className || ''}`}
+                title="Este evento ya está finalizado"
+            >
+                Evento Finalizado
+            </button>
+        );
+    }
+
     return (
         <>
             <button

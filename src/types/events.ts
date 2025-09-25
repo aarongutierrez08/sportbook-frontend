@@ -19,6 +19,7 @@ export type SportEvent = {
   players: PlayerInfo[];
   creator: string;
   organizer: string;
+  isFinished?: boolean;
 };
 
 export type FootballEvent = SportEvent & {
