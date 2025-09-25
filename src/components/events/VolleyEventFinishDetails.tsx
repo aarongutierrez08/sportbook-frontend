@@ -1,46 +1,65 @@
-import React from 'react';
-import { VolleyEvent, PlayerInfo } from '../../types/events';
+import React, { useState } from 'react';
+import { SportEvent, PlayerInfo, FinishEventParams } from '../../types/events';
 
 interface VolleyEventFinishDetailsProps {
-    event: VolleyEvent;
-    missingPlayers: number[];
-    mvpId: number | null;
-    winningTeamId: number | null;
-    onToggleMissingPlayer: (playerId: number) => void;
-    onSetMvp: (playerId: number) => void;
-    onSetWinningTeam: (teamId: number) => void;
+    event: SportEvent;
+    onSubmit: (data: FinishEventParams) => void;
 }
 
 const VolleyEventFinishDetails: React.FC<VolleyEventFinishDetailsProps> = ({
     event,
-    missingPlayers,
-    mvpId,
-    winningTeamId,
-    onToggleMissingPlayer,
-    onSetMvp,
-    onSetWinningTeam,
+    onSubmit,
 }) => {
+    const [missingPlayers, setMissingPlayers] = useState<number[]>([]);
+    const [winningTeamId, setWinningTeamId] = useState<number | null>(null);
+    const [mvpId, setMvpId] = useState<number | null>(null);
+
+    const handleToggleMissingPlayer = (playerId: number) => {
+        setMissingPlayers(prev =>
+            prev.includes(playerId)
+                ? prev.filter(id => id !== playerId)
+                : [...prev, playerId]
+        );
+    };
+
+    const handleSubmit = () => {
+        if (winningTeamId === null) {
+            alert('Por favor selecciona el equipo ganador');
+            return;
+        }
+
+        onSubmit({
+            winningTeamId,
+            missingPlayerIds: missingPlayers,
+            ...(mvpId && { mvpId })
+        });
+    };
+
     const renderTeamSection = (teamInfo: { id: number, color: string, players: PlayerInfo[] }) => (
-        <div className="team-section">
+        <div className="fem-team-section">
             <h3>Equipo {teamInfo.color}</h3>
-            <div className="players-list">
+            <div className="fem-players-list">
                 {teamInfo.players.map(player => (
-                    <div key={player.id} className="player-item">
-                        <div className="player-name">
-                            {player.name}
-                            <div className="player-actions">
-                                <button
-                                    onClick={() => onSetMvp(player.id)}
-                                    className={`action-button mvp ${mvpId === player.id ? 'selected' : ''}`}
-                                >
-                                    MVP
-                                </button>
-                                <button
-                                    onClick={() => onToggleMissingPlayer(player.id)}
-                                    className={`action-button missing ${missingPlayers.includes(player.id) ? 'selected' : ''}`}
-                                >
-                                    Faltó
-                                </button>
+                    <div key={player.id} className="fem-player-item">
+                        <div className="fem-player-name">
+                            <span>{player.name}</span>
+                            <div className="fem-player-stats">
+                                <div className="fem-player-actions">
+                                    <button
+                                        onClick={() => setMvpId(player.id)}
+                                        className={`fem-action-button mvp ${mvpId === player.id ? 'selected' : ''}`}
+                                        title="Jugador más valioso"
+                                    >
+                                        MVP
+                                    </button>
+                                    <button
+                                        onClick={() => handleToggleMissingPlayer(player.id)}
+                                        className={`fem-action-button missing ${missingPlayers.includes(player.id) ? 'selected' : ''}`}
+                                        title="Jugador ausente"
+                                    >
+                                        Faltó
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,18 +68,28 @@ const VolleyEventFinishDetails: React.FC<VolleyEventFinishDetailsProps> = ({
         </div>
     );
 
+    const teams = 'teams' in event ? event.teams : [];
+
     return (
-        <div className="teams-container">
-            {event.teams?.map(team => (
-                <div
-                    key={team.id}
-                    className={`team-winner-selector ${winningTeamId === team.id ? 'selected' : ''}`}
-                    onClick={() => onSetWinningTeam(team.id)}
-                >
-                    {renderTeamSection(team)}
-                </div>
-            ))}
-        </div>
+        <>
+            <div className="fem-teams-container">
+                {teams?.map(team => (
+                    <div
+                        key={team.id}
+                        className={`fem-team-winner-selector ${winningTeamId === team.id ? 'selected' : ''}`}
+                        onClick={() => setWinningTeamId(team.id)}
+                    >
+                        {renderTeamSection(team)}
+                    </div>
+                ))}
+            </div>
+
+            <div className="fem-modal-actions">
+                <button onClick={handleSubmit} className="fem-submit-button">
+                    Finalizar
+                </button>
+            </div>
+        </>
     );
 };
 

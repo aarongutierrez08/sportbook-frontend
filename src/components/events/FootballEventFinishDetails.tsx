@@ -1,104 +1,158 @@
-import React from 'react';
-import { FootballEvent, Goal, PlayerInfo } from '../../types/events';
+import React, { useState } from 'react';
+import { FootballEvent, Goal, PlayerInfo, FinishEventParams } from '../../types/events';
 
 interface FootballEventFinishDetailsProps {
     event: FootballEvent;
-    goals: Goal[];
-    missingPlayers: number[];
-    mvpId: number | null;
-    winningTeamId: number | null;
-    onAddGoal: (teamId: number, playerId: number) => void;
-    onRemoveGoal: (index: number) => void;
-    onToggleMissingPlayer: (playerId: number) => void;
-    onSetMvp: (playerId: number) => void;
-    onSetWinningTeam: (teamId: number) => void;
+    onSubmit: (data: FinishEventParams) => void;
 }
 
 const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
     event,
-    goals,
-    missingPlayers,
-    mvpId,
-    winningTeamId,
-    onAddGoal,
-    onRemoveGoal,
-    onToggleMissingPlayer,
-    onSetMvp,
-    onSetWinningTeam,
+    onSubmit,
 }) => {
+    const [goals, setGoals] = useState<Goal[]>([]);
+    const [missingPlayers, setMissingPlayers] = useState<number[]>([]);
+    const [winningTeamId, setWinningTeamId] = useState<number | null>(null);
+    const [mvpId, setMvpId] = useState<number | null>(null);
+
+    const handleAddGoal = (teamId: number, playerId: number) => {
+        setGoals(prev => [...prev, { teamId, playerId }]);
+    };
+
+    const handleRemoveGoal = (index: number) => {
+        setGoals(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleToggleMissingPlayer = (playerId: number) => {
+        setMissingPlayers(prev =>
+            prev.includes(playerId)
+                ? prev.filter(id => id !== playerId)
+                : [...prev, playerId]
+        );
+    };
+
+    const getPlayerGoalsCount = (teamId: number, playerId: number) => {
+        return goals.filter(goal => goal.teamId === teamId && goal.playerId === playerId).length;
+    };
+
+    const handleSubmit = () => {
+        if (winningTeamId === null) {
+            alert('Por favor selecciona el equipo ganador');
+            return;
+        }
+
+        onSubmit({
+            winningTeamId,
+            goals,
+            missingPlayerIds: missingPlayers,
+            ...(mvpId && { mvpId })
+        });
+    };
+
     const renderTeamSection = (teamInfo: { id: number, color: string, players: PlayerInfo[] }) => (
-        <div className="team-section">
+        <div className="fem-team-section">
             <h3>Equipo {teamInfo.color}</h3>
-            <div className="players-list">
-                {teamInfo.players.map(player => (
-                    <div key={player.id} className="player-item">
-                        <div className="player-name">
-                            {player.name}
-                            <div className="player-actions">
-                                <button
-                                    onClick={() => onAddGoal(teamInfo.id, player.id)}
-                                    className="action-button goal"
-                                >
-                                    + Gol
-                                </button>
-                                <button
-                                    onClick={() => onSetMvp(player.id)}
-                                    className={`action-button mvp ${mvpId === player.id ? 'selected' : ''}`}
-                                >
-                                    MVP
-                                </button>
-                                <button
-                                    onClick={() => onToggleMissingPlayer(player.id)}
-                                    className={`action-button missing ${missingPlayers.includes(player.id) ? 'selected' : ''}`}
-                                >
-                                    Faltó
-                                </button>
+            <div className="fem-players-list">
+                {teamInfo.players.map(player => {
+                    const goalsCount = getPlayerGoalsCount(teamInfo.id, player.id);
+                    return (
+                        <div key={player.id} className="fem-player-item">
+                            <div className="fem-player-name">
+                                <span>{player.name}</span>
+                                <div className="fem-player-stats">
+                                    <div className="fem-goals-counter">
+                                        <button
+                                            className="fem-goal-button remove"
+                                            onClick={() => {
+                                                const lastGoalIndex = [...goals].reverse().findIndex(
+                                                    goal => goal.teamId === teamInfo.id && goal.playerId === player.id
+                                                );
+                                                if (lastGoalIndex !== -1) {
+                                                    handleRemoveGoal(goals.length - 1 - lastGoalIndex);
+                                                }
+                                            }}
+                                            disabled={goalsCount === 0}
+                                        >
+                                            -
+                                        </button>
+                                        <span className="fem-goals-count">
+                                            {goalsCount} {goalsCount === 1 ? 'gol' : 'goles'}
+                                        </span>
+                                        <button
+                                            className="fem-goal-button add"
+                                            onClick={() => handleAddGoal(teamInfo.id, player.id)}
+                                        >
+                                            +
+                                        </button>
+                                    </div>
+                                    <div className="fem-player-actions">
+                                        <button
+                                            onClick={() => setMvpId(player.id)}
+                                            className={`fem-action-button mvp ${mvpId === player.id ? 'selected' : ''}`}
+                                            title="Jugador más valioso"
+                                        >
+                                            MVP
+                                        </button>
+                                        <button
+                                            onClick={() => handleToggleMissingPlayer(player.id)}
+                                            className={`fem-action-button missing ${missingPlayers.includes(player.id) ? 'selected' : ''}`}
+                                            title="Jugador ausente"
+                                        >
+                                            Faltó
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
 
     return (
         <>
-            <div className="teams-container">
+            <div className="fem-teams-container">
                 <div
-                    className={`team-winner-selector ${winningTeamId === event.firstTeam.id ? 'selected' : ''}`}
-                    onClick={() => onSetWinningTeam(event.firstTeam.id)}
+                    className={`fem-team-winner-selector ${winningTeamId === event.firstTeam.id ? 'selected' : ''}`}
+                    onClick={() => setWinningTeamId(event.firstTeam.id)}
                 >
                     {renderTeamSection(event.firstTeam)}
                 </div>
                 <div
-                    className={`team-winner-selector ${winningTeamId === event.secondTeam.id ? 'selected' : ''}`}
-                    onClick={() => onSetWinningTeam(event.secondTeam.id)}
+                    className={`fem-team-winner-selector ${winningTeamId === event.secondTeam.id ? 'selected' : ''}`}
+                    onClick={() => setWinningTeamId(event.secondTeam.id)}
                 >
                     {renderTeamSection(event.secondTeam)}
                 </div>
             </div>
-            {goals.length > 0 && (
-                <div className="goals-summary">
-                    <h3>Goles</h3>
-                    <ul>
-                        {goals.map((goal, index) => {
-                            const team = goal.teamId === event.firstTeam.id ? event.firstTeam : event.secondTeam;
-                            const player = team.players.find(p => p.id === goal.playerId);
-                            return (
-                                <li key={index}>
-                                    {player?.name} ({team.color})
-                                    <button
-                                        onClick={() => onRemoveGoal(index)}
-                                        className="remove-goal"
-                                    >
-                                        ×
-                                    </button>
-                                </li>
-                            );
-                        })}
-                    </ul>
+
+            <div className="fem-match-summary">
+                <h3>Resumen del partido</h3>
+                <div className="fem-summary-content">
+                    <div className="fem-score">
+                        <div className="fem-team-score">
+                            <span className="fem-team-name">{event.firstTeam.color}</span>
+                            <span className="fem-score-number">
+                                {goals.filter(g => g.teamId === event.firstTeam.id).length}
+                            </span>
+                        </div>
+                        <span className="fem-score-separator">-</span>
+                        <div className="fem-team-score">
+                            <span className="fem-score-number">
+                                {goals.filter(g => g.teamId === event.secondTeam.id).length}
+                            </span>
+                            <span className="fem-team-name">{event.secondTeam.color}</span>
+                        </div>
+                    </div>
                 </div>
-            )}
+            </div>
+
+            <div className="fem-modal-actions">
+                <button onClick={handleSubmit} className="fem-submit-button">
+                    Finalizar
+                </button>
+            </div>
         </>
     );
 };

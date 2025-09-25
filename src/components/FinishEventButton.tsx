@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { finishEvent } from '../api/eventsApi';
-import type {FinishEventParams, SportEvent} from '../types/events';
+import { FinishEventParams, SportEvent } from '../types/events';
 import toast from 'react-hot-toast';
 import '../styles/finishEventButton.css';
 import showConfirmDialog from './ConfirmDialog';
