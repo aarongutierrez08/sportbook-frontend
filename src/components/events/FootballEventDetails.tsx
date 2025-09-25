@@ -4,6 +4,7 @@ import { formatDate } from "../../utils/events";
 import FootballPitch from "../FootballPitch";
 import MiniMap from "../MiniMap";
 import LocationPickerMap from "../LocationPickerMap";
+import FinishEventButton from "../FinishEventButton";
 
 interface FootballEventDetailsProps {
     event: FootballEvent;
@@ -132,6 +133,12 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
                         pitchSize={Number(event.pitchSize)}
                     />
                 </div>
+            </div>
+            <div className="save-changes-container">
+                <FinishEventButton
+                    event={event}
+                    onFinish={() => window.location.reload()}
+                />
             </div>
         </>
     );
