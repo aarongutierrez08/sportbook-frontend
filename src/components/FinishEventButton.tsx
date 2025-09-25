@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { finishEvent } from '../api/eventsApi';
-import { FinishEventParams, FootballEvent } from '../types/events';
+import type {FinishEventParams, SportEvent} from '../types/events';
 import toast from 'react-hot-toast';
 import '../styles/finishEventButton.css';
 import showConfirmDialog from './ConfirmDialog';
 import FinishEventModal from './FinishEventModal';
 
 interface FinishEventButtonProps {
-    event: FootballEvent;
+    event: SportEvent;
     onFinish?: () => void;
     className?: string;
 }

@@ -182,7 +182,7 @@ const EventPage: React.FC = () => {
             </button>
           )}
           <FinishEventButton
-            eventId={Number(id)}
+            event={event}
             onFinish={() => window.location.reload()}
           />
         </div>

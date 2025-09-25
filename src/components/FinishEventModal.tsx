@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { FootballEvent, Goal, PlayerInfo } from '../types/events';
+import type { SportEvent, Goal, FootballEvent, PaddleEvent, VolleyEvent } from '../types/events';
 import '../styles/finishEventModal.css';
+import FootballEventFinishDetails from './events/FootballEventFinishDetails';
+import PaddleEventFinishDetails from './events/PaddleEventFinishDetails';
+import VolleyEventFinishDetails from './events/VolleyEventFinishDetails';
 
 interface FinishEventModalProps {
-    event: FootballEvent;
+    event: SportEvent;
     onClose: () => void;
     onSubmit: (data: {
         winningTeamId: number;
-        goals: Goal[];
+        goals?: Goal[];
         missingPlayerIds: number[];
         mvpId?: number;
     }) => void;
@@ -43,90 +46,57 @@ const FinishEventModal: React.FC<FinishEventModalProps> = ({ event, onClose, onS
 
         onSubmit({
             winningTeamId,
-            goals,
+            ...(event.sport === 'FOOTBALL' && { goals }),
             missingPlayerIds: missingPlayers,
             ...(mvpId && { mvpId })
         });
     };
 
-    const renderTeamSection = (teamInfo: { id: number, color: string, players: PlayerInfo[] }) => (
-        <div className="team-section">
-            <h3>Equipo {teamInfo.color}</h3>
-            <div className="players-list">
-                {teamInfo.players.map(player => (
-                    <div key={player.id} className="player-item">
-                        <div className="player-name">
-                            {player.name}
-                            <div className="player-actions">
-                                <button
-                                    onClick={() => handleAddGoal(teamInfo.id, player.id)}
-                                    className="action-button goal"
-                                >
-                                    + Gol
-                                </button>
-                                <button
-                                    onClick={() => setMvpId(player.id)}
-                                    className={`action-button mvp ${mvpId === player.id ? 'selected' : ''}`}
-                                >
-                                    MVP
-                                </button>
-                                <button
-                                    onClick={() => handleToggleMissingPlayer(player.id)}
-                                    className={`action-button missing ${missingPlayers.includes(player.id) ? 'selected' : ''}`}
-                                >
-                                    Faltó
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+    const renderEventDetails = () => {
+        const commonProps = {
+            missingPlayers,
+            mvpId,
+            winningTeamId,
+            onToggleMissingPlayer: handleToggleMissingPlayer,
+            onSetMvp: setMvpId,
+            onSetWinningTeam: setWinningTeamId,
+        };
+
+        switch (event.sport) {
+            case 'FOOTBALL':
+                return (
+                    <FootballEventFinishDetails
+                        event={event as FootballEvent}
+                        goals={goals}
+                        onAddGoal={handleAddGoal}
+                        onRemoveGoal={handleRemoveGoal}
+                        {...commonProps}
+                    />
+                );
+            case 'PADDLE':
+                return (
+                    <PaddleEventFinishDetails
+                        event={event as PaddleEvent}
+                        {...commonProps}
+                    />
+                );
+            case 'VOLLEY':
+                return (
+                    <VolleyEventFinishDetails
+                        event={event as VolleyEvent}
+                        {...commonProps}
+                    />
+                );
+            default:
+                return null;
+        }
+    };
 
     return (
         <div className="modal-overlay">
             <div className="finish-event-modal">
                 <h2>Finalizar Evento</h2>
-
-                <div className="teams-container">
-                    <div
-                        className={`team-winner-selector ${winningTeamId === event.firstTeam.id ? 'selected' : ''}`}
-                        onClick={() => setWinningTeamId(event.firstTeam.id)}
-                    >
-                        {renderTeamSection(event.firstTeam)}
-                    </div>
-                    <div
-                        className={`team-winner-selector ${winningTeamId === event.secondTeam.id ? 'selected' : ''}`}
-                        onClick={() => setWinningTeamId(event.secondTeam.id)}
-                    >
-                        {renderTeamSection(event.secondTeam)}
-                    </div>
-                </div>
-
-                {goals.length > 0 && (
-                    <div className="goals-summary">
-                        <h3>Goles</h3>
-                        <ul>
-                            {goals.map((goal, index) => {
-                                const team = goal.teamId === event.firstTeam.id ? event.firstTeam : event.secondTeam;
-                                const player = team.players.find(p => p.id === goal.playerId);
-                                return (
-                                    <li key={index}>
-                                        {player?.name} ({team.color})
-                                        <button
-                                            onClick={() => handleRemoveGoal(index)}
-                                            className="remove-goal"
-                                        >
-                                            ×
-                                        </button>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
-                )}
-
+                {renderEventDetails()}
                 <div className="modal-actions">
                     <button onClick={onClose} className="cancel-button">
                         Cancelar
