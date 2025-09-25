@@ -1,0 +1,58 @@
+.finish-event-button {
+    background-color: var(--color-finish-action);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    font-family: var(--font-family);
+}
+
+.finish-event-button:hover {
+    opacity: 0.9;
+}
+
+.finish-event-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.finish-event-confirm {
+    text-align: center;
+}
+
+.finish-event-confirm p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.finish-event-confirm-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.finish-event-confirm-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.finish-event-confirm-button:hover {
+    opacity: 0.9;
+}
+
+.finish-event-confirm-button.confirm {
+    background-color: #E98E26;
+    color: white;
+}
+
+.finish-event-confirm-button.cancel {
+    background-color: #666;
+    color: white;
+}

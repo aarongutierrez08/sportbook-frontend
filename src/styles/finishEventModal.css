@@ -1,0 +1,188 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.finish-event-modal {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.finish-event-modal h2 {
+    color: var(--color-primary-dark);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.teams-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.team-section {
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.team-winner-selector {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.team-winner-selector:hover {
+    background-color: rgba(56, 145, 72, 0.1);
+}
+
+.team-winner-selector.selected {
+    border-color: #389148;
+    background-color: rgba(56, 145, 72, 0.1);
+}
+
+.team-section h3 {
+    margin-bottom: 1rem;
+    color: var(--color-primary-dark);
+}
+
+.players-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.player-item {
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.player-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+}
+
+.action-button.goal {
+    background-color: #E98E26;
+    color: white;
+}
+
+.action-button.mvp {
+    background-color: #389148;
+    color: white;
+}
+
+.action-button.missing {
+    background-color: #666;
+    color: white;
+}
+
+.action-button:hover {
+    opacity: 0.9;
+}
+
+.action-button.selected {
+    opacity: 0.7;
+}
+
+.goals-summary {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+.goals-summary h3 {
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+}
+
+.goals-summary ul {
+    list-style: none;
+    padding: 0;
+}
+
+.goals-summary li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: white;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.remove-goal {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0 0.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.cancel-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #666;
+    color: white;
+    cursor: pointer;
+}
+
+.submit-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #E98E26;
+    color: white;
+    cursor: pointer;
+}
+
+.cancel-button:hover,
+.submit-button:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .teams-container {
+        grid-template-columns: 1fr;
+    }
+}

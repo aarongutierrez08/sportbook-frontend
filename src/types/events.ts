@@ -95,3 +95,15 @@ export interface UpdateEventParams {
     locationX?: number;
     locationY?: number;
 }
+
+export interface Goal {
+    teamId: number;
+    playerId: number;
+}
+
+export interface FinishEventParams {
+    goals?: Goal[];
+    mvpId?: number;
+    missingPlayerIds?: number[];
+    winningTeamId?: number;
+}
