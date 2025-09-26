@@ -26,29 +26,52 @@
 /* Estilos para el slider */
 .slider-group .MuiSlider-root {
   color: var(--color-primary-light);
+  padding: 14px 0 !important;
+  position: relative;
 }
 
 .slider-group .MuiSlider-rail {
   opacity: 0.3;
   background-color: var(--color-primary-light);
+  height: 4px;
+  border: none;
 }
 
 .slider-group .MuiSlider-track {
-  background-color: var(--color-primary-light);;
+  background-color: var(--color-primary-light);
+  height: 4px;
+  border: none;
+  opacity: 1;
 }
 
 .slider-group .MuiSlider-thumb {
-  background-color: var(--color-accent);;
-  border: 2px solid var(--color-primary-light);;
+  background-color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -15px !important;
+  background-image: url('../assets/football_slider.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: scale(1.2);
 }
 
-.slider-group .MuiSlider-thumb:hover,
-.slider-group .MuiSlider-thumb.Mui-focusVisible {
-  box-shadow: 0 0 0 8px rgba(56, 145, 72, 0.16);
+.slider-group .MuiSlider-thumb::before,
+.slider-group .MuiSlider-thumb::after {
+  display: none;
 }
 
-.slider-group .MuiSlider-thumb.Mui-active {
-  box-shadow: 0 0 0 12px rgba(56, 145, 72, 0.16);
+.slider-group .MuiSlider-track {
+  z-index: 1;
+}
+
+.slider-group .MuiSlider-rail {
+  z-index: 1;
+}
+
+.slider-group .MuiSlider-thumb {
+  z-index: 2;
 }
 
 /* Estilos para el checkbox */
