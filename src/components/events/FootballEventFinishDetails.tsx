@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FootballEvent, Goal, PlayerInfo, FinishEventParams } from '../../types/events';
+import type { FootballEvent, Goal, FinishEventParams, PlayerInfo } from '../../types/events';
 
 interface FootballEventFinishDetailsProps {
     event: FootballEvent;

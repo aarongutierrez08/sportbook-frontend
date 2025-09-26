@@ -108,17 +108,3 @@ export interface FinishEventParams {
     missingPlayerIds?: number[];
     winningTeamId?: number;
 }
-
-export interface FinishEventDetails {
-    winningTeamId: number | null;
-    mvpId: number | null;
-    missingPlayerIds: number[];
-}
-
-export interface FootballFinishEventDetails extends FinishEventDetails {
-    goals: Goal[];
-}
-
-export interface PaddleFinishEventDetails extends FinishEventDetails {}
-
-export interface VolleyFinishEventDetails extends FinishEventDetails {}

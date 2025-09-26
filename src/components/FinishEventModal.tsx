@@ -1,5 +1,5 @@
 import React from 'react';
-import type { SportEvent, FinishEventParams } from '../types/events';
+import type {SportEvent, FinishEventParams, FootballEvent, PaddleEvent, VolleyEvent} from '../types/events';
 import '../styles/finishEventModal.css';
 import FootballEventFinishDetails from './events/FootballEventFinishDetails';
 import PaddleEventFinishDetails from './events/PaddleEventFinishDetails';
@@ -17,21 +17,21 @@ const FinishEventModal: React.FC<FinishEventModalProps> = ({ event, onClose, onS
             case 'FOOTBALL':
                 return (
                     <FootballEventFinishDetails
-                        event={event}
+                        event={event as FootballEvent}
                         onSubmit={onSubmit}
                     />
                 );
             case 'PADDLE':
                 return (
                     <PaddleEventFinishDetails
-                        event={event}
+                        event={event as PaddleEvent}
                         onSubmit={onSubmit}
                     />
                 );
             case 'VOLLEY':
                 return (
                     <VolleyEventFinishDetails
-                        event={event}
+                        event={event as VolleyEvent}
                         onSubmit={onSubmit}
                     />
                 );

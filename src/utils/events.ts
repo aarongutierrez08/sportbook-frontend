@@ -6,7 +6,7 @@ export const stringToPlayerInfoList = (players?: string): PlayerInfo[] => {
   return (
     players
       ?.split(/[\n,]/g)
-      .map((s) => ({ name: s.trim(), user: { username: s.trim() } }))
+      .map((s) => ({ id: 0, name: s.trim(), user: { username: s.trim() } }))
       .filter(Boolean) || []
   );
 };

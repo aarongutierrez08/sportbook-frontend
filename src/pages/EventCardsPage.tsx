@@ -255,14 +255,15 @@ const EventCardsPage: React.FC = () => {
     return currentEvents.map((event) => {
       const userInEvent = isUserInEvent(event, loggedUser);
       return (
-        <div
-          key={event.id}
-          className="card"
-        >
+        <div key={event.id} className="card">
+          {event.isFinished && (
+            <div className="event-status">Evento Finalizado</div>
+          )}
           <div className="card-header">
-            <div className="sport"> {event.sport}</div>
-            <div className="date"> {formatDate(event.dateTime)}</div>
+            <div className="sport">{event.sport}</div>
+            <div className="date">{formatDate(event.dateTime)}</div>
           </div>
+
           <div className="players">
             👥 Jugadores: {event.players.length} / {event.minPlayers}
           </div>
@@ -275,12 +276,15 @@ const EventCardsPage: React.FC = () => {
           <div className="teams">{mapTeams(event)}</div>
           <div className="footer">{mapFooter(event)}</div>
           <div className="buttons-container">
-            <button
-              className={`btn ${userInEvent ? 'btn-danger' : ''}`}
-              onClick={() => userInEvent ? handleLeave(event.id) : handleJoin(event.id)}
-            >
-              {userInEvent ? "Salir" : "Unirse"}
-            </button>
+            {!event.isFinished && (
+              <button
+                className="btn ${userInEvent ? 'btn-danger' : ''}"
+                onClick={() => userInEvent ? handleLeave(event.id) : handleJoin(event.id)}
+                disabled={event.players.length >= event.maxPlayers && !userInEvent}
+              >
+                {userInEvent ? "Salir" : "Unirse"}
+              </button>
+            )}
             <button
               className="btn btn-secondary"
               onClick={() => navigate(`/events/${event.id}`)}

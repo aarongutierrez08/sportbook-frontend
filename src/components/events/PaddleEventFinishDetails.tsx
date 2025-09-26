@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { SportEvent, PlayerInfo, FinishEventParams } from '../../types/events';
+import { type PlayerInfo, type FinishEventParams, type PaddleEvent, type TeamInfo } from '../../types/events';
 
 interface PaddleEventFinishDetailsProps {
-    event: SportEvent;
+    event: PaddleEvent;
     onSubmit: (data: FinishEventParams) => void;
 }
 
@@ -29,6 +29,7 @@ const PaddleEventFinishDetails: React.FC<PaddleEventFinishDetailsProps> = ({
         }
 
         onSubmit({
+            goals: [],
             winningTeamId,
             missingPlayerIds: missingPlayers,
             ...(mvpId && { mvpId })
@@ -68,12 +69,12 @@ const PaddleEventFinishDetails: React.FC<PaddleEventFinishDetailsProps> = ({
         </div>
     );
 
-    const teams = 'teams' in event ? event.teams : [];
+    const teams: TeamInfo[] = event.teams || [];
 
     return (
         <>
             <div className="fem-teams-container">
-                {teams?.map(team => (
+                {teams.map(team => (
                     <div
                         key={team.id}
                         className={`fem-team-winner-selector ${winningTeamId === team.id ? 'selected' : ''}`}

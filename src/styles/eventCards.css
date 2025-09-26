@@ -147,8 +147,30 @@
 }
 
 .event-card-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     font-family: var(--font-family);
-    // ...existing code...
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.event-card-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.event-card-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.event-card-button.details {
+    background-color: var(--color-accent);
 }
 
 .form-input,
@@ -156,4 +178,17 @@
 .form-textarea {
     font-family: var(--font-family);
     // ...existing code...
+}
+
+.event-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 12px;
+    text-align: center;
+    background-color: #666;
+    color: white;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    z-index: 1;
 }
