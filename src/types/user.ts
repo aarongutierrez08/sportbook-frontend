@@ -27,7 +27,6 @@ export interface UpdateFootballProfileRequest {
   playsOften: boolean;
 }
 
-// types/profile.ts
 export interface VolleyProfileDTO {
   sport: "VOLLEY";
   positions: string[];
