@@ -1,67 +1,17 @@
-import { Controller, useFormContext, useWatch } from "react-hook-form";
-import { Slider, Checkbox, FormControlLabel, RadioGroup, Radio } from "@mui/material";
-import type { Position } from "../../types/events";
-import { positionLabels } from "../../constants/events";
+import { Controller, useFormContext } from "react-hook-form";
+import { Slider, FormControlLabel, Checkbox } from "@mui/material";
+import { FootballPositionSelector } from "./FootballPositionSelector";
 import type { FootballProfileDTO } from "../../types/user";
-const allPositions = Object.keys(positionLabels) as Position[];
 
 export const FootballProfileForm = () => {
   const { control } = useFormContext<FootballProfileDTO>();
-  const selectedPositions = useWatch({
-    control,
-    name: "positions",
-    defaultValue: []
-  }) as Position[];
 
   return (
     <>
-      <Controller
-        name="positions"
-        control={control}
-        render={({ field }) => (
-          <div className="form-group">
-            <label>Posiciones en las que suelo jugar:</label>
-            {allPositions.map((pos) => (
-              <FormControlLabel
-                key={pos}
-                control={
-                  <Checkbox
-                    checked={field.value?.includes(pos)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        field.onChange([...(field.value || []), pos]);
-                      } else {
-                        field.onChange(field.value.filter((p: Position) => p !== pos));
-                      }
-                    }}
-                  />
-                }
-                label={positionLabels[pos]}
-              />
-            ))}
-          </div>
-        )}
-      />
-
-      <Controller
-        name="favoritePosition"
-        control={control}
-        render={({ field }) => (
-          <div className="form-group">
-            <label>Posición favorita:</label>
-            <RadioGroup {...field}>
-              {selectedPositions.map((pos) => (
-                <FormControlLabel
-                  key={pos}
-                  value={pos}
-                  control={<Radio />}
-                  label={positionLabels[pos]}
-                />
-              ))}
-            </RadioGroup>
-          </div>
-        )}
-      />
+      <div className="form-group">
+        <label>Selecciona tus posiciones:</label>
+        <FootballPositionSelector />
+      </div>
 
       <Controller
         name="ability"
