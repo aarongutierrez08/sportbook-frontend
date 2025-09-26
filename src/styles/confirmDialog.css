@@ -1,0 +1,38 @@
+.confirm-dialog {
+    text-align: center;
+}
+
+.confirm-dialog p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.confirm-dialog-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.confirm-dialog-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+
+.confirm-dialog-button:hover {
+    opacity: 0.9;
+}
+
+.confirm-dialog-button.confirm {
+    background-color: #E98E26;
+    color: white;
+}
+
+.confirm-dialog-button.cancel {
+    background-color: #666;
+    color: white;
+}

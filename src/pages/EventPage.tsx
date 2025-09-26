@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import FootballEventDetails from "../components/events/FootballEventDetails";
 import PaddleEventDetails from "../components/events/PaddleEventDetails";
 import VolleyEventDetails from "../components/events/VolleyEventDetails";
+import FinishEventButton from '../components/FinishEventButton';
 
 const EventPage: React.FC = () => {
   const { id } = useParams();
@@ -174,13 +175,17 @@ const EventPage: React.FC = () => {
       <div className="event-page-container">
         <h2>{event.sport}</h2>
         {renderEventDetails()}
-        {hasChanges && (
-          <div className="save-changes-container">
+        <div className="save-changes-container">
+          {hasChanges && (
             <button onClick={handleSave} className="save-changes-button">
               Guardar Cambios
             </button>
-          </div>
-        )}
+          )}
+          <FinishEventButton
+            event={event}
+            onFinish={() => window.location.reload()}
+          />
+        </div>
       </div>
     </div>
   );

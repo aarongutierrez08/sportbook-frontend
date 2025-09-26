@@ -1,4 +1,4 @@
-import type {Lineup, Position, SportEvent, UpdateEventParams} from "../types/events";
+import type {Lineup, Position, SportEvent, UpdateEventParams, FinishEventParams} from "../types/events";
 import api from "./axios";
 
 export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
@@ -68,6 +68,14 @@ export const leaveEvent = async (eventId: number): Promise<Lineup> => {
 export const updateEvent = async (eventId: number, params: UpdateEventParams): Promise<SportEvent> => {
     const res = await api.put<SportEvent>(
         "/event/" + eventId,
+        params
+    );
+    return res.data;
+};
+
+export const finishEvent = async (eventId: number, params: FinishEventParams): Promise<SportEvent> => {
+    const res = await api.post<SportEvent>(
+        `/event/${eventId}/finish`,
         params
     );
     return res.data;

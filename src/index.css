@@ -28,6 +28,7 @@
 
   /* Colores de estado */
   --color-error: #E53E3E;           /* Rojo accesible */
+  --color-finish-action: #E53E3E;           /* Rojo accesible */
   --shadow-default: rgba(0, 0, 0, 0.1);
 }
 

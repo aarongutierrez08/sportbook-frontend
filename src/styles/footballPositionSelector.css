@@ -1,0 +1,89 @@
+.football-position-selector {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  aspect-ratio: 2/3;
+  position: relative;
+  overflow: hidden;
+}
+
+.position-selector-pitch-container {
+  position: absolute;
+  width: 150%;
+  height: 100%;
+  left: -25%;
+  background: url('../assets/footballpitch.png') no-repeat center;
+  background-size: contain;
+  transform: rotate(90deg);
+  transform-origin: center center;
+}
+
+.position-selector-pitch-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+}
+
+.position-selector-pitch {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  transform-origin: center center;
+}
+
+.position-button {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.position-button:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.position-button.selected {
+  background: #389148;
+  border-color: #E98E26;
+  color: white;
+}
+
+.position-label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.favorite-star {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.favorite-star.favorite {
+  color: #E98E26;
+  transform: scale(1.2);
+}

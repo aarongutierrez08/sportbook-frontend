@@ -27,7 +27,7 @@
 .profile-form .form-group {
   display: flex;
   flex-direction: column;
-  background: var(--color-accent-light);
+  background: var(--color-accent-intermediate);
   border-radius: 12px;
   padding: 1rem;
   min-height: 120px;

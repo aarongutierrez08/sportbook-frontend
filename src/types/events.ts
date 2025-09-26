@@ -19,6 +19,7 @@ export type SportEvent = {
   players: PlayerInfo[];
   creator: string;
   organizer: string;
+  isFinished?: boolean;
 };
 
 export type FootballEvent = SportEvent & {
@@ -94,4 +95,16 @@ export interface UpdateEventParams {
     organizer?: string;
     locationX?: number;
     locationY?: number;
+}
+
+export interface Goal {
+    teamId: number;
+    playerId: number;
+}
+
+export interface FinishEventParams {
+    goals?: Goal[];
+    mvpId?: number;
+    missingPlayerIds?: number[];
+    winningTeamId?: number;
 }
