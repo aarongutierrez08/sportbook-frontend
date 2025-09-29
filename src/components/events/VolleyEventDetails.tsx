@@ -71,7 +71,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <button onClick={() => setIsEditingLocation(true)}>Cambiar ubicación</button>
+              <button className="btn" onClick={() => setIsEditingLocation(true)}>Cambiar ubicación</button>
             </div>
           ) : (
             <div className="location-picker-container">
@@ -80,7 +80,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
                 lng={editForm.locationY ?? event.location.y}
                 onChange={handleLocationChange}
               />
-              <button onClick={() => setIsEditingLocation(false)}>Cancelar</button>
+              <button className="btn btn-secondary" onClick={() => setIsEditingLocation(false)}>Cancelar</button>
             </div>
           )}
         </div>

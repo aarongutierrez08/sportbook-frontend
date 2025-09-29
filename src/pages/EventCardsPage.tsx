@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import type { SportUser } from "../types/user.ts";
 import "../styles/eventCards.css";
 import AddPlayerButton from "../components/AddPlayerButton.tsx";
+import { AmountText } from "../components/AmountText.tsx";
 
 const EventCardsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -272,7 +273,7 @@ const EventCardsPage: React.FC = () => {
             <MiniMap lat={event.location.x} lng={event.location.y} />
           )}
 
-          <div className="cost">💵 Costo: ${event.cost}</div>
+          <div className="cost">💵 Costo: <AmountText number={event.cost} /></div>
           <div className="teams">{mapTeams(event)}</div>
           <div className="footer">{mapFooter(event)}</div>
           <div className="buttons-container">

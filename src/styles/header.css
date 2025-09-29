@@ -1,14 +1,11 @@
 .app-header {
     background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
-    padding: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     position: sticky;
     top: 0;
     z-index: 1000;
     margin-bottom: 1rem;
     overflow: hidden;
-    min-height: 100px;
-    max-height: 120px;
     display: flex;
     align-items: center;
 }
@@ -38,38 +35,17 @@
     padding: 0 1rem;
     position: relative;
     width: 100%;
-    min-height: 120px;
-}
-
-.logo-container {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 120px;
-    display: flex;
-    align-items: center;
-}
-
-.logo-link {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    height: 100%;
 }
 
 .logo {
-    height: 120px;
-    width: auto;
+    height: 100px;
     object-fit: contain;
-    padding: 0;
-    margin: 0;
 }
 
 .nav {
-    margin: 0 auto;
-    padding-left: 140px; /* Aproximadamente el ancho del logo */
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
 .nav-links {
@@ -116,61 +92,4 @@
 .logout-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
-}
-
-.hamburger-menu {
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 2rem;
-    height: 2rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-left: auto;
-}
-
-.hamburger-menu span {
-    width: 2rem;
-    height: 0.25rem;
-    background: var(--color-white);
-    border-radius: 10px;
-    transition: all 0.3s linear;
-    position: relative;
-    transform-origin: 1px;
-}
-
-.nav.open {
-    transform: translateX(0);
-}
-
-@media (max-width: 768px) {
-    .hamburger-menu {
-        display: flex;
-        z-index: 10;
-    }
-
-    .nav {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: 250px;
-        padding-top: 140px;
-        background: var(--color-primary);
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
-        z-index: 5;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        align-items: center;
-        padding: 1rem;
-    }
-
-    .nav-links li {
-        margin: 1rem 0;
-    }
 }

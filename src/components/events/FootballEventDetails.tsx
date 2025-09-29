@@ -86,7 +86,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <button onClick={() => setIsEditingLocation(true)}>
+              <button className="btn" onClick={() => setIsEditingLocation(true)}>
                 Cambiar ubicación
               </button>
             </div>
@@ -97,7 +97,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
                 lng={editForm.locationY ?? event.location.y}
                 onChange={handleLocationChange}
               />
-              <button onClick={() => setIsEditingLocation(false)}>Cancelar</button>
+              <button className="btn btn-secondary" onClick={() => setIsEditingLocation(false)}>Cancelar</button>
             </div>
           )}
         </div>

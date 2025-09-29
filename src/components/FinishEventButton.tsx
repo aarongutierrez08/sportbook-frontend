@@ -3,7 +3,6 @@ import { finishEvent } from '../api/eventsApi';
 import type { FinishEventParams, SportEvent } from '../types/events';
 import toast from 'react-hot-toast';
 import '../styles/finishEventButton.css';
-import showConfirmDialog from './ConfirmDialog';
 import FinishEventModal from './FinishEventModal';
 
 interface FinishEventButtonProps {
@@ -17,11 +16,6 @@ const FinishEventButton: React.FC<FinishEventButtonProps> = ({ event, onFinish, 
     const [showModal, setShowModal] = useState(false);
 
     const handleFinish = async () => {
-        const confirmed = await showConfirmDialog({
-            message: '¿Estás seguro que deseas finalizar el evento?'
-        });
-
-        if (!confirmed) return;
         setShowModal(true);
     };
 
