@@ -126,14 +126,12 @@
   justify-content: center;
   pointer-events: all !important;
   transition: all 0.2s ease;
-  z-index: 999998;
   will-change: transform;
 }
 
 .position-dropzone:hover,
 .position-dropzone.drag-over {
-  border-color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--color-secondary-background);
   transform: translate(-50%, -50%) scale(1.1);
 }
 

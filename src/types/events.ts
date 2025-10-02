@@ -31,13 +31,13 @@ export type FootballEvent = SportEvent & {
 export interface TeamInfo {
   id: number;
   color: Color;
-  players: PlayerInfo[];
+  players?: PlayerInfo[];
 }
 
 export interface PlayerInfo {
   id: number;
   name: string;
-  user: UserInfo;
+  user?: UserInfo;
 }
 
 export interface UserInfo {
@@ -108,3 +108,36 @@ export interface FinishEventParams {
     missingPlayerIds?: number[];
     winningTeamId?: number;
 }
+
+export type TeamScore = {
+  teamId: number;
+  color: string;
+  goals: number;
+  isWinner: boolean;
+};
+
+export type PlayerGoals = {
+  player: PlayerInfo;
+  teamId: number;
+  goals: number;
+};
+
+export type EventStats = {
+  eventId: number;
+  sport: Sport;
+  dateTime: string;
+  finished: boolean;
+
+  totalRegisteredPlayers: number;
+  presentPlayers: number;
+  absentPlayers: number;
+  attendanceRate: number;
+
+  totalGoals: number;
+  scores: TeamScore[];
+  scorersRanking: PlayerGoals[];
+
+  winningTeam: TeamInfo;
+  mvp: PlayerInfo;
+  missingPlayers: PlayerInfo[];
+};
