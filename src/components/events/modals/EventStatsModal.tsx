@@ -17,7 +17,6 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
 }) => {
   const [data, setData] = useState<EventStats | null>(null);
   const [loading, setLoading] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -47,14 +46,11 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
   const attendancePct = data ? Math.round(data.attendanceRate * 100) : 0;
 
   return (
-    <div className="esm-backdrop" role="presentation" onClick={onClose}>
-      <div
+    <div className="esm-backdrop" role="none" onClick={onClose}>
+      <dialog
         className="esm-modal"
-        role="dialog"
         aria-modal="true"
         aria-labelledby="stats-title"
-        onClick={(e) => e.stopPropagation()}
-        ref={dialogRef}
       >
         <div className="esm-header">
           <h3 id="stats-title">Estadísticas del evento</h3>
@@ -199,7 +195,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
             </>
           )}
         </div>
-      </div>
+      </dialog>
     </div>
   );
 };
