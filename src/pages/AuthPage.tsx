@@ -49,7 +49,6 @@ const AuthPage: React.FC = () => {
               "tokenExpiresAt",
               (Date.now() + res.expiresIn).toString()
             );
-            // Dispatch custom event after successful login
             window.dispatchEvent(new Event("authStateChanged"));
             navigate("/events");
           }
@@ -63,7 +62,6 @@ const AuthPage: React.FC = () => {
     } else {
       toast.promise(
         registerUser(data).then(() => {
-          toast.success("Registro exitoso. Iniciá sesión.");
           setSearchParams({ mode: "login" });
           reset();
         }),

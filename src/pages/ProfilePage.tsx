@@ -57,13 +57,13 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     fetchProfiles().then((profiles: SportProfileDTO[]) => {
-      const football = profiles.find((p) => p.sport === "FOOTBALL");
+      const football = profiles.find(profile => profile.sport === "FOOTBALL");
       if (football) footballForm.reset(football.details as FootballProfileDTO);
 
-      const volley = profiles.find((p) => p.sport === "VOLLEY");
+      const volley = profiles.find(profile => profile.sport === "VOLLEY");
       if (volley) volleyForm.reset(volley.details as VolleyProfileDTO);
 
-      const paddle = profiles.find((p) => p.sport === "PADDLE");
+      const paddle = profiles.find(profile => profile.sport === "PADDLE");
       if (paddle) paddleForm.reset(paddle.details as PaddleProfileDTO);
     });
   }, [footballForm, volleyForm, paddleForm]);

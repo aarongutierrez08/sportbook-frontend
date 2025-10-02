@@ -62,10 +62,9 @@
   transform: translate(-50%, -50%);
   cursor: grab;
   pointer-events: all !important;
-  background-color: var(--color-accent);
+  background-color: var(--color-secondary);
   border: 2px solid var(--color-white);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-  z-index: 999999;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   touch-action: none;
   will-change: transform;
@@ -86,7 +85,6 @@
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
-  z-index: 999999;
   left: 50%;
   transform: translateX(-50%);
   top: -25px;
@@ -101,7 +99,6 @@
 
 .bench-player {
   position: absolute;
-  z-index: 999999;
   font-family: var(--font-family);
 }
 
@@ -120,20 +117,18 @@
   height: 40px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border: 2px dashed var(--color-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: all !important;
   transition: all 0.2s ease;
-  z-index: 999998;
   will-change: transform;
 }
 
 .position-dropzone:hover,
 .position-dropzone.drag-over {
-  border-color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--color-secondary-background);
   transform: translate(-50%, -50%) scale(1.1);
 }
 

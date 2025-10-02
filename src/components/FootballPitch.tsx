@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import footballPitch from '../assets/footballpitch.png';
+import footballPitch from '../assets/soccer-pitch.png';
 import type {Lineup, PlayerInfo, Position} from '../types/events';
 import '../styles/footballPitch.css';
 import { getLineups, addPlayerToPosition, removeFromPosition } from '../api/eventsApi';
@@ -196,7 +196,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
         const player = playerInPosition;
         players.push(
           <div
-            key={player.user.username + position}
+            key={player.user?.username + position}
             className="player"
             draggable
             data-lineup-id={lineup.id}
@@ -273,7 +273,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
 
       players.push(
         <div
-          key={player.user.username + 'bench'}
+          key={player.user?.username + 'bench'}
           className="player bench-player"
           draggable
           data-lineup-id={lineup.id}

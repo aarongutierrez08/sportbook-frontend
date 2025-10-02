@@ -33,12 +33,10 @@ const Header: React.FC = () => {
   return (
     <header className="app-header" style={{ zIndex: 2000 }}>
       <div className="header-container">
-        <div className="logo-container">
-          <a href="/" className="logo-link">
-            <img src={logo} alt="Sportbook Logo" className="logo" />
-          </a>
-        </div>
-        <nav className={`nav open`}>
+        <a href="/">
+          <img src={logo} alt="Sportbook Logo" className="logo" />
+        </a>
+        <nav className={`nav`}>
           <ul className="nav-links">
             <li>
               <a href="/events">

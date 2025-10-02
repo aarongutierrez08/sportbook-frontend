@@ -16,6 +16,7 @@ import FootballEventDetails from "../components/events/FootballEventDetails";
 import PaddleEventDetails from "../components/events/PaddleEventDetails";
 import VolleyEventDetails from "../components/events/VolleyEventDetails";
 import FinishEventButton from "../components/FinishEventButton";
+import EventStatsModal from "../components/events/modals/EventStatsModal";
 
 const EventPage: React.FC = () => {
   const { id } = useParams();
@@ -23,7 +24,10 @@ const EventPage: React.FC = () => {
   const [editForm, setEditForm] = useState<UpdateEventParams>({});
   const [hasChanges, setHasChanges] = useState(false);
   const [isEditingLocation, setIsEditingLocation] = useState(false);
-  const [editingField, setEditingField] = useState<keyof UpdateEventParams | null>(null);
+  const [editingField, setEditingField] = useState<
+    keyof UpdateEventParams | null
+  >(null);
+  const [showStats, setShowStats] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -32,12 +36,19 @@ const EventPage: React.FC = () => {
       .catch(() => toast.error("Error al cargar el evento"));
   }, [id]);
 
-  const handleFieldChange = (field: keyof UpdateEventParams, value: string | number) => {
+  const handleFieldChange = (
+    field: keyof UpdateEventParams,
+    value: string | number
+  ) => {
     setEditForm((prev) => ({ ...prev, [field]: value }));
     setHasChanges(true);
   };
 
-  const handleLocationChange = (lat: number, lng: number, placeName?: string) => {
+  const handleLocationChange = (
+    lat: number,
+    lng: number,
+    placeName?: string
+  ) => {
     setEditForm((prev) => ({
       ...prev,
       locationX: lat,
@@ -76,11 +87,20 @@ const EventPage: React.FC = () => {
 
     switch (event.sport) {
       case "FOOTBALL":
-        return <FootballEventDetails event={event as FootballEvent} {...commonProps} />;
+        return (
+          <FootballEventDetails
+            event={event as FootballEvent}
+            {...commonProps}
+          />
+        );
       case "PADDLE":
-        return <PaddleEventDetails event={event as PaddleEvent} {...commonProps} />;
+        return (
+          <PaddleEventDetails event={event as PaddleEvent} {...commonProps} />
+        );
       case "VOLLEY":
-        return <VolleyEventDetails event={event as VolleyEvent} {...commonProps} />;
+        return (
+          <VolleyEventDetails event={event as VolleyEvent} {...commonProps} />
+        );
       default:
         return null;
     }
@@ -97,9 +117,28 @@ const EventPage: React.FC = () => {
               Guardar Cambios
             </button>
           )}
-          <FinishEventButton event={event} onFinish={() => window.location.reload()} />
+          {event.isFinished && (
+            <button
+              type="button"
+              className="save-changes-button"
+              onClick={() => setShowStats(true)}
+              aria-haspopup="dialog"
+              aria-expanded={showStats}
+            >
+              Ver estadísticas
+            </button>
+          )}
+          <FinishEventButton event={event} />
         </div>
       </div>
+
+      {id && (
+        <EventStatsModal
+          eventId={Number(id)}
+          isOpen={showStats}
+          onClose={() => setShowStats(false)}
+        />
+      )}
     </div>
   );
 };

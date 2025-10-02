@@ -14,13 +14,13 @@ export const FootballProfileForm = () => {
         <FootballPositionSelector />
       </div>
 
-      <div className="profile-controls-container">
+      <div>
         <Controller
           name="ability"
           control={control}
           render={({ field }) => (
             <div className="form-group slider-group">
-              <label>Nivel:</label>
+              <label>Nivel (1–10):</label>
               <Slider {...field} min={1} max={10} valueLabelDisplay="auto" />
             </div>
           )}

@@ -56,10 +56,10 @@ export const FootballPositionSelector: React.FC = () => {
   const positions = watch('positions') as FootballPosition[];
   const favoritePosition = watch('favoritePosition') as FootballPosition;
 
-  const handlePositionClick = (position: FootballPosition) => {
-    const newPositions = positions.includes(position)
-      ? positions.filter(p => p !== position)
-      : [...positions, position];
+  const handlePositionClick = (newPosition: FootballPosition) => {
+    const newPositions = positions.includes(newPosition)
+      ? positions.filter(position => position !== newPosition)
+      : [...positions, newPosition];
     setValue('positions', newPositions);
   };
 

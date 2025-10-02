@@ -22,18 +22,18 @@
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  background-color: rgba(128, 128, 128, 0.05);
+  background-color: var(--color-primary-background);
 }
 
 .event-page-section:has(.event-page-players-list) {
-  background-color: rgba(128, 128, 128, 0.05);
+  background-color: var(--color-primary-background);
 }
 
 .event-page-section h3 {
   color: var(--color-primary-dark);
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  border-bottom: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-secondary);
   padding-bottom: 0.5rem;
 }
 
@@ -118,7 +118,7 @@
   margin-top: 2rem;
   padding: 1rem;
   border-radius: 8px;
-  background-color: rgba(128, 128, 128, 0.05);
+  background-color: var(--color-primary-background);
 }
 
 /* Editable fields and save button styles */
@@ -146,7 +146,7 @@
 }
 
 .inline-edit-input:focus {
-    border-color: var(--color-accent);
+    border-color: var(--color-secondary);
     outline: none;
     background: white;
 }
@@ -216,7 +216,7 @@
 }
 
 .cancel-location-button:hover {
-    background-color: var(--color-accent-dark);
+    background-color: var(--color-secondary-dark);
 }
 
 /* Media queries para ajustar el layout según el tamaño de la pantalla */
@@ -230,8 +230,4 @@
   .event-page-details {
     grid-template-columns: repeat(3, 1fr);
   }
-}
-
-@media (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
 }

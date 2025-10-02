@@ -9,84 +9,19 @@
   max-width: 400px;
 }
 
-.slider-group {
-  width: 100%;
-  margin: 0;
-}
-
-.slider-group label {
-  margin-bottom: 0.5rem;
-  display: block;
-}
-
 .plays-often-checkbox {
   margin: 0 !important;
-}
-
-/* Estilos para el slider */
-.slider-group .MuiSlider-root {
-  color: var(--color-primary-light);
-  padding: 14px 0 !important;
-  position: relative;
-}
-
-.slider-group .MuiSlider-rail {
-  opacity: 0.3;
-  background-color: var(--color-primary-light);
-  height: 4px;
-  border: none;
-}
-
-.slider-group .MuiSlider-track {
-  background-color: var(--color-primary-light);
-  height: 4px;
-  border: none;
-  opacity: 1;
 }
 
 .slider-group .MuiSlider-thumb {
   background-color: white;
   border: none;
-  width: 28px;
-  height: 28px;
-  margin-top: -15px !important;
+  width: 22px;
+  height: 22px;
+  margin-top: -12px !important;
   background-image: url('../assets/football_slider.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   transform: scale(1.2);
-}
-
-.slider-group .MuiSlider-thumb::before,
-.slider-group .MuiSlider-thumb::after {
-  display: none;
-}
-
-.slider-group .MuiSlider-track {
-  z-index: 1;
-}
-
-.slider-group .MuiSlider-rail {
-  z-index: 1;
-}
-
-.slider-group .MuiSlider-thumb {
-  z-index: 2;
-}
-
-/* Estilos para el checkbox */
-.plays-often-checkbox .MuiCheckbox-root {
-  color: var(--color-primary-light);;
-}
-
-.plays-often-checkbox .MuiCheckbox-root.Mui-checked {
-  color: var(--color-primary-light);;
-}
-
-.plays-often-checkbox .MuiCheckbox-root:hover {
-  background-color: rgba(56, 145, 72, 0.04);
-}
-
-.plays-often-checkbox .MuiCheckbox-root.Mui-checked:hover {
-  background-color: rgba(56, 145, 72, 0.08);
 }
