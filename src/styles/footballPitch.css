@@ -65,7 +65,6 @@
   background-color: var(--color-secondary);
   border: 2px solid var(--color-white);
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-  z-index: 999999;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   touch-action: none;
   will-change: transform;
@@ -86,7 +85,6 @@
   border-radius: 4px;
   font-size: 12px;
   white-space: nowrap;
-  z-index: 999999;
   left: 50%;
   transform: translateX(-50%);
   top: -25px;
@@ -101,7 +99,6 @@
 
 .bench-player {
   position: absolute;
-  z-index: 999999;
   font-family: var(--font-family);
 }
 
