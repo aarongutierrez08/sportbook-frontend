@@ -37,8 +37,8 @@
 }
 
 .pagination button:disabled {
-  background: var(--color-surface);
-  color: var(--color-text-muted);
+  background: var(--color-text-muted);
+  opacity: 50%;
   cursor: not-allowed;
 }
 
