@@ -301,7 +301,7 @@ const EventCardsPage: React.FC = () => {
   return (
     <>
       <Grid content={mapGridContent()} />
-      <Pagination totalPages={totalPages} onPageChange={setCurrentPage} />
+      {events.length > 0 && <Pagination totalPages={totalPages} onPageChange={setCurrentPage} />}
     </>
   );
 };
