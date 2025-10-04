@@ -16,7 +16,7 @@ import FootballEventDetails from "../components/events/FootballEventDetails";
 import PaddleEventDetails from "../components/events/PaddleEventDetails";
 import VolleyEventDetails from "../components/events/VolleyEventDetails";
 import FinishEventButton from "../components/FinishEventButton";
-import EventStatsModal from "../components/events/modals/EventStatsModal";
+import EventStatsModal from "../components/events/modals/event-stats/EventStatsModal";
 
 const EventPage: React.FC = () => {
   const { id } = useParams();
