@@ -9,13 +9,13 @@ import toast from "react-hot-toast";
 import type { SportUser } from "../types/user.ts";
 import "../styles/eventCards.css";
 import { AmountText } from "../components/AmountText.tsx";
-import SportIllustration from "../components/SportIllustration.tsx";
+import { usePageSize } from "../hooks/usePageSize.ts";
 
 const EventCardsPage: React.FC = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState<SportEvent[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 6;
+  const pageSize = usePageSize(events.length);
 
   const loggedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
@@ -101,7 +101,6 @@ const EventCardsPage: React.FC = () => {
           <div className="players">
             👥 Jugadores: {event.players.length} / {event.minPlayers}
           </div>
-          <SportIllustration event={event}/>
           <div className="cost">💵 Costo: <AmountText number={event.cost} /></div>
           <div className="footer">{mapFooter(event)}</div>
           <div className="buttons-container">
