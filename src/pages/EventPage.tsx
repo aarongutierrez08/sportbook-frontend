@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import { getEvent, updateEvent } from "../api/eventsApi";
+import {getEvent, joinEvent, leaveEvent, updateEvent} from "../api/eventsApi";
 import type {
     SportEvent,
     UpdateEventParams,
@@ -35,7 +35,10 @@ const EventPage: React.FC = () => {
       .then(setEvent)
       .catch(() => toast.error("Error al cargar el evento"));
   }, [id]);
-
+  const loggedUser = useMemo(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  }, []);
   const handleFieldChange = (
     field: keyof UpdateEventParams,
     value: string | number
@@ -127,6 +130,43 @@ const EventPage: React.FC = () => {
     return teamPlayers?.some((playerInfo) => playerInfo.user?.username === loggedUser.username);
   }
 
+    const handleJoin = async (eventId: number) => {
+        await toast.promise(
+            joinEvent(eventId).then(() => {
+                return getEvent(eventId).then(setEvent);
+            }),
+            {
+                loading: "Uniéndote al evento...",
+                success: "¡Te uniste al evento!",
+                error: (err) => err?.response?.data?.message || "Error al unirse al evento"
+            }
+        );
+    };
+
+    const handleLeave = async (eventId: number) => {
+        await toast.promise(
+            leaveEvent(eventId).then(() => {
+                return getEvent(eventId).then(setEvent);
+            }),
+            {
+                loading: "Saliendo del evento...",
+                success: "Has salido del evento",
+                error: "Error al salir del evento"
+            }
+        );
+    };
+
+  const renderJoinLeaveButton = () => {
+      if (playerIsNotInEvent(event, loggedUser)) {
+         return <button onClick={() => handleJoin(event.id)} className="save-changes-button">
+              Unirse al evento
+          </button>
+      } else {
+         return <button onClick={() => handleLeave(event.id)} className="save-changes-button">
+              Salir del evento
+          </button>
+        }
+  }
   return (
     <div className="event-page-root">
       <div className="event-page-container">
@@ -149,6 +189,7 @@ const EventPage: React.FC = () => {
               Ver estadísticas
             </button>
           )}
+          {!event.isFinished && (renderJoinLeaveButton())}
           <FinishEventButton event={event} />
         </div>
       </div>

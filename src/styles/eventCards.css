@@ -2,7 +2,7 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background-color: #4CAF50;
+  background-color: var(--color-primary-background);
   color: white;
   border: none;
   border-radius: 50%;
@@ -15,15 +15,6 @@
   font-size: 18px;
   line-height: 1;
   z-index: 1;
-}
-
-.add-player-btn:hover {
-  background-color: #45a049;
-}
-
-.add-player-btn:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
 }
 
 .grid-container {
@@ -98,50 +89,11 @@
   gap: 1rem;
 }
 
-.team {
-  padding: 0.75rem;
-  border-radius: 6px;
-  background: var(--color-white);
-  position: relative;
-}
-
-.team > div {
-  margin: 0;
-  padding: 0;
-}
-
-.team > div > div {
-  margin: 0;
-  padding: 0.1rem 1.5rem 0.1rem 0; /* Añadimos padding derecho para el botón */
-}
-
 .info-label {
   margin: 0;
   padding: 0.1rem 0;
   line-height: 1;
 }
-
-.team-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.team-players {
-  flex: 1;
-  min-width: 0; /* Importante para evitar que el contenedor se ensanche */
-}
-
-.team-actions {
-  flex-shrink: 0; /* Evita que el botón se encoja */
-}
-
-.team.RED { background-color: rgba(255, 0, 0, 0.1); }
-.team.BLUE { background-color: rgba(0, 0, 255, 0.1); }
-.team.GREEN { background-color: rgba(0, 255, 0, 0.1); }
-.team.YELLOW { background-color: rgba(255, 255, 0, 0.2); }
-
 .btn {
     padding: 6px 12px;
     border: none;
@@ -167,11 +119,12 @@
 }
 
 .btn.btn-secondary {
-    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+    background-color: var(--color-secondary-light);
 }
 
 .btn.btn-danger {
-    background: var(--color-error);
+    background: var(--color-secondary);
     color: var(--color-white);
 }
 
@@ -219,6 +172,18 @@
     font-size: 0.8rem;
     border-radius: 4px;
     backdrop-filter: blur(4px);
+}
+
+.joined {
+    top: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+    font-size: 0.8rem;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    font-family: var(--font-family);
 }
 
 .sport-icon {
