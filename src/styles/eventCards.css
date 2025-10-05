@@ -28,7 +28,7 @@
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 1rem;
   margin: 2rem;
 }
@@ -40,6 +40,7 @@
   min-height: 500px;
   position: relative;
   padding: 1rem;
+  margin: 1rem;
   background: var(--color-primary-background);
   border-radius: 16px;
   box-shadow: 0 10px 30px var(--shadow-default);
@@ -186,4 +187,11 @@
     font-size: 0.85rem;
     border-radius: 4px;
     z-index: 1;
+}
+
+.sport-icon {
+    width: 200px;
+    height: 200px;
+    margin-right: 8px;
+    vertical-align: middle;
 }

@@ -1,10 +1,11 @@
-import React from "react";
-import type { FootballEvent, UpdateEventParams } from "../../types/events";
+import React, {useMemo} from "react";
+import type {FootballEvent, PlayerInfo, SportEvent, UpdateEventParams} from "../../types/events";
 import { formatDate } from "../../utils/events";
 import MiniMap from "../MiniMap";
 import LocationPickerMap from "../LocationPickerMap";
 import FootballPitch from "../FootballPitch";
 import EditableField from "../EditableField";
+import AddPlayerButton from "../AddPlayerButton.tsx";
 
 interface FootballEventDetailsProps {
   event: FootballEvent;
@@ -15,6 +16,9 @@ interface FootballEventDetailsProps {
   editingField: keyof UpdateEventParams | null;
   setEditingField: (f: keyof UpdateEventParams | null) => void;
   onFieldChange: (field: keyof UpdateEventParams, value: string | number) => void;
+  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  isJoinTeamDisabled: (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => boolean;
+  onMapPlayers: (players: PlayerInfo[]) => React.ReactNode;
 }
 
 const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
@@ -26,7 +30,14 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   editingField,
   setEditingField,
   onFieldChange,
+  onEventUpdate,
+  isJoinTeamDisabled,
+  onMapPlayers,
 }) => {
+  const loggedUser = useMemo(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  }, []);
   return (
     <>
       <div className="event-page-details">
@@ -130,9 +141,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
       <div className="event-page-section">
         <h3>Jugadores</h3>
         <ul className="event-page-players-list">
-          {event.players.map((player) => (
-            <li key={player.user.username}>{player.name}</li>
-          ))}
+          {onMapPlayers(event.players!)}
         </ul>
       </div>
 
@@ -141,18 +150,26 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
         <div className="event-page-team-section">
           <div className="event-page-team-card" data-color={event.firstTeam.color}>
             <h4>Equipo {event.firstTeam.color}</h4>
+            <AddPlayerButton
+              eventId={event.id}
+              teamId={event.firstTeam.id}
+              onPlayerAdded={onEventUpdate}
+              disabled={isJoinTeamDisabled(event, event.firstTeam.players!, loggedUser)}
+            />
             <ul className="event-page-players-list">
-              {event.firstTeam.players.map((player) => (
-                <li key={player.user.username}>{player.name}</li>
-              ))}
+                {onMapPlayers(event.firstTeam.players!)}
             </ul>
           </div>
           <div className="event-page-team-card" data-color={event.secondTeam.color}>
             <h4>Equipo {event.secondTeam.color}</h4>
+            <AddPlayerButton
+              eventId={event.id}
+              teamId={event.secondTeam.id}
+              onPlayerAdded={onEventUpdate}
+              disabled={isJoinTeamDisabled(event, event.secondTeam.players!, loggedUser)}
+            />
             <ul className="event-page-players-list">
-              {event.secondTeam.players.map((player) => (
-                <li key={player.user.username}>{player.name}</li>
-              ))}
+              {onMapPlayers(event.secondTeam.players!)}
             </ul>
           </div>
         </div>

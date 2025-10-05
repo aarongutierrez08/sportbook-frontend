@@ -1,9 +1,10 @@
-import React from "react";
-import type { VolleyEvent, TeamInfo, UpdateEventParams } from "../../types/events";
+import React, {useMemo} from "react";
+import type {VolleyEvent, TeamInfo, UpdateEventParams, SportEvent, PlayerInfo, FootballEvent} from "../../types/events";
 import { formatDate } from "../../utils/events";
 import MiniMap from "../MiniMap";
 import LocationPickerMap from "../LocationPickerMap";
 import EditableField from "../EditableField";
+import AddPlayerButton from "../AddPlayerButton.tsx";
 
 interface VolleyEventDetailsProps {
   event: VolleyEvent;
@@ -14,6 +15,9 @@ interface VolleyEventDetailsProps {
   editingField: keyof UpdateEventParams | null;
   setEditingField: (f: keyof UpdateEventParams | null) => void;
   onFieldChange: (field: keyof UpdateEventParams, value: string | number) => void;
+  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  isJoinTeamDisabled: (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => boolean;
+  onMapPlayers: (players: PlayerInfo[]) => React.ReactNode;
 }
 
 const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
@@ -25,7 +29,14 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
   editingField,
   setEditingField,
   onFieldChange,
+  isJoinTeamDisabled,
+  onMapPlayers,
+  onEventUpdate
 }) => {
+  const loggedUser = useMemo(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  }, []);
   return (
     <>
       <div className="event-page-details">
@@ -113,9 +124,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
       <div className="event-page-section">
         <h3>Jugadores</h3>
         <ul className="event-page-players-list">
-          {event.players.map((player) => (
-            <li key={player.user.username}>{player.name}</li>
-          ))}
+            {onMapPlayers(event.players!)}
         </ul>
       </div>
 
@@ -130,10 +139,14 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
                 data-color={team.color}
               >
                 <h4>Equipo {team.color}</h4>
+                <AddPlayerButton
+                  eventId={event.id}
+                  teamId={team.id}
+                  onPlayerAdded={onEventUpdate}
+                  disabled={isJoinTeamDisabled(event, team.players!, loggedUser)}
+                />
                 <ul className="event-page-players-list">
-                  {team.players.map((player) => (
-                    <li key={player.user.username}>{player.name}</li>
-                  ))}
+                  {onMapPlayers(team.players!)}
                 </ul>
               </div>
             ))}

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { getEvent, updateEvent } from "../api/eventsApi";
 import type {
-  SportEvent,
-  UpdateEventParams,
-  FootballEvent,
-  PaddleEvent,
-  VolleyEvent,
+    SportEvent,
+    UpdateEventParams,
+    FootballEvent,
+    PaddleEvent,
+    VolleyEvent, PlayerInfo,
 } from "../types/events";
 
 import "../styles/eventPage.css";
@@ -83,6 +83,9 @@ const EventPage: React.FC = () => {
       editingField,
       setEditingField,
       onFieldChange: handleFieldChange,
+      onEventUpdate: setEvent,
+      isJoinTeamDisabled,
+      onMapPlayers,
     };
 
     switch (event.sport) {
@@ -105,6 +108,24 @@ const EventPage: React.FC = () => {
         return null;
     }
   };
+
+  const onMapPlayers = (players: PlayerInfo[])=> {
+    return players.map((player) => (
+      <li key={player?.user?.username}>{player.name}</li>
+    ))
+  }
+
+  const isJoinTeamDisabled = (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => {
+      return sportEvent.isFinished || playerIsNotInEvent(sportEvent, loggedUser) || isPlayerInTeam(teamPlayers, loggedUser);
+  }
+
+  const playerIsNotInEvent = (sportEvent: SportEvent, loggedUser: any) => {
+    return !sportEvent.players?.some((playerInfo) => playerInfo.user?.username === loggedUser.username);
+  }
+
+  const isPlayerInTeam = (teamPlayers: PlayerInfo[], loggedUser: any) => {
+    return teamPlayers?.some((playerInfo) => playerInfo.user?.username === loggedUser.username);
+  }
 
   return (
     <div className="event-page-root">

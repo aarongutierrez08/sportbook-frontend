@@ -1,6 +1,7 @@
 import React from 'react';
 import { joinTeam } from '../api/eventsApi';
 import toast from 'react-hot-toast';
+import '../styles/addPlayerButton.css';
 
 interface AddPlayerButtonProps {
   eventId: number;
@@ -23,7 +24,7 @@ const AddPlayerButton: React.FC<AddPlayerButtonProps> = ({ eventId, teamId, onPl
   };
 
   return (
-      <div className="team-header">
+      <div>
         <button className="add-player-btn" onClick={handleClick} disabled={disabled}>
           +
         </button>
