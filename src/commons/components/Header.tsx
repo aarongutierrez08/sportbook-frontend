@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../styles/header.css";
-import logo from "../assets/logo.png";
-import { clearAuthData } from "../api/axios";
+import "../../styles/header.css";
+import logo from "../../assets/logo.png";
+import { clearAuthData } from "../../api/axios";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

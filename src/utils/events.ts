@@ -1,5 +1,5 @@
-import { PITCH_SIZE_MAP } from "../constants/events.ts";
-import type { PlayerInfo } from "../types/events.ts";
+import { PITCH_SIZE_MAP } from "../constants/events";
+import type { PlayerInfo } from "../types/events";
 
 export const stringToPlayerInfoList = (players?: string): PlayerInfo[] => {
   if (!players) return [];

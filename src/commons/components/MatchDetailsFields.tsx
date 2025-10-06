@@ -1,8 +1,8 @@
 import React from "react";
 import { FormField } from "./FormField";
-import type { SportEventForm } from "../types/events";
+import type { SportEventForm } from "../../types/events";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
-import { PITCH_SIZES, TEAM_COLORS } from "../constants/events";
+import { PITCH_SIZES, TEAM_COLORS } from "../../constants/events";
 interface MatchDetailsFieldsProps {
   sport: SportEventForm["sport"];
   register: UseFormRegister<SportEventForm>;

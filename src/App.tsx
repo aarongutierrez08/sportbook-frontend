@@ -1,12 +1,12 @@
 import CreateEventPage from "./pages/CreateEventPage.tsx";
 import EventCardsPage from "./pages/EventCardsPage.tsx";
-import Layout from "./components/layout.tsx";
+import Layout from "./commons/components/layout.tsx";
 import { Toaster } from "react-hot-toast";
 import AuthPage from "./pages/AuthPage.tsx";
 import { BrowserRouter, Route, Routes } from "react-router";
-import RequireAuth from "./components/RequiereAuth.tsx";
+import RequireAuth from "./commons/components/RequiereAuth.tsx";
 import { Navigate } from "react-router";
-import EventPage from "./pages/EventPage.tsx";
+import EventPage from "./pages/EventPage/EventPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 
 function App() {

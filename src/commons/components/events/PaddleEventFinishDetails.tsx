@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { type PlayerInfo, type FinishEventParams, type PaddleEvent, type TeamInfo } from '../../types/events';
+import { type PlayerInfo, type FinishEventParams, type PaddleEvent, type TeamInfo } from '../../../types/events';
 
 interface PaddleEventFinishDetailsProps {
     event: PaddleEvent;

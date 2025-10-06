@@ -1,7 +1,7 @@
 import React from "react";
 import { FormField } from "./FormField";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
-import type { SportEventForm } from "../types/events";
+import type { SportEventForm } from "../../types/events";
 
 interface PaymentFieldsProps {
   register: UseFormRegister<SportEventForm>;

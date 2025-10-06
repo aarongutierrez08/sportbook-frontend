@@ -1,26 +1,39 @@
-import React, {useMemo} from "react";
-import type {FootballEvent, PaddleEvent, PlayerInfo, SportEvent, TeamInfo, UpdateEventParams} from "../../types/events";
-import { formatDate } from "../../utils/events";
+import React, { useMemo } from "react";
+import type {
+  FootballEvent,
+  PlayerInfo,
+  SportEvent,
+  UpdateEventParams,
+} from "../../../types/events";
+import { formatDate } from "../../../utils/events";
 import MiniMap from "../MiniMap";
 import LocationPickerMap from "../LocationPickerMap";
+import FootballPitch from "../FootballPitch";
 import EditableField from "../EditableField";
 import AddPlayerButton from "../AddPlayerButton.tsx";
+import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 
-interface PaddleEventDetailsProps {
-  event: PaddleEvent;
+interface FootballEventDetailsProps {
+  event: FootballEvent;
   editForm: UpdateEventParams;
   isEditingLocation: boolean;
-  setIsEditingLocation: (value: boolean) => void;
+  setIsEditingLocation: (val: boolean) => void;
   handleLocationChange: (lat: number, lng: number, placeName?: string) => void;
   editingField: keyof UpdateEventParams | null;
   setEditingField: (f: keyof UpdateEventParams | null) => void;
-  onFieldChange: (field: keyof UpdateEventParams, value: string | number) => void;
+  onFieldChange: (
+    field: keyof UpdateEventParams,
+    value: string | number
+  ) => void;
   onEventUpdate: (updatedEvent: FootballEvent) => void;
-  isJoinTeamDisabled: (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => boolean;
-  onMapPlayers: (players: PlayerInfo[]) => React.ReactNode;
+  isJoinTeamDisabled: (
+    sportEvent: SportEvent,
+    teamPlayers: PlayerInfo[],
+    loggedUser: any
+  ) => boolean;
 }
 
-const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
+const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   event,
   editForm,
   isEditingLocation,
@@ -31,7 +44,6 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
   onFieldChange,
   onEventUpdate,
   isJoinTeamDisabled,
-  onMapPlayers,
 }) => {
   const loggedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
@@ -53,7 +65,9 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
-          <p>Jugadores: {event.players.length} / {event.minPlayers}</p>
+          <p>
+            Jugadores: {event.players.length} / {event.minPlayers}
+          </p>
           <EditableField
             label="Costo"
             field="cost"
@@ -65,6 +79,19 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
+          {event.pitchSize && (
+            <EditableField
+              label="Tamaño de cancha"
+              field="pitchSize"
+              type="number"
+              value={event.pitchSize}
+              editForm={editForm}
+              editingField={editingField}
+              onEditClick={setEditingField}
+              onChange={onFieldChange}
+              onBlur={() => setEditingField(null)}
+            />
+          )}
         </div>
 
         <div className="event-page-section">
@@ -79,10 +106,16 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
+
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <button className="btn" onClick={() => setIsEditingLocation(true)}>Cambiar ubicación</button>
+              <button
+                className="btn"
+                onClick={() => setIsEditingLocation(true)}
+              >
+                Cambiar ubicación
+              </button>
             </div>
           ) : (
             <div className="location-picker-container">
@@ -91,7 +124,12 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
                 lng={editForm.locationY ?? event.location.y}
                 onChange={handleLocationChange}
               />
-              <button className="btn btn-secondary" onClick={() => setIsEditingLocation(false)}>Cancelar</button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setIsEditingLocation(false)}
+              >
+                Cancelar
+              </button>
             </div>
           )}
         </div>
@@ -123,38 +161,60 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
 
       <div className="event-page-section">
         <h3>Jugadores</h3>
-        <ul className="event-page-players-list">
-            {onMapPlayers(event.players!)}
-        </ul>
+        <PlayerList players={event.players} />
       </div>
 
-      {event.teams && event.teams.length > 0 && (
-        <div className="event-page-section">
-          <h3>Equipos</h3>
-          <div className="event-page-team-section">
-            {event.teams.map((team: TeamInfo) => (
-              <div
-                key={team.id}
-                className="event-page-team-card"
-                data-color={team.color}
-              >
-                <h4>Equipo {team.color}</h4>
-                  <AddPlayerButton
-                      eventId={event.id}
-                      teamId={team.id}
-                      onPlayerAdded={onEventUpdate}
-                      disabled={isJoinTeamDisabled(event, team.players!, loggedUser)}
-                  />
-                <ul className="event-page-players-list">
-                  {onMapPlayers(team.players!)}
-                </ul>
-              </div>
-            ))}
+      <div className="event-page-section">
+        <h3>Equipos</h3>
+        <div className="event-page-team-section">
+          <div
+            className="event-page-team-card"
+            data-color={event.firstTeam.color}
+          >
+            <h4>Equipo {event.firstTeam.color}</h4>
+            <AddPlayerButton
+              eventId={event.id}
+              teamId={event.firstTeam.id}
+              onPlayerAdded={onEventUpdate}
+              disabled={isJoinTeamDisabled(
+                event,
+                event.firstTeam.players!,
+                loggedUser
+              )}
+            />
+            <PlayerList players={event.firstTeam.players!} />
+          </div>
+          <div
+            className="event-page-team-card"
+            data-color={event.secondTeam.color}
+          >
+            <h4>Equipo {event.secondTeam.color}</h4>
+            <AddPlayerButton
+              eventId={event.id}
+              teamId={event.secondTeam.id}
+              onPlayerAdded={onEventUpdate}
+              disabled={isJoinTeamDisabled(
+                event,
+                event.secondTeam.players!,
+                loggedUser
+              )}
+            />
+            <PlayerList players={event.secondTeam.players!} />
           </div>
         </div>
-      )}
+
+        <div className="event-page-pitch-container">
+          <h3>Distribución táctica</h3>
+          <FootballPitch
+            eventId={Number(event.id)}
+            firstTeamColor={event.firstTeam.color}
+            secondTeamColor={event.secondTeam.color}
+            pitchSize={Number(event.pitchSize)}
+          />
+        </div>
+      </div>
     </>
   );
 };
 
-export default PaddleEventDetails;
+export default FootballEventDetails;

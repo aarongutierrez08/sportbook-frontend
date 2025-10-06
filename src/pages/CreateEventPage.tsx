@@ -4,10 +4,10 @@ import type { SportEvent, SportEventForm } from "../types/events.ts";
 import { createEvent } from "../api/eventsApi.ts";
 import { format } from "date-fns";
 import { matchDetailsBuilder } from "../utils/matchDetailsBuilder.ts";
-import { FormField } from "../components/FormField.tsx";
-import { MatchDetailsFields } from "../components/MatchDetailsFields.tsx";
-import { PaymentFields } from "../components/PaymentFields.tsx";
-import LocationPickerMap from "../components/LocationPickerMap.tsx";
+import { FormField } from "../commons/components/FormField.tsx";
+import { MatchDetailsFields } from "../commons/components/MatchDetailsFields.tsx";
+import { PaymentFields } from "../commons/components/PaymentFields.tsx";
+import LocationPickerMap from "../commons/components/LocationPickerMap.tsx";
 import toast from "react-hot-toast";
 import { REQUIRED } from "../constants/events.ts";
 

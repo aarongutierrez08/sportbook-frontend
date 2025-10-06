@@ -1,7 +1,7 @@
 import React from 'react';
-import { joinTeam } from '../api/eventsApi';
+import { joinTeam } from '../../api/eventsApi';
 import toast from 'react-hot-toast';
-import '../styles/addPlayerButton.css';
+import '../../styles/addPlayerButton.css';
 
 interface AddPlayerButtonProps {
   eventId: number;

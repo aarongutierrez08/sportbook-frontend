@@ -1,4 +1,4 @@
-import type { Color, Position } from "../types/events";
+import type { Color, Position } from "../../types/events";
 
 export const REQUIRED = { value: true, message: "Este campo es obligatorio" };
 

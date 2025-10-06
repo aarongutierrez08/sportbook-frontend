@@ -1,4 +1,4 @@
-import type { SportEventForm } from "../types/events";
+import type { SportEventForm } from "../../types/events";
 import { stringToPlayerInfoList } from "./events";
 
 export const matchDetailsBuilder = (

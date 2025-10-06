@@ -1,20 +1,19 @@
 .event-page-root {
   width: 100%;
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: auto;
 }
 
 .event-page-container {
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .event-page-container h2 {
   color: var(--color-primary-dark);
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
@@ -56,6 +55,8 @@
   padding: 1rem;
   height: fit-content;
   position: relative;
+  right: 1rem;
+  top: 1rem;
 }
 
 .event-page-team-card[data-color="Rojo"] {
@@ -81,12 +82,6 @@
 .event-page-team-card[data-color="Blanco"] {
   background-color: rgba(204, 204, 204, 0.1);
   border-left: 4px solid #cccccc;
-}
-
-.event-page-team-card .add-player-btn {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
 }
 
 .event-page-players-list {
@@ -224,31 +219,6 @@
 
 .cancel-location-button:hover {
     background-color: var(--color-secondary-dark);
-}
-
-.add-player-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--color-secondary);
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  margin: 0.5rem 0;
-  transition: background-color 0.3s ease;
-}
-
-.add-player-btn:hover {
-  background-color: var(--color-secondary-dark);
-}
-
-.add-player-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 
 /* Media queries para ajustar el layout según el tamaño de la pantalla */

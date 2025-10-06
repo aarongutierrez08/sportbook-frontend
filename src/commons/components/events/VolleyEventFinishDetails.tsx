@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { PlayerInfo, FinishEventParams, VolleyEvent, TeamInfo } from '../../types/events';
+import type { PlayerInfo, FinishEventParams, VolleyEvent, TeamInfo } from '../../../types/events';
 
 interface VolleyEventFinishDetailsProps {
     event: VolleyEvent;

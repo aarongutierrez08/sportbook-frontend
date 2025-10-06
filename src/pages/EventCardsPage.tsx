@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Grid from "../components/Grid.tsx";
-import Pagination from "../components/Pagination.tsx";
+import Grid from "../commons/components/Grid.tsx";
+import Pagination from "../commons/components/Pagination.tsx";
 import { getAllEvents } from "../api/eventsApi.ts";
 import type {SportEvent} from "../types/events.ts";
 import { formatDate } from "../utils/events.ts";
 import type { SportUser } from "../types/user.ts";
 import "../styles/eventCards.css";
-import { AmountText } from "../components/AmountText.tsx";
+import { AmountText } from "../commons/components/AmountText.tsx";
 import { usePageSize } from "../hooks/usePageSize.ts";
 
 const EventCardsPage: React.FC = () => {

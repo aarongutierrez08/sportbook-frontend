@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Tabs, Tab } from "@mui/material";
-import { FormField } from "../components/FormField";
+import { FormField } from "../commons/components/FormField";
 import { loginUser, registerUser } from "../api/authApi";
 import { useNavigate, useSearchParams } from "react-router";
 
@@ -43,12 +43,8 @@ const AuthPage: React.FC = () => {
     if (isLogin) {
       toast.promise(
         loginUser({ username: data.username, password: data.password }).then(
-          (res) => {
-            localStorage.setItem("token", res.token);
-            localStorage.setItem(
-              "tokenExpiresAt",
-              (Date.now() + res.expiresIn).toString()
-            );
+          (token) => {
+            localStorage.setItem("token", token);
             window.dispatchEvent(new Event("authStateChanged"));
             navigate("/events");
           }

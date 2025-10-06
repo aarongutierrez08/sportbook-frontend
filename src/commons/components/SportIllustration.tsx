@@ -1,6 +1,6 @@
-import type {SportEvent} from "../types/events.ts";
-import footballSillhouette from "../assets/football_sillhouette.png";
-import paddleSillhouette from "../assets/paddle_sillhouette.png";
+import type {SportEvent} from "../../types/events.ts";
+import footballSillhouette from "../../assets/football_sillhouette.png";
+import paddleSillhouette from "../../assets/paddle_sillhouette.png";
 import React from "react";
 
 const sillhouetteMap = {

@@ -2,21 +2,21 @@ import React, {useEffect, useMemo, useState} from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import {getEvent, joinEvent, leaveEvent, updateEvent} from "../api/eventsApi";
+import {getEvent, joinEvent, leaveEvent, updateEvent} from "../../api/eventsApi";
 import type {
     SportEvent,
     UpdateEventParams,
     FootballEvent,
     PaddleEvent,
     VolleyEvent, PlayerInfo,
-} from "../types/events";
+} from "../../types/events";
 
-import "../styles/eventPage.css";
-import FootballEventDetails from "../components/events/FootballEventDetails";
-import PaddleEventDetails from "../components/events/PaddleEventDetails";
-import VolleyEventDetails from "../components/events/VolleyEventDetails";
-import FinishEventButton from "../components/FinishEventButton";
-import EventStatsModal from "../components/events/modals/event-stats/EventStatsModal";
+import "../../styles/eventPage.css";
+import FootballEventDetails from "../../commons/components/events/FootballEventDetails";
+import PaddleEventDetails from "../../commons/components/events/PaddleEventDetails";
+import VolleyEventDetails from "../../commons/components/events/VolleyEventDetails";
+import FinishEventButton from "../../commons/components/FinishEventButton";
+import EventStatsModal from "./components/event-stats/EventStatsModal";
 
 const EventPage: React.FC = () => {
   const { id } = useParams();
