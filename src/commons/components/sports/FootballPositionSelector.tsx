@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { FootballPosition } from '../../types/user';
-import '../../styles/footballPitch.css';
-import '../../styles/footballPositionSelector.css';
+import { FootballPosition } from '../../types/user'
+import '../../../styles/footballPitch.css'
+import '../../../styles/footballPositionSelector.css';
 
 interface PositionButtonProps {
   position: FootballPosition;

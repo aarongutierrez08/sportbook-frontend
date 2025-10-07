@@ -1,20 +1,19 @@
 .event-page-root {
   width: 100%;
   max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: auto;
 }
 
 .event-page-container {
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .event-page-container h2 {
   color: var(--color-primary-dark);
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
 }
 
@@ -55,6 +54,9 @@
   border-radius: 8px;
   padding: 1rem;
   height: fit-content;
+  position: relative;
+  right: 1rem;
+  top: 1rem;
 }
 
 .event-page-team-card[data-color="Rojo"] {

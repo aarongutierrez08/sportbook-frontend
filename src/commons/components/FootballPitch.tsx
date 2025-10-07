@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import footballPitch from '../assets/soccer-pitch.png';
-import type {Lineup, PlayerInfo, Position} from '../types/events';
-import '../styles/footballPitch.css';
-import { getLineups, addPlayerToPosition, removeFromPosition } from '../api/eventsApi';
+import footballPitch from '../../assets/soccer-pitch.png';
+import type {Lineup, PlayerInfo, Position} from '../../types/events';
+import '../../styles/footballPitch.css';
+import { getLineups, addPlayerToPosition, removeFromPosition } from '../../api/eventsApi';
 import toast from 'react-hot-toast';
 
 interface FootballPitchProps {

@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { Tabs, Tab } from "@mui/material";
 import toast from "react-hot-toast";
-import { FootballProfileForm } from "../components/sports/FootballProfileForm";
-import { VolleyProfileForm } from "../components/sports/VolleyProfileForm";
-import { PaddleProfileForm } from "../components/sports/PaddleProfileForm";
+import { FootballProfileForm } from "../commons/components/sports/FootballProfileForm";
+import { VolleyProfileForm } from "../commons/components/sports/VolleyProfileForm";
+import { PaddleProfileForm } from "../commons/components/sports/PaddleProfileForm";
 import {
   fetchProfiles,
   updateFootballProfile,

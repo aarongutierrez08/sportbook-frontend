@@ -1,6 +1,6 @@
 import React from "react";
-import type { UpdateEventParams } from "../types/events";
-import "../styles/eventPage.css";
+import type { UpdateEventParams } from "../../types/events";
+import "../../styles/eventPage.css";
 
 interface EditableFieldProps {
   label: string;

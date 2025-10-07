@@ -1,4 +1,4 @@
-import { formatAmountIntl } from "../utils/formatAmount"
+import { formatAmountIntl } from "../../utils/formatAmount"
 
 export const AmountText = ({ number }: { number: number }) => {
   const formattedNumber = formatAmountIntl(number)

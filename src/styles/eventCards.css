@@ -1,84 +1,66 @@
-.add-player-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  line-height: 1;
-  z-index: 1;
-}
-
-.add-player-btn:hover {
-  background-color: #45a049;
-}
-
-.add-player-btn:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .card {
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 500px;
+  min-height: 300px;
   position: relative;
-  padding: 1rem;
+  padding: 1.25rem;
   background: var(--color-primary-background);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px var(--shadow-default);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow-default);
   transition: all 0.3s ease;
   border: 1px solid #e2e8f0;
+  margin: 0;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--shadow-default);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
-.card .players {
-  margin-bottom: 1rem;
+.sport {
+  font-weight: 600;
+  color: var(--color-primary);
 }
 
-.card .cost {
-  margin: 1rem 0;
-}
-
-.card .teams {
-  flex-grow: 1;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-
-.card .footer {
-  font-size: 0.9em;
+.date {
+  font-size: 0.9rem;
   color: #666;
-  margin-bottom: 1rem;
+}
+
+.players, .cost {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.footer {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0.75rem 0;
+  line-height: 1.4;
 }
 
 .buttons-container {
   margin-top: auto;
   display: flex;
-  gap: 1rem;
-  padding-top: 1rem;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
   border-top: 1px solid #eee;
 }
 
@@ -88,70 +70,56 @@
   gap: 1rem;
 }
 
-.team {
-  padding: 0.75rem;
-  border-radius: 6px;
-  background: var(--color-white);
-  position: relative;
-}
-
-.team > div {
-  margin: 0;
-  padding: 0;
-}
-
-.team > div > div {
-  margin: 0;
-  padding: 0.1rem 1.5rem 0.1rem 0; /* Añadimos padding derecho para el botón */
-}
-
 .info-label {
   margin: 0;
   padding: 0.1rem 0;
   line-height: 1;
 }
-
-.team-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.team-players {
-  flex: 1;
-  min-width: 0; /* Importante para evitar que el contenedor se ensanche */
-}
-
-.team-actions {
-  flex-shrink: 0; /* Evita que el botón se encoja */
-}
-
-.team.RED { background-color: rgba(255, 0, 0, 0.1); }
-.team.BLUE { background-color: rgba(0, 0, 255, 0.1); }
-.team.GREEN { background-color: rgba(0, 255, 0, 0.1); }
-.team.YELLOW { background-color: rgba(255, 255, 0, 0.2); }
-
-.btn.btn-danger {
-    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-    color: var(--color-white);
-}
-
-.btn.btn-danger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(204, 0, 0, 0.4);
-}
-
-.event-card-button {
-    padding: 8px 16px;
+.btn {
+    padding: 6px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-family: var(--font-family);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.2s ease;
     background-color: var(--color-primary);
     color: white;
+    line-height: 1.2;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn.btn-secondary {
+    color: var(--color-text-dark);
+    background-color: var(--color-secondary-light);
+}
+
+.btn.btn-danger {
+    background: var(--color-secondary);
+    color: var(--color-white);
+}
+
+.event-card-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    background-color: var(--color-primary);
+    color: white;
+    line-height: 1.2;
 }
 
 .event-card-button:hover {
@@ -177,13 +145,31 @@
 
 .event-status {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 4px 12px;
-    text-align: center;
-    background-color: #666;
+    top: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    background-color: rgba(102, 102, 102, 0.9);
     color: white;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     border-radius: 4px;
-    z-index: 1;
+    backdrop-filter: blur(4px);
+}
+
+.joined {
+    top: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    background-color: var(--color-secondary);
+    color: var(--color-text-dark);
+    font-size: 0.8rem;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    font-family: var(--font-family);
+}
+
+.sport-icon {
+    width: 200px;
+    height: 200px;
+    margin-right: 8px;
+    vertical-align: middle;
 }

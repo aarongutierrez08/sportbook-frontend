@@ -1,10 +1,17 @@
-import React from "react";
-import type { FootballEvent, UpdateEventParams } from "../../types/events";
-import { formatDate } from "../../utils/events";
+import React, { useMemo } from "react";
+import type {
+  FootballEvent,
+  PlayerInfo,
+  SportEvent,
+  UpdateEventParams,
+} from "../../../types/events";
+import { formatDate } from "../../../utils/events";
 import MiniMap from "../MiniMap";
 import LocationPickerMap from "../LocationPickerMap";
 import FootballPitch from "../FootballPitch";
 import EditableField from "../EditableField";
+import AddPlayerButton from "../AddPlayerButton.tsx";
+import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 
 interface FootballEventDetailsProps {
   event: FootballEvent;
@@ -14,7 +21,16 @@ interface FootballEventDetailsProps {
   handleLocationChange: (lat: number, lng: number, placeName?: string) => void;
   editingField: keyof UpdateEventParams | null;
   setEditingField: (f: keyof UpdateEventParams | null) => void;
-  onFieldChange: (field: keyof UpdateEventParams, value: string | number) => void;
+  onFieldChange: (
+    field: keyof UpdateEventParams,
+    value: string | number
+  ) => void;
+  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  isJoinTeamDisabled: (
+    sportEvent: SportEvent,
+    teamPlayers: PlayerInfo[],
+    loggedUser: any
+  ) => boolean;
 }
 
 const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
@@ -26,7 +42,13 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   editingField,
   setEditingField,
   onFieldChange,
+  onEventUpdate,
+  isJoinTeamDisabled,
 }) => {
+  const loggedUser = useMemo(() => {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  }, []);
   return (
     <>
       <div className="event-page-details">
@@ -43,7 +65,9 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
-          <p>Jugadores: {event.players.length} / {event.minPlayers}</p>
+          <p>
+            Jugadores: {event.players.length} / {event.minPlayers}
+          </p>
           <EditableField
             label="Costo"
             field="cost"
@@ -86,7 +110,10 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <button className="btn" onClick={() => setIsEditingLocation(true)}>
+              <button
+                className="btn"
+                onClick={() => setIsEditingLocation(true)}
+              >
                 Cambiar ubicación
               </button>
             </div>
@@ -97,7 +124,12 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
                 lng={editForm.locationY ?? event.location.y}
                 onChange={handleLocationChange}
               />
-              <button className="btn btn-secondary" onClick={() => setIsEditingLocation(false)}>Cancelar</button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setIsEditingLocation(false)}
+              >
+                Cancelar
+              </button>
             </div>
           )}
         </div>
@@ -129,31 +161,45 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
 
       <div className="event-page-section">
         <h3>Jugadores</h3>
-        <ul className="event-page-players-list">
-          {event.players.map((player) => (
-            <li key={player.user.username}>{player.name}</li>
-          ))}
-        </ul>
+        <PlayerList players={event.players} />
       </div>
 
       <div className="event-page-section">
         <h3>Equipos</h3>
         <div className="event-page-team-section">
-          <div className="event-page-team-card" data-color={event.firstTeam.color}>
+          <div
+            className="event-page-team-card"
+            data-color={event.firstTeam.color}
+          >
             <h4>Equipo {event.firstTeam.color}</h4>
-            <ul className="event-page-players-list">
-              {event.firstTeam.players.map((player) => (
-                <li key={player.user.username}>{player.name}</li>
-              ))}
-            </ul>
+            <AddPlayerButton
+              eventId={event.id}
+              teamId={event.firstTeam.id}
+              onPlayerAdded={onEventUpdate}
+              disabled={isJoinTeamDisabled(
+                event,
+                event.firstTeam.players!,
+                loggedUser
+              )}
+            />
+            <PlayerList players={event.firstTeam.players!} />
           </div>
-          <div className="event-page-team-card" data-color={event.secondTeam.color}>
+          <div
+            className="event-page-team-card"
+            data-color={event.secondTeam.color}
+          >
             <h4>Equipo {event.secondTeam.color}</h4>
-            <ul className="event-page-players-list">
-              {event.secondTeam.players.map((player) => (
-                <li key={player.user.username}>{player.name}</li>
-              ))}
-            </ul>
+            <AddPlayerButton
+              eventId={event.id}
+              teamId={event.secondTeam.id}
+              onPlayerAdded={onEventUpdate}
+              disabled={isJoinTeamDisabled(
+                event,
+                event.secondTeam.players!,
+                loggedUser
+              )}
+            />
+            <PlayerList players={event.secondTeam.players!} />
           </div>
         </div>
 

@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import "./EventStatsModal.css";
-import { getEventStats } from "../../../../api/eventsApi";
-import type { EventStats } from "../../../../types/events";
 import { Chip } from "./Chip";
 import { Muted } from "./Muted";
 import { CardSection } from "./CardSection";
 import { Pill } from "./Pill";
 import { WinnerLine } from "./WinnerLine";
 import { KpiCard } from "./KpiCard";
+import type { EventStats } from "../../../../types/events";
+import { getEventStats } from "../../../../api/eventsApi";
 
 type EventStatsModalProps = {
   eventId: number;

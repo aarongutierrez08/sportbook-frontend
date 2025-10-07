@@ -1,6 +1,6 @@
 import React from 'react';
-import type {SportEvent, FinishEventParams, FootballEvent, PaddleEvent, VolleyEvent} from '../types/events';
-import '../styles/finishEventModal.css';
+import type {SportEvent, FinishEventParams, FootballEvent, PaddleEvent, VolleyEvent} from '../../types/events';
+import '../../styles/finishEventModal.css';
 import FootballEventFinishDetails from './events/FootballEventFinishDetails';
 import PaddleEventFinishDetails from './events/PaddleEventFinishDetails';
 import VolleyEventFinishDetails from './events/VolleyEventFinishDetails';

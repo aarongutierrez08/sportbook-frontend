@@ -1,8 +1,8 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Slider, FormControlLabel, Checkbox } from "@mui/material";
 import { FootballPositionSelector } from "./FootballPositionSelector";
-import type { FootballProfileDTO } from "../../types/user";
-import "../../styles/footballProfileForm.css";
+import type { FootballProfileDTO } from "../../../types/user";
+import "../../../styles/footballProfileForm.css";
 
 export const FootballProfileForm = () => {
   const { control } = useFormContext<FootballProfileDTO>();
