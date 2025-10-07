@@ -2,12 +2,16 @@
 import api from "./axios";
 import type { SportUser } from "../types/user";
 
+export interface LoginResponse {
+  token: string;
+}
+
 export const loginUser = async (credentials: {
   username: string;
   password: string;
-}): Promise<string> => {
-  const res = await api.post<string>("/auth/login", credentials);
-  const username = parseJwt(res.data).sub
+}): Promise<LoginResponse> => {
+  const res = await api.post<LoginResponse>("/auth/login", credentials);
+  const username = parseJwt(res.data.token)
   localStorage.setItem("user", JSON.stringify({ username }));
   return res.data;
 };

@@ -1,10 +1,20 @@
+:root {
+  --pagination-height: 64px;
+}
+
 .pagination {
-  margin-top: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  position: fixed;
+  inset: auto 0 0 0;
+  height: var(--pagination-height);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border, #e3e8ee);
+  box-shadow: 0 -4px 16px var(--shadow-default);
+  backdrop-filter: saturate(120%) blur(6px);
+  z-index: 100;
 }
 
 .pagination button {
@@ -21,14 +31,8 @@
   gap: 0.5rem;
   font-weight: 500;
   font-family: var(--font-family);
-  min-width: 110px; /* Asegura que ambos botones tengan el mismo ancho mínimo */
-  justify-content: center; /* Centra el contenido */
-}
-
-.pagination button span {
-  color: var(--color-white);
-  padding: 0; /* Removemos el padding del span */
-  background: none; /* Removemos el background del span */
+  min-width: 110px;
+  justify-content: center;
 }
 
 .pagination button:hover:not(:disabled) {
@@ -42,14 +46,8 @@
   cursor: not-allowed;
 }
 
-.pagination button span.arrow {
-  color: var(--color-white);
-  font-size: 18px;
-}
-
-.pagination > span {
+.pagination__label {
   color: var(--color-text-dark);
   font-size: 14px;
   font-weight: 600;
-  font-family: var(--font-family);
 }

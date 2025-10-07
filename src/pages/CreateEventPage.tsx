@@ -160,14 +160,13 @@ const CreateEventPage: React.FC = () => {
             errors={errors}
           />
 
-          <div className="form-full">
-            <button type="submit" className="btn" disabled={isSubmitting}>
+          <div className="buttons-container form-full">
+            <button type="submit" className="btn btn--lg" disabled={isSubmitting}>
               Crear
             </button>
             <button
-              type="button"
               onClick={() => reset()}
-              className="btn btn-secondary"
+              className="btn btn--lg btn--secondary"
             >
               Limpiar
             </button>

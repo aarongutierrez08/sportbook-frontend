@@ -158,11 +158,11 @@ const EventPage: React.FC = () => {
 
   const renderJoinLeaveButton = () => {
       if (playerIsNotInEvent(event, loggedUser)) {
-         return <button onClick={() => handleJoin(event.id)} className="save-changes-button">
+         return <button onClick={() => handleJoin(event.id)} className="btn btn--lg">
               Unirse al evento
           </button>
       } else {
-         return <button onClick={() => handleLeave(event.id)} className="save-changes-button">
+         return <button onClick={() => handleLeave(event.id)} className="btn btn--lg">
               Salir del evento
           </button>
         }
@@ -172,16 +172,16 @@ const EventPage: React.FC = () => {
       <div className="event-page-container">
         <h2>{event.sport}</h2>
         {renderEventDetails()}
-        <div className="save-changes-container">
+        <div className="buttons-container">
           {hasChanges && (
-            <button onClick={handleSave} className="save-changes-button">
+            <button onClick={handleSave} className="btn">
               Guardar Cambios
             </button>
           )}
           {event.isFinished && (
             <button
               type="button"
-              className="save-changes-button"
+              className="btn"
               onClick={() => setShowStats(true)}
               aria-haspopup="dialog"
               aria-expanded={showStats}
