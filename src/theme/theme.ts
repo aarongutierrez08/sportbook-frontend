@@ -3,29 +3,30 @@ import { createTheme } from '@mui/material/styles';
 // Tipografía
 export const FONT_FAMILY = "'Poppins', -apple-system, BlinkMacSystemFont, sans-serif" as const;
 
-// Colores principales
-export const COLOR_PRIMARY = "#389148" as const;        // --color-primary
-export const COLOR_PRIMARY_DARK = "#2A6B35" as const;   // --color-primary-dark
-export const COLOR_PRIMARY_LIGHT = "#4CAF50" as const;  // --color-primary-light
+// Colores principales (teal)
+export const COLOR_PRIMARY = "#0b4650" as const;        // --color-primary
+export const COLOR_PRIMARY_DARK = "#073138" as const;   // --color-primary-dark
+export const COLOR_PRIMARY_LIGHT = "#547d84" as const;  // --color-primary-light
 
-export const COLOR_SECONDARY = "#E98E26" as const;         // --color-secondary
-export const COLOR_SECONDARY_DARK = "#C67620" as const;    // --color-secondary-dark
-export const COLOR_SECONDARY_LIGHT = "#FFE0B2" as const;   // --color-secondary-light
+// Secundario (naranja deportivo)
+export const COLOR_SECONDARY = "#c45400" as const;         // --color-secondary
+export const COLOR_SECONDARY_DARK = "#a84f00" as const;    // --color-secondary-dark
+export const COLOR_SECONDARY_LIGHT = "#f8ae7c" as const;   // --color-secondary-light
 
-// Complementarios
-export const COLOR_SECONDARY_INTERMEDIATE = "#F5F0FF" as const; // --color-secondary-intermediate
-export const COLOR_SECONDARY_BACKGROUND = "#F8FFF9" as const;   // --color-primary-background
+// Complementarios / backgrounds
+export const COLOR_PRIMARY_BACKGROUND = "#dae3e4" as const;   // fondo suave primario
+export const COLOR_SECONDARY_BACKGROUND = "#fdeade" as const; // fondo suave secundario
 
 // Texto y superficies
 export const COLOR_WHITE = "#ffffff" as const;          // --color-white
-export const COLOR_SURFACE = "#f8fafc" as const;        // --color-surface
-export const COLOR_TEXT_DARK = "#2D3748" as const;      // --color-text-dark
-export const COLOR_TEXT_MUTED = "#718096" as const;     // --color-text-muted
-export const COLOR_TEXT_GRAY = "#4A5568" as const;      // --color-text-gray
+export const COLOR_SURFACE = "#f7f9fb" as const;        // --color-surface
+export const COLOR_TEXT_DARK = "#1f2a33" as const;      // --color-text-dark
+export const COLOR_TEXT_MUTED = "#607380" as const;     // --color-text-muted
+export const COLOR_TEXT_GRAY = "#e3e8ee" as const;      // usado como divider/border
 
 // Estados
-export const COLOR_ERROR = "#E53E3E" as const;          // --color-error
-export const COLOR_FINISH_ACTION = "#E53E3E" as const;  // --color-finish-action (mismo valor)
+export const COLOR_ERROR = "#e53935" as const;          // --color-error
+export const COLOR_FINISH_ACTION = "#e53935" as const;  // mismo valor
 
 // Sombras
 export const SHADOW_DEFAULT = "rgba(0, 0, 0, 0.1)" as const; // --shadow-default
@@ -40,8 +41,8 @@ export const COLORS = {
   SECONDARY_DARK: COLOR_SECONDARY_DARK,
   SECONDARY_LIGHT: COLOR_SECONDARY_LIGHT,
 
-  SECONDARY_INTERMEDIATE: COLOR_SECONDARY_INTERMEDIATE,
-  SECONDARY_BACKGROUND: COLOR_SECONDARY_BACKGROUND,
+  SECONDARY_INTERMEDIATE: COLOR_SECONDARY_BACKGROUND,
+  SECONDARY_BACKGROUND: COLOR_PRIMARY_BACKGROUND,
 
   WHITE: COLOR_WHITE,
   SURFACE: COLOR_SURFACE,
@@ -73,7 +74,7 @@ export const theme = createTheme({
     error: { main: COLORS.ERROR },
     text: { primary: COLORS.TEXT_DARK, secondary: COLORS.TEXT_MUTED },
     background: { default: COLORS.SECONDARY_BACKGROUND, paper: COLORS.SURFACE },
-    divider: COLORS.TEXT_GRAY,
+    divider: COLORS.TEXT_GRAY, // aquí ahora es un color de borde neutro #e3e8ee
   },
   typography: {
     fontFamily: FONT_FAMILY,

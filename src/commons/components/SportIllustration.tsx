@@ -14,11 +14,7 @@ interface SportIllustrationProps {
 }
 
 const SportIllustration: React.FC<SportIllustrationProps> = (props: SportIllustrationProps) => {
-  return (
-    <>
-        <img src={sillhouetteMap[props.event.sport]} className='sport-icon'/>
-    </>
-  )
+  return <img alt="sillhoutte" src={sillhouetteMap[props.event.sport]} className='sport-icon'/>
 }
 
 export default SportIllustration

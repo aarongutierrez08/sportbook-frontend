@@ -43,8 +43,8 @@ const AuthPage: React.FC = () => {
     if (isLogin) {
       toast.promise(
         loginUser({ username: data.username, password: data.password }).then(
-          (token) => {
-            localStorage.setItem("token", token);
+          (data) => {
+            localStorage.setItem("token", data.token);
             window.dispatchEvent(new Event("authStateChanged"));
             navigate("/events");
           }

@@ -5,7 +5,7 @@ import type {
   UpdateEventParams,
   FinishEventParams,
   EventStats,
-} from "../../types/events";
+} from "../types/events";
 import api from "./axios";
 
 export const createEvent = async (params: SportEvent): Promise<SportEvent> => {

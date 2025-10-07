@@ -1,5 +1,5 @@
 :root {
-  --background-image: url('../../assets/background.png');
+  --background-image: url(../assets/background.png);
   --header-height: 140px;
 }
 

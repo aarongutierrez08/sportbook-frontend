@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/header.css";
 import logo from "../../assets/logo.png";
+import logo3 from "../../assets/logo3.png";
 import { clearAuthData } from "../../api/axios";
 
 const Header: React.FC = () => {
@@ -33,8 +34,8 @@ const Header: React.FC = () => {
   return (
     <header className="app-header" style={{ zIndex: 2000 }}>
       <div className="header-container">
-        <a href="/">
-          <img src={logo} alt="Sportbook Logo" className="logo" />
+        <a href="/" style={{ display: 'flex' }}>
+          <img src={logo3} alt="Sportbook Logo" className="logo" />
         </a>
         <nav className={`nav`}>
           <ul className="nav-links">

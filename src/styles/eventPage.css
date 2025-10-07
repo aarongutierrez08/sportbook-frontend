@@ -22,10 +22,9 @@
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   background-color: var(--color-primary-background);
-}
-
-.event-page-section:has(.event-page-players-list) {
-  background-color: var(--color-primary-background);
+  box-shadow: 0 4px 12px var(--shadow-default);
+  transition: box-shadow .2s ease, transform .2s ease;
+  border: 1px solid var(--color-border, #e3e8ee);
 }
 
 .event-page-section h3 {
@@ -165,26 +164,6 @@
 
 .edit-icon:hover {
     opacity: 1;
-}
-
-.save-changes-container {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-.save-changes-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    background-color: #389148;
-    color: white;
-    cursor: pointer;
-}
-
-.save-changes-button:hover {
-    opacity: 0.9;
 }
 
 .edit-location-button {

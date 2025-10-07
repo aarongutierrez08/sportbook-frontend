@@ -110,12 +110,14 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <button
-                className="btn"
-                onClick={() => setIsEditingLocation(true)}
-              >
-                Cambiar ubicación
-              </button>
+              <div className="buttons-container">
+                <button
+                  className="btn btn--block"
+                  onClick={() => setIsEditingLocation(true)}
+                >
+                  Cambiar ubicación
+                </button>
+              </div>
             </div>
           ) : (
             <div className="location-picker-container">
@@ -125,7 +127,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
                 onChange={handleLocationChange}
               />
               <button
-                className="btn btn-secondary"
+                className="btn btn--secondary"
                 onClick={() => setIsEditingLocation(false)}
               >
                 Cancelar

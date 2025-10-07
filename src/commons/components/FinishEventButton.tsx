@@ -7,12 +7,10 @@ import FinishEventModal from "./FinishEventModal";
 
 interface FinishEventButtonProps {
   event: SportEvent;
-  className?: string;
 }
 
 const FinishEventButton: React.FC<FinishEventButtonProps> = ({
   event,
-  className,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -39,7 +37,7 @@ const FinishEventButton: React.FC<FinishEventButtonProps> = ({
     return (
       <button
         disabled
-        className={`finish-event-button finished ${className || ""}`}
+        className={'finish-event-button'}
         title="Este evento ya está finalizado"
       >
         Evento Finalizado
@@ -52,7 +50,7 @@ const FinishEventButton: React.FC<FinishEventButtonProps> = ({
       <button
         onClick={handleFinish}
         disabled={isSubmitting}
-        className={`finish-event-button ${className || ""}`}
+        className={'btn btn--lg'}
       >
         {isSubmitting ? "Finalizando..." : "Finalizar Evento"}
       </button>

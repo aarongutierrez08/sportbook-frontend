@@ -124,8 +124,8 @@ const ProfilePage: React.FC = () => {
               {tab === "volley" && <VolleyProfileForm />}
               {tab === "paddle" && <PaddleProfileForm />}
     
-              <div className="profile-submit">
-                <button type="submit" className="btn">
+              <div className="buttons-container form-full">
+                <button type="submit" className="btn btn--lg">
                   Guardar cambios
                 </button>
               </div>
