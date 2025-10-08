@@ -50,6 +50,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
     const raw = localStorage.getItem("user");
     return raw ? JSON.parse(raw) : null;
   }, []);
+
   return (
     <>
       <div className="event-page-details">
@@ -163,12 +164,44 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
       </div>
 
       <div className="team-and-stats-section">
-        <div className="event-page-section no-team-players">
-          <h3>Jugadores sin equipo</h3>
-          <PlayerList players={event.players.filter(player =>
-            !event.firstTeam.players?.some(tp => tp.id === player.id) &&
-            !event.secondTeam.players?.some(tp => tp.id === player.id)
-          )} />
+        <div className="event-page-section">
+          <h3>Equipos</h3>
+          <div className="event-page-team-section">
+            <div
+              className="event-page-team-card"
+              data-color={event.firstTeam.color}
+            >
+              <h4>Equipo {event.firstTeam.color}</h4>
+              <AddPlayerButton
+                eventId={event.id}
+                teamId={event.firstTeam.id}
+                onPlayerAdded={onEventUpdate}
+                disabled={isJoinTeamDisabled(
+                  event,
+                  event.firstTeam.players!,
+                  loggedUser
+                )}
+              />
+              <PlayerList players={event.firstTeam.players!} />
+            </div>
+            <div
+              className="event-page-team-card"
+              data-color={event.secondTeam.color}
+            >
+              <h4>Equipo {event.secondTeam.color}</h4>
+              <AddPlayerButton
+                eventId={event.id}
+                teamId={event.secondTeam.id}
+                onPlayerAdded={onEventUpdate}
+                disabled={isJoinTeamDisabled(
+                  event,
+                  event.secondTeam.players!,
+                  loggedUser
+                )}
+              />
+              <PlayerList players={event.secondTeam.players!} />
+            </div>
+          </div>
         </div>
 
         <div className="balance-and-players-column">
@@ -176,44 +209,12 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
             <h3>Balance</h3>
             <EventFairnessRatingComponent rating={5} />
           </div>
-          <div className="event-page-section">
-            <h3>Equipos</h3>
-            <div className="event-page-team-section">
-              <div
-                className="event-page-team-card"
-                data-color={event.firstTeam.color}
-              >
-                <h4>Equipo {event.firstTeam.color}</h4>
-                <AddPlayerButton
-                  eventId={event.id}
-                  teamId={event.firstTeam.id}
-                  onPlayerAdded={onEventUpdate}
-                  disabled={isJoinTeamDisabled(
-                    event,
-                    event.firstTeam.players!,
-                    loggedUser
-                  )}
-                />
-                <PlayerList players={event.firstTeam.players!} />
-              </div>
-              <div
-                className="event-page-team-card"
-                data-color={event.secondTeam.color}
-              >
-                <h4>Equipo {event.secondTeam.color}</h4>
-                <AddPlayerButton
-                  eventId={event.id}
-                  teamId={event.secondTeam.id}
-                  onPlayerAdded={onEventUpdate}
-                  disabled={isJoinTeamDisabled(
-                    event,
-                    event.secondTeam.players!,
-                    loggedUser
-                  )}
-                />
-                <PlayerList players={event.secondTeam.players!} />
-              </div>
-            </div>
+          <div className="event-page-section no-team-players">
+            <h3>Jugadores sin equipo</h3>
+            <PlayerList players={event.players.filter(player =>
+              !event.firstTeam.players?.some(tp => tp.id === player.id) &&
+              !event.secondTeam.players?.some(tp => tp.id === player.id)
+            )} />
           </div>
         </div>
       </div>
