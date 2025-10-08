@@ -200,6 +200,28 @@
     background-color: var(--color-secondary-dark);
 }
 
+.players-and-balance-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 2rem;
+}
+
+.team-and-stats-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 2rem;
+}
+
+.balance-and-players-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 /* Media queries para ajustar el layout según el tamaño de la pantalla */
 @media (min-width: 768px) {
   .event-page-details {

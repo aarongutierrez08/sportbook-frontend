@@ -12,6 +12,7 @@ import FootballPitch from "../FootballPitch";
 import EditableField from "../EditableField";
 import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
+import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 
 interface FootballEventDetailsProps {
   event: FootballEvent;
@@ -161,59 +162,67 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
         </div>
       </div>
 
-      <div className="event-page-section">
-        <h3>Jugadores</h3>
-        <PlayerList players={event.players} />
+      <div className="team-and-stats-section">
+        <div className="event-page-section">
+          <h3>Jugadores</h3>
+          <PlayerList players={event.players} />
+        </div>
+
+        <div className="balance-and-players-column">
+          <div className="event-page-section">
+            <h3>Balance</h3>
+            <EventFairnessRatingComponent rating={5} />
+          </div>
+          <div className="event-page-section">
+            <h3>Equipos</h3>
+            <div className="event-page-team-section">
+              <div
+                className="event-page-team-card"
+                data-color={event.firstTeam.color}
+              >
+                <h4>Equipo {event.firstTeam.color}</h4>
+                <AddPlayerButton
+                  eventId={event.id}
+                  teamId={event.firstTeam.id}
+                  onPlayerAdded={onEventUpdate}
+                  disabled={isJoinTeamDisabled(
+                    event,
+                    event.firstTeam.players!,
+                    loggedUser
+                  )}
+                />
+                <PlayerList players={event.firstTeam.players!} />
+              </div>
+              <div
+                className="event-page-team-card"
+                data-color={event.secondTeam.color}
+              >
+                <h4>Equipo {event.secondTeam.color}</h4>
+                <AddPlayerButton
+                  eventId={event.id}
+                  teamId={event.secondTeam.id}
+                  onPlayerAdded={onEventUpdate}
+                  disabled={isJoinTeamDisabled(
+                    event,
+                    event.secondTeam.players!,
+                    loggedUser
+                  )}
+                />
+                <PlayerList players={event.secondTeam.players!} />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="event-page-section">
-        <h3>Equipos</h3>
-        <div className="event-page-team-section">
-          <div
-            className="event-page-team-card"
-            data-color={event.firstTeam.color}
-          >
-            <h4>Equipo {event.firstTeam.color}</h4>
-            <AddPlayerButton
-              eventId={event.id}
-              teamId={event.firstTeam.id}
-              onPlayerAdded={onEventUpdate}
-              disabled={isJoinTeamDisabled(
-                event,
-                event.firstTeam.players!,
-                loggedUser
-              )}
-            />
-            <PlayerList players={event.firstTeam.players!} />
-          </div>
-          <div
-            className="event-page-team-card"
-            data-color={event.secondTeam.color}
-          >
-            <h4>Equipo {event.secondTeam.color}</h4>
-            <AddPlayerButton
-              eventId={event.id}
-              teamId={event.secondTeam.id}
-              onPlayerAdded={onEventUpdate}
-              disabled={isJoinTeamDisabled(
-                event,
-                event.secondTeam.players!,
-                loggedUser
-              )}
-            />
-            <PlayerList players={event.secondTeam.players!} />
-          </div>
-        </div>
-
-        <div className="event-page-pitch-container">
-          <h3>Distribución táctica</h3>
-          <FootballPitch
-            eventId={Number(event.id)}
-            firstTeamColor={event.firstTeam.color}
-            secondTeamColor={event.secondTeam.color}
-            pitchSize={Number(event.pitchSize)}
-          />
-        </div>
+        <h3>Distribución táctica</h3>
+        <FootballPitch
+          eventId={Number(event.id)}
+          firstTeamColor={event.firstTeam.color}
+          secondTeamColor={event.secondTeam.color}
+          pitchSize={Number(event.pitchSize)}
+        />
       </div>
     </>
   );
