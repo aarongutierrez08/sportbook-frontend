@@ -163,9 +163,12 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
       </div>
 
       <div className="team-and-stats-section">
-        <div className="event-page-section">
-          <h3>Jugadores</h3>
-          <PlayerList players={event.players} />
+        <div className="event-page-section no-team-players">
+          <h3>Jugadores sin equipo</h3>
+          <PlayerList players={event.players.filter(player =>
+            !event.firstTeam.players?.some(tp => tp.id === player.id) &&
+            !event.secondTeam.players?.some(tp => tp.id === player.id)
+          )} />
         </div>
 
         <div className="balance-and-players-column">

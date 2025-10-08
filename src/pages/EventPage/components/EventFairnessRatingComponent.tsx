@@ -8,7 +8,7 @@ interface EventFairnessRatingComponentProps {
 const EventFairnessRatingComponent = ({ rating } : EventFairnessRatingComponentProps ) => {
     const marks = [
         {
-            value: 5,
+            value: 10,
             label: 'Muy Desparejo',
         },
         {
