@@ -1,11 +1,35 @@
-import {Slider, Tooltip} from "@mui/material";
+import { Slider, Tooltip } from "@mui/material";
 import '../../../styles/eventFairnessRating.css';
+import { useEffect, useState } from "react";
+import { getFairnessRating } from "../../../api/eventsApi";
+import {type EventType} from "../../../types/events";
+import footballSlider from '../../../assets/football_slider.png';
+import volleyball from '../../../assets/volleyball.png';
+import paddleball from '../../../assets/paddleball.png';
 
 interface EventFairnessRatingComponentProps {
-    rating: number;
+    eventId: number;
+    eventType: EventType;
 }
 
-const EventFairnessRatingComponent = ({ rating } : EventFairnessRatingComponentProps ) => {
+const EventFairnessRatingComponent = ({ eventId, eventType }: EventFairnessRatingComponentProps) => {
+    const [rating, setRating] = useState(5);
+    const DEFAULT_RATING = 5;
+
+    useEffect(() => {
+        const fetchRating = async () => {
+            try {
+                const score = await getFairnessRating(eventId);
+                setRating(score);
+            } catch (error) {
+                console.error('Error fetching fairness rating:', error);
+                setRating(DEFAULT_RATING)
+            }
+        };
+
+        fetchRating();
+    }, [eventId]);
+
     const marks = [
         {
             value: 10,
@@ -14,11 +38,22 @@ const EventFairnessRatingComponent = ({ rating } : EventFairnessRatingComponentP
         {
             value: 95,
             label: 'Muy Parejo',
-        }]
+        }
+    ];
 
     const getRatingColor = (value: number) => {
-        // Interpolamos entre naranja y verde
         return value < 50 ? '#E98E26' : '#389148';
+    };
+
+    const getSliderImage = () => {
+        switch(eventType) {
+            case "FOOTBALL":
+                return `url(${footballSlider})`;
+            case "VOLLEY":
+                return `url(${volleyball})`;
+            case "PADDLE":
+                return `url(${paddleball})`;
+        }
     };
 
     return (<div className="form-group slider-group">
@@ -31,7 +66,7 @@ const EventFairnessRatingComponent = ({ rating } : EventFairnessRatingComponentP
             </Tooltip>
         </div>
         <Slider disabled
-                defaultValue={rating*10}
+                value={rating*10}
                 step={10}
                 marks={marks}
                 min={0}
@@ -43,10 +78,13 @@ const EventFairnessRatingComponent = ({ rating } : EventFairnessRatingComponentP
                     },
                     '&.Mui-disabled .MuiSlider-thumb': {
                         backgroundColor: getRatingColor(rating*10),
+                        backgroundImage: getSliderImage(),
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
                     },
                 }}
         />
-    </div>)
+    </div>);
 }
 
 export default EventFairnessRatingComponent;

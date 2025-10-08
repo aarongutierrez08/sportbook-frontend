@@ -207,7 +207,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
         <div className="balance-and-players-column">
           <div className="event-page-section">
             <h3>Balance</h3>
-            <EventFairnessRatingComponent rating={5} />
+            <EventFairnessRatingComponent eventId={event.id} eventType={"FOOTBALL"} />
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>

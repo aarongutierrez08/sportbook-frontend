@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import type {
   VolleyEvent,
-  TeamInfo,
   UpdateEventParams,
   SportEvent,
   PlayerInfo,
@@ -154,7 +153,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
         <div className="event-page-section">
           <h3>Equipos</h3>
           <div className="event-page-team-section">
-            {event.teams.map((team) => (
+            {event.teams?.map((team) => (
               <div
                 key={team.id}
                 className="event-page-team-card"
@@ -176,14 +175,14 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
         <div className="balance-and-players-column">
           <div className="event-page-section">
             <h3>Balance</h3>
-            <EventFairnessRatingComponent rating={5} />
+            <EventFairnessRatingComponent eventId={event.id} eventType={"VOLLEY"} />
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>
             <PlayerList
               players={event.players.filter(
                 (player) =>
-                  !event.teams.some((team) =>
+                  !event.teams?.some((team) =>
                     team.players?.some((tp) => tp.id === player.id)
                   )
               )}

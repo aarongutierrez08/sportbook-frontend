@@ -100,3 +100,8 @@ export const getEventStats = async (
   );
   return res.data;
 };
+
+export const getFairnessRating = async (eventId: number): Promise<number> => {
+    const res = await api.get<number>("/event/" + eventId + "/fairness-score");
+    return res.data;
+}
