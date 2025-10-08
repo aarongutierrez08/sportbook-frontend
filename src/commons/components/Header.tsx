@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/header.css";
-import logo from "../../assets/logo.png";
 import logo3 from "../../assets/logo3.png";
 import { clearAuthData } from "../../api/axios";
 

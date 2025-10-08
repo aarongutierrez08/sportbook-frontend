@@ -21,7 +21,7 @@
   
     /* Neutros */
     --color-white: #ffffff;
-    --color-surface: #f7f9fb;
+    --color-surface: #f0f6fc;
     --color-text-dark: #1f2a33;
     --color-text-muted: #607380;
     --color-border: #e3e8ee;
@@ -71,13 +71,6 @@ html {
 *, *::before, *::after {
     font: inherit;
     font-family: inherit;
-}
-
-body {
-  min-height: 100vh;
-  color: #1e293b;
-  position: relative;
-  font-weight: 400;
 }
 
 .container {
@@ -154,35 +147,6 @@ body {
     color: var(--color-text-gray);
 }
 
-/* ----------- Formularios (login, registro, crear evento) ----------- */
-.auth-container {
-    max-width: 400px;
-    margin: 2rem auto;
-}
-
-.auth-tabs {
-    display: flex;
-    margin-bottom: 2rem;
-    background: #f1f5f9;
-    border-radius: 12px;
-    padding: 4px;
-}
-
-.auth-tab {
-    flex: 1;
-    padding: 12px;
-    text-align: center;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-}
-
-.auth-tab.active {
-  background: var(--color-primary);
-  color: var(--color-white);
-}
-
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -240,11 +204,12 @@ body {
     background: var(--color-primary);
     color: var(--color-white);
     padding: 8px 12px;
+    width: 150px;
 }
 
 .btn--block { width: 100%; }
-.btn--sm    { padding: 8px 12px; font-size: 14px; }
-.btn--lg    { padding: 12px 24px; font-size: 16px; }
+.btn--sm    { padding: 8px 12px; font-size: 14px; width: 150px; }
+.btn--lg    { padding: 12px 24px; font-size: 16px; width: 200px; }
 
 .btn:disabled,
 .btn[aria-disabled="true"] {

@@ -1,10 +1,9 @@
 .profile-card {
-  background: var(--color-white);
+  background: var(--color-surface);
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 8px 32px var(--shadow-default);
   border: 1px solid #e2e8f0;
-  margin-top: 1.5rem;
 }
 
 .profile-header {

@@ -19,7 +19,7 @@ export const COLOR_SECONDARY_BACKGROUND = "#fdeade" as const; // fondo suave sec
 
 // Texto y superficies
 export const COLOR_WHITE = "#ffffff" as const;          // --color-white
-export const COLOR_SURFACE = "#f7f9fb" as const;        // --color-surface
+export const COLOR_SURFACE = "#f0f6fc" as const;        // --color-surface
 export const COLOR_TEXT_DARK = "#1f2a33" as const;      // --color-text-dark
 export const COLOR_TEXT_MUTED = "#607380" as const;     // --color-text-muted
 export const COLOR_TEXT_GRAY = "#e3e8ee" as const;      // usado como divider/border
@@ -41,8 +41,8 @@ export const COLORS = {
   SECONDARY_DARK: COLOR_SECONDARY_DARK,
   SECONDARY_LIGHT: COLOR_SECONDARY_LIGHT,
 
-  SECONDARY_INTERMEDIATE: COLOR_SECONDARY_BACKGROUND,
-  SECONDARY_BACKGROUND: COLOR_PRIMARY_BACKGROUND,
+  PRIMARY_BACKGROUND: COLOR_PRIMARY_BACKGROUND,
+  SECONDARY_BACKGROUND: COLOR_SECONDARY_BACKGROUND,
 
   WHITE: COLOR_WHITE,
   SURFACE: COLOR_SURFACE,
@@ -73,8 +73,8 @@ export const theme = createTheme({
     },
     error: { main: COLORS.ERROR },
     text: { primary: COLORS.TEXT_DARK, secondary: COLORS.TEXT_MUTED },
-    background: { default: COLORS.SECONDARY_BACKGROUND, paper: COLORS.SURFACE },
-    divider: COLORS.TEXT_GRAY, // aquí ahora es un color de borde neutro #e3e8ee
+    background: { default: COLORS.PRIMARY_BACKGROUND, paper: COLORS.SURFACE },
+    divider: COLORS.TEXT_GRAY,
   },
   typography: {
     fontFamily: FONT_FAMILY,
