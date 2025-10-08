@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "../../styles/pagination.css";
+import "../../styles/Pagination.css";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
