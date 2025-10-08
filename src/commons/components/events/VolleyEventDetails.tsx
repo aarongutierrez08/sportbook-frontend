@@ -1,18 +1,18 @@
 import React, { useMemo } from "react";
 import type {
   VolleyEvent,
-  TeamInfo,
   UpdateEventParams,
   SportEvent,
   PlayerInfo,
   FootballEvent,
 } from "../../../types/events";
+import { formatDate } from "../../../utils/events";
 import MiniMap from "../MiniMap";
 import LocationPickerMap from "../LocationPickerMap";
 import EditableField from "../EditableField";
 import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
-import { formatDate } from "../../../utils/events.ts";
+import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 
 interface VolleyEventDetailsProps {
   event: VolleyEvent;
@@ -50,6 +50,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
     const raw = localStorage.getItem("user");
     return raw ? JSON.parse(raw) : null;
   }, []);
+
   return (
     <>
       <div className="event-page-details">
@@ -148,16 +149,11 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
         </div>
       </div>
 
-      <div className="event-page-section">
-        <h3>Jugadores</h3>
-        <PlayerList players={event.players} />
-      </div>
-
-      {event.teams && event.teams.length > 0 && (
+      <div className="team-and-stats-section">
         <div className="event-page-section">
           <h3>Equipos</h3>
           <div className="event-page-team-section">
-            {event.teams.map((team: TeamInfo) => (
+            {event.teams?.map((team) => (
               <div
                 key={team.id}
                 className="event-page-team-card"
@@ -168,18 +164,32 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
                   eventId={event.id}
                   teamId={team.id}
                   onPlayerAdded={onEventUpdate}
-                  disabled={isJoinTeamDisabled(
-                    event,
-                    team.players!,
-                    loggedUser
-                  )}
+                  disabled={isJoinTeamDisabled(event, team.players!, loggedUser)}
                 />
                 <PlayerList players={team.players!} />
               </div>
             ))}
           </div>
         </div>
-      )}
+
+        <div className="balance-and-players-column">
+          <div className="event-page-section">
+            <h3>Balance</h3>
+            <EventFairnessRatingComponent eventId={event.id} eventType={"VOLLEY"} />
+          </div>
+          <div className="event-page-section no-team-players">
+            <h3>Jugadores sin equipo</h3>
+            <PlayerList
+              players={event.players.filter(
+                (player) =>
+                  !event.teams?.some((team) =>
+                    team.players?.some((tp) => tp.id === player.id)
+                  )
+              )}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

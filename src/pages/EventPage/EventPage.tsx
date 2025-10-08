@@ -119,15 +119,15 @@ const EventPage: React.FC = () => {
   }
 
   const isJoinTeamDisabled = (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => {
-      return sportEvent.isFinished || playerIsNotInEvent(sportEvent, loggedUser) || isPlayerInTeam(teamPlayers, loggedUser);
+    return sportEvent.isFinished || playerIsNotInEvent(sportEvent, loggedUser) || isPlayerInTeam(teamPlayers, loggedUser);
   }
 
   const playerIsNotInEvent = (sportEvent: SportEvent, loggedUser: any) => {
-    return !sportEvent.players?.some((playerInfo) => playerInfo.user?.username === loggedUser.username);
+    return !sportEvent.players?.some((playerInfo) => playerInfo.user?.username === loggedUser.username.sub);
   }
 
   const isPlayerInTeam = (teamPlayers: PlayerInfo[], loggedUser: any) => {
-    return teamPlayers?.some((playerInfo) => playerInfo.user?.username === loggedUser.username);
+    return teamPlayers?.some((playerInfo) => playerInfo.user?.username === loggedUser.username.sub);
   }
 
     const handleJoin = async (eventId: number) => {

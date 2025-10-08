@@ -141,3 +141,5 @@ export type EventStats = {
   mvp: PlayerInfo;
   missingPlayers: PlayerInfo[];
 };
+
+export type EventType = "FOOTBALL" | "PADDLE" | "VOLLEY";
