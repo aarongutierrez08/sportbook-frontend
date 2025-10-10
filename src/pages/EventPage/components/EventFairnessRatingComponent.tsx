@@ -2,7 +2,7 @@ import { Slider, Tooltip } from "@mui/material";
 import '../../../styles/eventFairnessRating.css';
 import { useEffect, useState } from "react";
 import { getFairnessRating } from "../../../api/eventsApi";
-import {type EventType} from "../../../types/events";
+import {type EventType, type TeamInfo} from "../../../types/events";
 import footballSlider from '../../../assets/football_slider.png';
 import volleyball from '../../../assets/volleyball.png';
 import paddleball from '../../../assets/paddleball.png';
@@ -10,9 +10,10 @@ import paddleball from '../../../assets/paddleball.png';
 interface EventFairnessRatingComponentProps {
     eventId: number;
     eventType: EventType;
+    teams: TeamInfo[];
 }
 
-const EventFairnessRatingComponent = ({ eventId, eventType }: EventFairnessRatingComponentProps) => {
+const EventFairnessRatingComponent = ({ eventId, eventType, teams }: EventFairnessRatingComponentProps) => {
     const [rating, setRating] = useState(5);
     const DEFAULT_RATING = 5;
 
@@ -28,7 +29,7 @@ const EventFairnessRatingComponent = ({ eventId, eventType }: EventFairnessRatin
         };
 
         fetchRating();
-    }, [eventId]);
+    }, [eventId, teams]); // Agregamos teams como dependencia
 
     const marks = [
         {

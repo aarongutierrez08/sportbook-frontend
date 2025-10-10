@@ -175,7 +175,11 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
         <div className="balance-and-players-column">
           <div className="event-page-section">
             <h3>Balance</h3>
-            <EventFairnessRatingComponent eventId={event.id} eventType={"VOLLEY"} />
+            <EventFairnessRatingComponent
+              eventId={event.id}
+              eventType={"VOLLEY"}
+              teams={event.teams}
+            />
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>
