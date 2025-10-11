@@ -263,7 +263,7 @@ body {
 }
 
 .btn:hover:not(:disabled) {
-    background: var(--color-primary-light);
+    background: var(--color-surface);
     color: var(--color-primary-dark);
     transform: translateY(-1px);
 }

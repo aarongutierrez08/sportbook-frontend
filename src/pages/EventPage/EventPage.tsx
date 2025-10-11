@@ -162,7 +162,7 @@ const EventPage: React.FC = () => {
               Unirse al evento
           </button>
       } else {
-         return <button onClick={() => handleLeave(event.id)} className="btn btn--lg">
+         return <button onClick={() => handleLeave(event.id)} className="btn btn--secondary btn--lg">
               Salir del evento
           </button>
         }

@@ -215,29 +215,6 @@
     flex-direction: row;
 }
 
-.fem-cancel-button,
-.fem-submit-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    min-width: 100px;
-}
-
-.fem-cancel-button {
-    background-color: #666;
-}
-
-.fem-submit-button {
-    background-color: #E98E26;
-}
-
-.fem-cancel-button:hover,
-.fem-submit-button:hover {
-    opacity: 0.9;
-}
-
 @media (max-width: 768px) {
     .fem-modal {
         padding: 1rem;

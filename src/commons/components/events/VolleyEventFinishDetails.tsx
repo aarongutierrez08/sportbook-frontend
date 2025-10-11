@@ -86,7 +86,7 @@ const VolleyEventFinishDetails: React.FC<VolleyEventFinishDetailsProps> = ({
             </div>
 
             <div className="fem-modal-actions">
-                <button onClick={handleSubmit} className="fem-submit-button">
+                <button onClick={handleSubmit} className="btn btn--lg">
                     Finalizar
                 </button>
             </div>

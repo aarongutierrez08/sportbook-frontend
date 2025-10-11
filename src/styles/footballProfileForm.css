@@ -12,16 +12,3 @@
 .plays-often-checkbox {
   margin: 0 !important;
 }
-
-.slider-group .MuiSlider-thumb {
-  background-color: white;
-  border: none;
-  width: 22px;
-  height: 22px;
-  margin-top: -12px !important;
-  background-image: url(../assets/football_slider.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  transform: scale(1.2);
-}

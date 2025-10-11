@@ -3,6 +3,7 @@ import { Slider, FormControlLabel, Checkbox } from "@mui/material";
 import { FootballPositionSelector } from "./FootballPositionSelector";
 import type { FootballProfileDTO } from "../../../types/user";
 import "../../../styles/footballProfileForm.css";
+import FootballSliderImage from "../../../assets/football_slider.png";
 
 export const FootballProfileForm = () => {
   const { control } = useFormContext<FootballProfileDTO>();
@@ -21,7 +22,29 @@ export const FootballProfileForm = () => {
           render={({ field }) => (
             <div className="form-group slider-group">
               <label>Nivel (1–10):</label>
-              <Slider {...field} min={1} max={10} valueLabelDisplay="auto" />
+              <Slider
+                {...field}
+                min={1}
+                max={10}
+                valueLabelDisplay="auto"
+                sx={{
+                  height: 6,
+                  ".MuiSlider-thumb": {
+                    width: 25,
+                    height: 25,
+                    backgroundImage: `url(${FootballSliderImage})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    backgroundColor: 'white',
+                    border: "none",
+                    boxShadow: "none",
+                    "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                      boxShadow: "none",
+                    },
+                  },
+                }}
+              />
             </div>
           )}
         />

@@ -46,7 +46,7 @@ const FinishEventModal: React.FC<FinishEventModalProps> = ({ event, onClose, onS
                 <h2>Finalizar Evento</h2>
                 {renderEventDetails()}
                 <div className="fem-modal-actions">
-                    <button onClick={onClose} className="btn btn--sencodary btn--lg">
+                    <button onClick={onClose} className="btn btn--secondary btn--lg">
                         Cancelar
                     </button>
                 </div>
