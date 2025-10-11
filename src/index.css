@@ -14,9 +14,9 @@
     --color-primary-background: #dae3e4;
   
     /* Secundario (naranja) */
-    --color-secondary: #c45400;        /* antes #f47825 */
-    --color-secondary-dark: #a84f00;   /* hover/focus más oscuro */
-    --color-secondary-light: #f8ae7c;  /* puede quedar igual para fondos suaves */
+    --color-secondary: #c45400;
+    --color-secondary-dark: #a84f00;
+    --color-secondary-light: #f8ae7c;
     --color-secondary-background: #fdeade;
   
     /* Neutros */
