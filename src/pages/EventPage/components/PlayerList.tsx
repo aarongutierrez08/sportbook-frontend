@@ -1,4 +1,4 @@
-import type { PlayerInfo } from "../../../../types/events";
+import type { PlayerInfo } from "../../../types/events";
 
 interface PlayerListProps {
   players: PlayerInfo[];

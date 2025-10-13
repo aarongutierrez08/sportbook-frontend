@@ -1,6 +1,6 @@
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { Checkbox, FormControlLabel, RadioGroup, Radio, Slider } from "@mui/material";
-import type { VolleyProfileDTO } from "../../types/user";
+import type { VolleyProfileDTO } from "../../../types/user";
 
 const allVolleyPositions = ["Setter", "Opuesto", "Central", "Punta", "Libero"];
 

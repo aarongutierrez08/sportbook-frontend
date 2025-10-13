@@ -130,12 +130,6 @@ const EventPage: React.FC = () => {
     }
   };
 
-  const onMapPlayers = (players: PlayerInfo[])=> {
-    return players.map((player) => (
-      <li key={player?.user?.username}>{player.name}</li>
-    ))
-  }
-
   const isJoinTeamDisabled = (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => {
     return sportEvent.isFinished || playerIsNotInEvent(sportEvent, loggedUser) || isPlayerInTeam(teamPlayers, loggedUser);
   }

@@ -179,7 +179,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
             <h3>Balance</h3>
             <EventFairnessRatingComponent
               eventId={event.id}
-              teams={event.teams}
+              teams={event.teams!}
               onBalanceComplete={onBalanceComplete}
             />
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { type PlayerInfo, type FinishEventParams, type PaddleEvent, type TeamInfo } from '../../../types/events';
+import { type FinishEventParams, type PaddleEvent, type TeamInfo } from '../../../types/events';
 
 interface PaddleEventFinishDetailsProps {
     event: PaddleEvent;
@@ -36,11 +36,11 @@ const PaddleEventFinishDetails: React.FC<PaddleEventFinishDetailsProps> = ({
         });
     };
 
-    const renderTeamSection = (teamInfo: { id: number, color: string, players: PlayerInfo[] }) => (
+    const renderTeamSection = (teamInfo: TeamInfo) => (
         <div className="fem-team-section">
             <h3>Equipo {teamInfo.color}</h3>
             <div className="fem-players-list">
-                {teamInfo.players.map(player => (
+                {teamInfo.players!.map(player => (
                     <div key={player.id} className="fem-player-item">
                         <div className="fem-player-name">
                             <span>{player.name}</span>

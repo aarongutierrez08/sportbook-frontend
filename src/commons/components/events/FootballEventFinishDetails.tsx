@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { FootballEvent, Goal, FinishEventParams, PlayerInfo } from '../../../types/events';
+import type {FootballEvent, Goal, FinishEventParams, TeamInfo} from '../../../types/events';
 
 interface FootballEventFinishDetailsProps {
     event: FootballEvent;
@@ -49,11 +49,11 @@ const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
         });
     };
 
-    const renderTeamSection = (teamInfo: { id: number, color: string, players: PlayerInfo[] }) => (
+    const renderTeamSection = (teamInfo: TeamInfo) => (
         <div className="fem-team-section">
             <h3>Equipo {teamInfo.color}</h3>
             <div className="fem-players-list">
-                {teamInfo.players.map(player => {
+                {teamInfo.players!.map(player => {
                     const goalsCount = getPlayerGoalsCount(teamInfo.id, player.id);
                     return (
                         <div key={player.id} className="fem-player-item">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { PlayerInfo, FinishEventParams, VolleyEvent, TeamInfo } from '../../../types/events';
+import type { FinishEventParams, VolleyEvent, TeamInfo } from '../../../types/events';
 
 interface VolleyEventFinishDetailsProps {
     event: VolleyEvent;
@@ -36,11 +36,11 @@ const VolleyEventFinishDetails: React.FC<VolleyEventFinishDetailsProps> = ({
         });
     };
 
-    const renderTeamSection = (teamInfo: { id: number, color: string, players: PlayerInfo[] }) => (
+    const renderTeamSection = (teamInfo: TeamInfo) => (
         <div className="fem-team-section">
             <h3>Equipo {teamInfo.color}</h3>
             <div className="fem-players-list">
-                {teamInfo.players.map(player => (
+                {teamInfo.players!.map(player => (
                     <div key={player.id} className="fem-player-item">
                         <div className="fem-player-name">
                             <span>{player.name}</span>
