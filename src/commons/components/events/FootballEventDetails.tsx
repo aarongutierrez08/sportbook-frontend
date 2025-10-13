@@ -53,6 +53,12 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
     return raw ? JSON.parse(raw) : null;
   }, []);
 
+  const pitchKey = useMemo(() => {
+    const firstTeamPlayers = event.firstTeam.players?.map((p) => p.id).join(",") || "";
+    const secondTeamPlayers = event.secondTeam.players?.map((p) => p.id).join(",") || "";
+    return `${firstTeamPlayers}-${secondTeamPlayers}`;
+  }, [event.firstTeam.players, event.secondTeam.players]);
+
   return (
     <>
       <div className="event-page-details">
@@ -230,6 +236,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
       <div className="event-page-section">
         <h3>Distribución táctica</h3>
         <FootballPitch
+          key={pitchKey}
           eventId={Number(event.id)}
           firstTeamColor={event.firstTeam.color}
           secondTeamColor={event.secondTeam.color}
