@@ -70,27 +70,27 @@ const Header: React.FC = () => {
 
         <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
           <ul className="nav-links">
-            <li>
-              <NavLink
-                to="/events"
-                className={({ isActive }) => isActive ? 'active' : ''}
-                end
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Eventos
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/events/create"
-                className={({ isActive }) => isActive ? 'active' : ''}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Crear Evento
-              </NavLink>
-            </li>
             {isAuthenticated ? (
               <>
+                <li>
+                  <NavLink
+                    to="/events"
+                    className={({ isActive }) => isActive ? 'active' : ''}
+                    end
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Eventos
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/events/create"
+                    className={({ isActive }) => isActive ? 'active' : ''}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Crear Evento
+                  </NavLink>
+                </li>
                 <li>
                   <NavLink
                     to="/profile"
