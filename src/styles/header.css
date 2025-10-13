@@ -161,6 +161,13 @@
     bottom: -6px;
 }
 
+.header-profile {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1100;
+}
+
 @media (max-width: 768px) {
     .app-header {
         width: 100%;
