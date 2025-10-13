@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import type {
   FootballEvent,
   PlayerInfo,
@@ -13,6 +13,7 @@ import EditableField from "../EditableField";
 import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
+import { useAuth } from "../../../auth/useAuth.ts";
 
 interface FootballEventDetailsProps {
   event: FootballEvent;
@@ -46,10 +47,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   onEventUpdate,
   isJoinTeamDisabled,
 }) => {
-  const loggedUser = useMemo(() => {
-    const raw = localStorage.getItem("user");
-    return raw ? JSON.parse(raw) : null;
-  }, []);
+  const { user: loggedUser } = useAuth();
 
   return (
     <>
@@ -215,10 +213,13 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>
-            <PlayerList players={event.players.filter(player =>
-              !event.firstTeam.players?.some(tp => tp.id === player.id) &&
-              !event.secondTeam.players?.some(tp => tp.id === player.id)
-            )} />
+            <PlayerList
+              players={event.players.filter(
+                (player) =>
+                  !event.firstTeam.players?.some((tp) => tp.id === player.id) &&
+                  !event.secondTeam.players?.some((tp) => tp.id === player.id)
+              )}
+            />
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import type {
   VolleyEvent,
   UpdateEventParams,
@@ -13,6 +13,7 @@ import EditableField from "../EditableField";
 import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
+import { useAuth } from "../../../auth/useAuth.ts";
 
 interface VolleyEventDetailsProps {
   event: VolleyEvent;
@@ -46,10 +47,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
   isJoinTeamDisabled,
   onEventUpdate,
 }) => {
-  const loggedUser = useMemo(() => {
-    const raw = localStorage.getItem("user");
-    return raw ? JSON.parse(raw) : null;
-  }, []);
+  const { user: loggedUser } = useAuth();
 
   return (
     <>
@@ -164,7 +162,11 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
                   eventId={event.id}
                   teamId={team.id}
                   onPlayerAdded={onEventUpdate}
-                  disabled={isJoinTeamDisabled(event, team.players!, loggedUser)}
+                  disabled={isJoinTeamDisabled(
+                    event,
+                    team.players!,
+                    loggedUser
+                  )}
                 />
                 <PlayerList players={team.players!} />
               </div>

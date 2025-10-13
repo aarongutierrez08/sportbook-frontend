@@ -1,75 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../styles/header.css";
-import logo from "../../assets/logo.png";
 import logo3 from "../../assets/logo3.png";
-import { clearAuthData } from "../../api/axios";
+import { useAuth } from "../../auth/useAuth";
 
 const Header: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
-    };
-
-    checkAuth();
-
-    window.addEventListener("storage", checkAuth);
-
-    const handleAuthEvent = () => checkAuth();
-    window.addEventListener("authStateChanged", handleAuthEvent);
-
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-      window.removeEventListener("authStateChanged", handleAuthEvent);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    clearAuthData();
-    setIsAuthenticated(false);
-  };
+  const { logout, status } = useAuth();
 
   return (
     <header className="app-header" style={{ zIndex: 2000 }}>
       <div className="header-container">
-        <a href="/" style={{ display: 'flex' }}>
+        <a href="/" style={{ display: "flex" }}>
           <img src={logo3} alt="Sportbook Logo" className="logo" />
         </a>
         <nav className={`nav`}>
           <ul className="nav-links">
             <li>
-              <a href="/events">
-                Eventos
-              </a>
+              <a href="/events">Eventos</a>
             </li>
             <li>
-              <a href="/events/create">
-                Crear Evento
-              </a>
+              <a href="/events/create">Crear Evento</a>
             </li>
-            {
-              isAuthenticated ? (
-                <>
-                  <li>
-                    <a href="/profile" >
-                      Configurar perfil
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/auth" onClick={handleLogout}>
-                      Cerrar sesión
-                    </a>
-                  </li>
-                </>
-                
-              ) : (
-                <a href="/auth">
-                  Ingresar
-                </a>
-              )
-            }
+            {status === "auth" ? (
+              <>
+                <li>
+                  <a href="/profile">Configurar perfil</a>
+                </li>
+                <li>
+                  <a href="/auth" onClick={logout}>
+                    Cerrar sesión
+                  </a>
+                </li>
+              </>
+            ) : (
+              <a href="/auth">Ingresar</a>
+            )}
           </ul>
         </nav>
       </div>
