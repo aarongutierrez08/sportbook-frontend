@@ -56,3 +56,4 @@ export interface SportProfileDTO {
   details: any;
 }
 
+export type FootballPosition = 'ST' | 'LW' | 'RW' | 'CAM' | 'CM' | 'CDM' | 'LM' | 'RM' | 'LB' | 'RB' | 'CB' | 'LIB' | 'GK';

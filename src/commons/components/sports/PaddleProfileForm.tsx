@@ -1,6 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Checkbox, FormControlLabel, RadioGroup, Radio, Slider } from "@mui/material";
-import type { PaddleProfileDTO } from "../../types/user";
+import type { PaddleProfileDTO } from "../../../types/user";
 
 export const PaddleProfileForm = () => {
   const { control } = useFormContext<PaddleProfileDTO>();

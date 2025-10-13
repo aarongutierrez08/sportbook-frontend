@@ -1,7 +1,7 @@
 .slider-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     width: 100%;
 }
@@ -28,4 +28,10 @@
 
 .info-button:hover {
     opacity: 1;
+}
+
+.balance-teams-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    margin-top: 8px;
 }

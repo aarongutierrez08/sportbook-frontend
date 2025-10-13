@@ -29,12 +29,20 @@ const EventPage: React.FC = () => {
   >(null);
   const [showStats, setShowStats] = useState(false);
 
-  useEffect(() => {
+  const fetchEvent = async () => {
     if (!id) return;
-    getEvent(Number(id))
-      .then(setEvent)
-      .catch(() => toast.error("Error al cargar el evento"));
+    try {
+      const updatedEvent = await getEvent(Number(id));
+      setEvent(updatedEvent);
+    } catch {
+      toast.error("Error al cargar el evento");
+    }
+  };
+
+  useEffect(() => {
+    fetchEvent();
   }, [id]);
+
   const loggedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
     return raw ? JSON.parse(raw) : null;
@@ -75,6 +83,10 @@ const EventPage: React.FC = () => {
     }
   };
 
+  const handleTeamsBalanced = async () => {
+    await fetchEvent();
+  };
+
   if (!event) return <div>Cargando evento...</div>;
 
   const renderEventDetails = () => {
@@ -88,7 +100,7 @@ const EventPage: React.FC = () => {
       onFieldChange: handleFieldChange,
       onEventUpdate: setEvent,
       isJoinTeamDisabled,
-      onMapPlayers,
+      onBalanceComplete: handleTeamsBalanced,
     };
 
     switch (event.sport) {
@@ -101,22 +113,22 @@ const EventPage: React.FC = () => {
         );
       case "PADDLE":
         return (
-          <PaddleEventDetails event={event as PaddleEvent} {...commonProps} />
+          <PaddleEventDetails
+            event={event as PaddleEvent}
+            {...commonProps}
+          />
         );
       case "VOLLEY":
         return (
-          <VolleyEventDetails event={event as VolleyEvent} {...commonProps} />
+          <VolleyEventDetails
+            event={event as VolleyEvent}
+            {...commonProps}
+          />
         );
       default:
         return null;
     }
   };
-
-  const onMapPlayers = (players: PlayerInfo[])=> {
-    return players.map((player) => (
-      <li key={player?.user?.username}>{player.name}</li>
-    ))
-  }
 
   const isJoinTeamDisabled = (sportEvent: SportEvent, teamPlayers: PlayerInfo[], loggedUser: any) => {
     return sportEvent.isFinished || playerIsNotInEvent(sportEvent, loggedUser) || isPlayerInTeam(teamPlayers, loggedUser);

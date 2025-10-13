@@ -105,3 +105,7 @@ export const getFairnessRating = async (eventId: number): Promise<number> => {
     const res = await api.get<number>("/event/" + eventId + "/fairness-score");
     return res.data;
 }
+
+export const balanceEvent = (eventId: number) => {
+    return api.post("/event/" + eventId + "/balance");
+}

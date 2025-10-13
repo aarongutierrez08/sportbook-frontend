@@ -1,11 +1,11 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { FootballPosition } from '../../types/user'
+import type { FootballPosition } from '../../../types/user'
 import '../../../styles/footballPitch.css'
 import '../../../styles/footballPositionSelector.css';
 
 interface PositionButtonProps {
-  position: FootballPosition;
+  position: string;
   x: number;
   y: number;
   isSelected: boolean;
