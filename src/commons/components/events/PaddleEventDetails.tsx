@@ -32,6 +32,7 @@ interface PaddleEventDetailsProps {
     teamPlayers: PlayerInfo[],
     loggedUser: any
   ) => boolean;
+  onBalanceComplete: () => void;
 }
 
 const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
@@ -45,6 +46,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
   onFieldChange,
   onEventUpdate,
   isJoinTeamDisabled,
+  onBalanceComplete,
 }) => {
   const loggedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
@@ -177,8 +179,8 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
             <h3>Balance</h3>
             <EventFairnessRatingComponent
               eventId={event.id}
-              eventType={"PADDLE"}
               teams={event.teams}
+              onBalanceComplete={onBalanceComplete}
             />
           </div>
           <div className="event-page-section no-team-players">
@@ -186,7 +188,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
             <PlayerList
               players={event.players.filter(
                 (player) =>
-                  !event.teams?.some((team) =>
+                    !event.teams?.some((team) =>
                     team.players?.some((tp) => tp.id === player.id)
                   )
               )}

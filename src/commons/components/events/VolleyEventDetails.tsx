@@ -32,6 +32,7 @@ interface VolleyEventDetailsProps {
     teamPlayers: PlayerInfo[],
     loggedUser: any
   ) => boolean;
+  onBalanceComplete: () => void;
 }
 
 const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
@@ -43,8 +44,9 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
   editingField,
   setEditingField,
   onFieldChange,
-  isJoinTeamDisabled,
   onEventUpdate,
+  isJoinTeamDisabled,
+  onBalanceComplete,
 }) => {
   const loggedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
@@ -177,16 +179,15 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
             <h3>Balance</h3>
             <EventFairnessRatingComponent
               eventId={event.id}
-              eventType={"VOLLEY"}
               teams={event.teams}
+              onBalanceComplete={onBalanceComplete}
             />
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>
             <PlayerList
               players={event.players.filter(
-                (player) =>
-                  !event.teams?.some((team) =>
+                (player) => !event.teams?.some((team) =>
                     team.players?.some((tp) => tp.id === player.id)
                   )
               )}

@@ -32,6 +32,7 @@ interface FootballEventDetailsProps {
     teamPlayers: PlayerInfo[],
     loggedUser: any
   ) => boolean;
+  onBalanceComplete: () => void;
 }
 
 const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
@@ -45,6 +46,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   onFieldChange,
   onEventUpdate,
   isJoinTeamDisabled,
+  onBalanceComplete,
 }) => {
   const loggedUser = useMemo(() => {
     const raw = localStorage.getItem("user");
@@ -209,16 +211,18 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
             <h3>Balance</h3>
             <EventFairnessRatingComponent
               eventId={event.id}
-              eventType={"FOOTBALL"}
               teams={[event.firstTeam, event.secondTeam]}
+              onBalanceComplete={onBalanceComplete}
             />
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>
-            <PlayerList players={event.players.filter(player =>
-              !event.firstTeam.players?.some(tp => tp.id === player.id) &&
-              !event.secondTeam.players?.some(tp => tp.id === player.id)
-            )} />
+            <PlayerList players={event.players.filter(
+                (player) =>
+                  !event.firstTeam.players?.some((tp) => tp.id === player.id) &&
+                  !event.secondTeam.players?.some((tp) => tp.id === player.id)
+              )}
+            />
           </div>
         </div>
       </div>

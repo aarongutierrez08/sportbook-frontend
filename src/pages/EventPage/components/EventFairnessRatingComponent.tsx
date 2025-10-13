@@ -3,42 +3,34 @@ import "../../../styles/eventFairnessRating.css";
 import { useEffect, useState } from "react";
 import { getFairnessRating } from "../../../api/eventsApi";
 import { type TeamInfo } from "../../../types/events";
+import BalanceTeamsButton from "./BalanceTeamsButton";
 
 interface EventFairnessRatingComponentProps {
   eventId: number;
   teams: TeamInfo[];
+  onBalanceComplete?: () => void;
 }
 
 const EventFairnessRatingComponent = ({
   eventId,
   teams,
+  onBalanceComplete
 }: EventFairnessRatingComponentProps) => {
   const [rating, setRating] = useState(5);
   const DEFAULT_RATING = 5;
 
-  useEffect(() => {
-    const fetchRating = async () => {
-      try {
-        const score = await getFairnessRating(eventId);
-        setRating(score);
-      } catch {
-        setRating(DEFAULT_RATING);
-      }
-    };
+  const fetchRating = async () => {
+    try {
+      const score = await getFairnessRating(eventId);
+      setRating(score);
+    } catch {
+      setRating(DEFAULT_RATING);
+    }
+  };
 
+  useEffect(() => {
     fetchRating();
   }, [eventId, teams]);
-
-  const marks = [
-    {
-      value: 10,
-      label: "Muy Desparejo",
-    },
-    {
-      value: 90,
-      label: "Muy Parejo",
-    },
-  ];
 
   return (
     <div className="form-group slider-group">
@@ -57,7 +49,16 @@ const EventFairnessRatingComponent = ({
         disabled
         value={rating * 10}
         step={10}
-        marks={marks}
+        marks={[
+          {
+            value: 10,
+            label: "Muy Desparejo",
+          },
+          {
+            value: 90,
+            label: "Muy Parejo",
+          },
+        ]}
         min={0}
         max={100}
         valueLabelDisplay="auto"
@@ -76,6 +77,10 @@ const EventFairnessRatingComponent = ({
             display: 'none'
           },
         }}
+      />
+      <BalanceTeamsButton
+        eventId={eventId}
+        onBalance={onBalanceComplete}
       />
     </div>
   );
