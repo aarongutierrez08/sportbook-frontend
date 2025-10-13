@@ -118,16 +118,21 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
+    margin-top: 4rem; /* Para dejar espacio para el ProfilePicture */
+    margin-right: 4rem; /* Para evitar que el contenido se solape con el ProfilePicture */
     background: var(--color-primary-background);
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 8px 32px var(--shadow-default);
     border: 1px solid #e2e8f0;
-    margin-top: 1.5rem;
 }
 
 .events-section:last-child {
     margin-bottom: 0;
+}
+
+.events-section .pagination {
+    margin-top: 1.5rem;
 }
 
 .section-divider {

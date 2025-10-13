@@ -31,3 +31,15 @@ export const getProfilePicture = async () => {
     const res = await api.get("/profile-picture", { responseType: 'blob' });
     return res.data;
 }
+
+export const uploadProfilePicture = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await api.post("/profile-picture", formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    return res.data;
+}

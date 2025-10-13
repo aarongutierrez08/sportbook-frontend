@@ -25,7 +25,6 @@ const ProfilePicture: React.FC<ProfilePictureComponentProps> = ({
 
         loadProfilePicture();
 
-        // Cleanup function to revoke the object URL when component unmounts
         return () => {
             if (image) {
                 URL.revokeObjectURL(image);
