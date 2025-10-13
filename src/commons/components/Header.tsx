@@ -131,9 +131,7 @@ const Header: React.FC = () => {
       </header>
       {isAuthenticated && (
         <div className="header-profile">
-          <NavLink to="/profile">
-            <ProfilePicture size={50} />
-          </NavLink>
+          <ProfilePicture size={50} />
         </div>
       )}
     </>
