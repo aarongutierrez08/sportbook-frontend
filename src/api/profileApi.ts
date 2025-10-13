@@ -26,3 +26,8 @@ export const updatePaddleProfile = async (
   const res = await api.put<PaddleProfileDTO>("/profile/paddle", body);
   return res.data;
 };
+
+export const getProfilePicture = async () => {
+    const res = await api.get("/profile-picture", { responseType: 'blob' });
+    return res.data;
+}

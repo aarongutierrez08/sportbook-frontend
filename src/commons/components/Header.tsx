@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
 import logo3 from "../../assets/logo3.png";
 import { clearAuthData } from "../../api/axios";
+import ProfilePicture from "./ProfilePicture";
 
 const Header: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -53,80 +54,89 @@ const Header: React.FC = () => {
   );
 
   return (
-    <header className="app-header">
-      <div className="header-container">
-        <NavLink to="/" className="logo-container">
-          <img src={logo3} alt="Sportbook Logo" className="logo" />
-        </NavLink>
+    <>
+      <header className="app-header">
+        <div className="header-container">
+          <NavLink to="/" className="logo-container">
+            <img src={logo3} alt="Sportbook Logo" className="logo" />
+          </NavLink>
 
-        <button
-          className="menu-toggle"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-          aria-expanded={isMenuOpen}
-        >
-          <span className="hamburger"></span>
-        </button>
+          <button
+            className="menu-toggle"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+          >
+            <span className="hamburger"></span>
+          </button>
 
-        <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
-          <ul className="nav-links">
-            {isAuthenticated ? (
-              <>
-                <li>
-                  <NavLink
-                    to="/events"
-                    className={({ isActive }) => isActive ? 'active' : ''}
-                    end
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Eventos
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/events/create"
-                    className={({ isActive }) => isActive ? 'active' : ''}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Crear Evento
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) => isActive ? 'active' : ''}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Mi Perfil
-                  </NavLink>
-                </li>
-                {isMobile && (
+          <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
+            <ul className="nav-links">
+              {isAuthenticated ? (
+                <>
                   <li>
-                    <LogoutButton />
+                    <NavLink
+                      to="/events"
+                      className={({ isActive }) => isActive ? 'active' : ''}
+                      end
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Eventos
+                    </NavLink>
                   </li>
-                )}
-              </>
-            ) : (
-              <li>
-                <NavLink
-                  to="/auth"
-                  className={({ isActive }) => isActive ? 'active' : ''}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Ingresar
-                </NavLink>
-              </li>
-            )}
-          </ul>
-        </nav>
+                  <li>
+                    <NavLink
+                      to="/events/create"
+                      className={({ isActive }) => isActive ? 'active' : ''}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Crear Evento
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="/profile"
+                      className={({ isActive }) => isActive ? 'active' : ''}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Preferencias Deportivas
+                    </NavLink>
+                  </li>
+                  {isMobile && (
+                    <li>
+                      <LogoutButton />
+                    </li>
+                  )}
+                </>
+              ) : (
+                <li>
+                  <NavLink
+                    to="/auth"
+                    className={({ isActive }) => isActive ? 'active' : ''}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Ingresar
+                  </NavLink>
+                </li>
+              )}
+            </ul>
+          </nav>
 
-        {isAuthenticated && !isMobile && (
-          <div className="logout-container">
-            <LogoutButton />
-          </div>
-        )}
-      </div>
-    </header>
+          {isAuthenticated && !isMobile && (
+            <div className="logout-container">
+              <LogoutButton />
+            </div>
+          )}
+        </div>
+      </header>
+      {isAuthenticated && (
+        <div className="header-profile">
+          <NavLink to="/profile">
+            <ProfilePicture size={50} />
+          </NavLink>
+        </div>
+      )}
+    </>
   );
 };
 
