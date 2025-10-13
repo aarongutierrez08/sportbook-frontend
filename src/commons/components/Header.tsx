@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import "../../styles/header.css";
 import logo3 from "../../assets/logo3.png";
 import { clearAuthData } from "../../api/axios";
@@ -31,46 +32,60 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="app-header" style={{ zIndex: 2000 }}>
+    <header className="app-header">
       <div className="header-container">
-        <a href="/" style={{ display: 'flex' }}>
+        <NavLink to="/">
           <img src={logo3} alt="Sportbook Logo" className="logo" />
-        </a>
-        <nav className={`nav`}>
+        </NavLink>
+
+        <nav className="nav">
           <ul className="nav-links">
             <li>
-              <a href="/events">
+              <NavLink
+                to="/events"
+                className={({ isActive }) => isActive ? 'active' : ''}
+                end
+              >
                 Eventos
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="/events/create">
+              <NavLink
+                to="/events/create"
+                className={({ isActive }) => isActive ? 'active' : ''}
+              >
                 Crear Evento
-              </a>
+              </NavLink>
             </li>
-            {
-              isAuthenticated ? (
-                <>
-                  <li>
-                    <a href="/profile" >
-                      Configurar perfil
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/auth" onClick={handleLogout}>
-                      Cerrar sesión
-                    </a>
-                  </li>
-                </>
-                
-              ) : (
-                <a href="/auth">
+            {isAuthenticated ? (
+              <li>
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) => isActive ? 'active' : ''}
+                >
+                  Mi Perfil
+                </NavLink>
+              </li>
+            ) : (
+              <li>
+                <NavLink
+                  to="/auth"
+                  className={({ isActive }) => isActive ? 'active' : ''}
+                >
                   Ingresar
-                </a>
-              )
-            }
+                </NavLink>
+              </li>
+            )}
           </ul>
         </nav>
+
+        {isAuthenticated && (
+          <div className="logout-container">
+            <button onClick={handleLogout} className="logout-button">
+              Cerrar Sesión
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

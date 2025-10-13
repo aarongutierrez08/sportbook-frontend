@@ -1,5 +1,5 @@
 .profile-card {
-  background: var(--color-white);
+  background: var(--color-primary-background);
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 8px 32px var(--shadow-default);
@@ -27,7 +27,7 @@
 .profile-form .form-group {
   display: flex;
   flex-direction: column;
-  background: var(--color-primary-background);
+  background: var(--color-disabled-background);
   border-radius: 12px;
   padding: 1rem;
   min-height: 120px;

@@ -5,7 +5,9 @@ const Layout: React.FC = () => {
   return (
     <div>
       <Header />
-      <Outlet />
+      <main className="app-content">
+        <Outlet />
+      </main>
     </div>
   );
 };
