@@ -13,6 +13,7 @@ import EditableField from "../EditableField";
 import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
+import { useAuth } from "../../../auth/useAuth.ts";
 
 interface FootballEventDetailsProps {
   event: FootballEvent;
@@ -48,10 +49,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   isJoinTeamDisabled,
   onBalanceComplete,
 }) => {
-  const loggedUser = useMemo(() => {
-    const raw = localStorage.getItem("user");
-    return raw ? JSON.parse(raw) : null;
-  }, []);
+  const { user: loggedUser } = useAuth();
 
   const pitchKey = useMemo(() => {
     const firstTeamPlayers = event.firstTeam.players?.map((p) => p.id).join(",") || "";
@@ -223,7 +221,8 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           </div>
           <div className="event-page-section no-team-players">
             <h3>Jugadores sin equipo</h3>
-            <PlayerList players={event.players.filter(
+            <PlayerList
+              players={event.players.filter(
                 (player) =>
                   !event.firstTeam.players?.some((tp) => tp.id === player.id) &&
                   !event.secondTeam.players?.some((tp) => tp.id === player.id)

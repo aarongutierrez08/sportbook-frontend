@@ -1,54 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "../../styles/header.css";
 import logo3 from "../../assets/logo3.png";
-import { clearAuthData } from "../../api/axios";
 import ProfilePicture from "./ProfilePicture";
+import { useAuth } from "../../auth/useAuth";
+import "../../styles/header.css";
 
 const Header: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const { logout, status } = useAuth();
+  const isAuthenticated = status === "auth";
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token);
-    };
-
-    checkAuth();
-
-    window.addEventListener("storage", checkAuth);
-    const handleAuthEvent = () => checkAuth();
-    window.addEventListener("authStateChanged", handleAuthEvent);
-
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-      window.removeEventListener("authStateChanged", handleAuthEvent);
-    };
-  }, []);
-
-  const handleLogout = () => {
-    clearAuthData();
-    setIsAuthenticated(false);
-    setIsMenuOpen(false);
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const LogoutButton = () => (
-    <button onClick={handleLogout} className="logout-button">
+    <button onClick={logout} className="logout-button">
       Cerrar Sesión
     </button>
   );
@@ -70,14 +48,14 @@ const Header: React.FC = () => {
             <span className="hamburger"></span>
           </button>
 
-          <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
+          <nav className={`nav ${isMenuOpen ? "nav-open" : ""}`}>
             <ul className="nav-links">
               {isAuthenticated ? (
                 <>
                   <li>
                     <NavLink
                       to="/events"
-                      className={({ isActive }) => isActive ? 'active' : ''}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       end
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -87,7 +65,7 @@ const Header: React.FC = () => {
                   <li>
                     <NavLink
                       to="/events/create"
-                      className={({ isActive }) => isActive ? 'active' : ''}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Crear Evento
@@ -96,7 +74,7 @@ const Header: React.FC = () => {
                   <li>
                     <NavLink
                       to="/profile"
-                      className={({ isActive }) => isActive ? 'active' : ''}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Preferencias Deportivas
@@ -112,7 +90,7 @@ const Header: React.FC = () => {
                 <li>
                   <NavLink
                     to="/auth"
-                    className={({ isActive }) => isActive ? 'active' : ''}
+                    className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Ingresar

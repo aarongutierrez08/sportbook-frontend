@@ -9,8 +9,7 @@ const api = axios.create({
 
 export const clearAuthData = () => {
   localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  window.location.href = "/auth"; // Redirigir al login
+  window.location.href = "/auth";
 };
 
 api.interceptors.request.use((config) => {
