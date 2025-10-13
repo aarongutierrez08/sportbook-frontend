@@ -4,6 +4,7 @@ import { FootballPositionSelector } from "./FootballPositionSelector";
 import type { FootballProfileDTO } from "../../../types/user";
 import "../../../styles/footballProfileForm.css";
 import FootballSliderImage from "../../../assets/football_slider.png";
+import illustration from "../../../assets/football_sillhouette.png"
 
 export const FootballProfileForm = () => {
   const { control } = useFormContext<FootballProfileDTO>();
@@ -65,6 +66,7 @@ export const FootballProfileForm = () => {
             />
           )}
         />
+          <img src={illustration} alt="Football Sillhouete" className="profile-illustration" />
       </div>
     </>
   );

@@ -1,10 +1,40 @@
 .grid-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.grid-container h1 {
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin: 0;
+  padding: 0;
+}
+
+.grid-container main {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  padding: 1.5rem 1.5rem 84px 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 2rem;
+}
+
+@media (max-width: 1400px) {
+  .grid-container main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-container main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-container main {
+    grid-template-columns: 1fr;
+  }
 }
 
 .empty-state {
@@ -82,4 +112,28 @@
   height: 200px;
   margin-right: 8px;
   vertical-align: middle;
+}
+
+.events-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    background: var(--color-primary-background);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px var(--shadow-default);
+    border: 1px solid #e2e8f0;
+    margin-top: 1.5rem;
+}
+
+.events-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-primary-light), transparent);
+    margin: 2rem 0;
+    opacity: 0.3;
+    width: 100%;
 }

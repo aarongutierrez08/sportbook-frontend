@@ -18,6 +18,11 @@ export const getAllEvents = async (): Promise<SportEvent[]> => {
   return res.data;
 };
 
+export const getFinishedEvents = async (): Promise<SportEvent[]> => {
+    const res = await api.get<SportEvent[]>("/event/finished");
+    return res.data;
+};
+
 export const joinEvent = async (eventId: number): Promise<SportEvent> => {
   const res = await api.put<SportEvent>("/event/" + eventId + "/join");
   return res.data;

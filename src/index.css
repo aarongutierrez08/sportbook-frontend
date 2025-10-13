@@ -85,6 +85,15 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    margin-left: 250px; /* Mismo ancho que el sidebar */
+}
+
+.app-content {
+    margin-left: 250px; /* Mismo ancho que el sidebar */
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
 }
 
 @keyframes fadeIn {
@@ -460,4 +469,13 @@ body {
 .mini-map .leaflet-container {
     width: 100% !important;
     height: 100% !important;
+}
+
+.page-title {
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: var(--font-family);
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
