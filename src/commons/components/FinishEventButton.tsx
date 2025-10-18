@@ -25,7 +25,7 @@ const FinishEventButton: React.FC<FinishEventButtonProps> = ({
       await finishEvent(event.id, params);
       toast.success("Evento finalizado exitosamente");
       setShowModal(false);
-      window.location.reload();
+      window.location.href = "/events"
     } catch {
       toast.error("Error al finalizar el evento");
     } finally {
