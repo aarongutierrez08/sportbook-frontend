@@ -1,26 +1,18 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Checkbox, FormControlLabel, RadioGroup, Radio, Slider } from "@mui/material";
 import type { PaddleProfileDTO } from "../../../types/user";
+import { PaddlePositionSelector } from "./PaddlePositionSelector";
 
 export const PaddleProfileForm = () => {
   const { control } = useFormContext<PaddleProfileDTO>();
 
   return (
     <>
-      <Controller
-        name="preferredSide"
-        control={control}
-        render={({ field }) => (
-          <div className="form-group">
-            <label>Lado preferido:</label>
-            <RadioGroup {...field} row>
-              <FormControlLabel value="DRIVE" control={<Radio />} label="Drive (derecha)" />
-              <FormControlLabel value="REVES" control={<Radio />} label="Revés (izquierda)" />
-            </RadioGroup>
+        <div className="form-group" >
+          <div className="pitch-selector-container">
+            <PaddlePositionSelector />
           </div>
-        )}
-      />
-
+        </div>
       <Controller
         name="ability"
         control={control}

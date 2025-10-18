@@ -39,9 +39,11 @@ export interface VolleyProfileDTO {
 
 export type UpdateVolleyProfileRequest = Omit<VolleyProfileDTO, "sport">
 
+export type PaddlePosition = 'DRIVE' | 'REVES';
+
 export interface PaddleProfileDTO {
   sport: "PADDLE";
-  preferredSide: "DRIVE" | "REVES";
+  preferredSide: PaddlePosition;
   ability: number;
   playsOften: boolean;
   playStyle: "OFENSIVO" | "DEFENSIVO" | "MIXTO";

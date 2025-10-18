@@ -1,0 +1,65 @@
+.paddle-position-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.paddle-position-selector-pitch-container {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 9/16;
+  position: relative;
+  margin: 20px auto;
+  transform: rotate(90deg);
+}
+
+.paddle-position-selector-pitch {
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/paddle-court.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 10px;
+  mask-image: linear-gradient(to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent),
+    linear-gradient(to bottom,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent);
+  mask-composite: intersect;
+  -webkit-mask-composite: source-in;
+}
+
+.paddle-position-button {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #389148;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.paddle-position-button:hover {
+  background: rgba(232, 142, 38, 0.2);
+}
+
+.paddle-position-button.selected {
+  background: rgba(56, 145, 72, 0.8);
+  color: white;
+}
