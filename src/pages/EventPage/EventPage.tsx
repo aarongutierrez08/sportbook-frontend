@@ -52,6 +52,9 @@ const EventPage: React.FC = () => {
 
   const { user: loggedUser } = useAuth();
 
+  // Verificar si el usuario puede editar el evento
+  const canEditEvent = loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
+
   const handleFieldChange = (
     field: keyof UpdateEventParams,
     value: string | number
@@ -202,7 +205,7 @@ const EventPage: React.FC = () => {
         <h2>{event.sport}</h2>
         {renderEventDetails()}
         <div className="buttons-container">
-          {hasChanges && (
+          {hasChanges && canEditEvent && (
             <button onClick={handleSave} className="btn">
               Guardar Cambios
             </button>
@@ -219,7 +222,7 @@ const EventPage: React.FC = () => {
             </button>
           )}
           {!event.isFinished && renderJoinLeaveButton()}
-          <FinishEventButton event={event} />
+          {canEditEvent && <FinishEventButton event={event} />}
         </div>
       </div>
 

@@ -9,12 +9,14 @@ interface EventFairnessRatingComponentProps {
   eventId: number;
   teams: TeamInfo[];
   onBalanceComplete?: () => void;
+  canBalance?: boolean
 }
 
 const EventFairnessRatingComponent = ({
   eventId,
   teams,
-  onBalanceComplete
+  onBalanceComplete,
+  canBalance = true,
 }: EventFairnessRatingComponentProps) => {
   const [rating, setRating] = useState(5);
   const DEFAULT_RATING = 5;
@@ -78,10 +80,10 @@ const EventFairnessRatingComponent = ({
           },
         }}
       />
-      <BalanceTeamsButton
-        eventId={eventId}
-        onBalance={onBalanceComplete}
-      />
+        {canBalance && <BalanceTeamsButton
+            eventId={eventId}
+            onBalance={onBalanceComplete}
+        />}
     </div>
   );
 };
