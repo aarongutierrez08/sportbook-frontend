@@ -66,7 +66,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           <EditableField
             label="Organizador"
             field="organizer"
-            value={event.organizer}
+            value={event.organizer!.name!}
             editForm={editForm}
             editingField={editingField}
             onEditClick={setEditingField}

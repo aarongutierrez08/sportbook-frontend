@@ -8,9 +8,12 @@ export interface SportUser {
   name?: string;
   lastName?: string;
   dateOfBirth?: string;
+  role?: Role;
 }
 
 export type Sport = "FOOTBALL" | "VOLLEY" | "PADDLE";
+
+export type Role = "PLAYER" | "ORGANIZER";
 
 export interface FootballProfileDTO {
   sport: "FOOTBALL";

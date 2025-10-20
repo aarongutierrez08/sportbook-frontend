@@ -50,7 +50,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, loggedUser, onDetails }) =
       </div>
 
       <div className="footer">
-        Organizador: {event.organizer}
+        Organizador: {event.organizer?.name}
         <br />
         Lugar: {event.location.placeName}
         <br />
