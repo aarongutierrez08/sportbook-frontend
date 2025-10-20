@@ -109,74 +109,79 @@ const AuthPage: React.FC = () => {
 
   return (
     <div className="container">
-      <div className="card">
-        <h2 className="page-title">
-          {isRegister ? "Registrarse" : "Iniciar Sesión"}
-        </h2>
+      <div className="card-container">
+        <div className="card">
+          <h2 className="page-title">
+            {isRegister ? "Registrarse" : "Iniciar Sesión"}
+          </h2>
 
-        <Tabs value={tab} onChange={handleTabChange} sx={{ mb: 2 }}>
-          <Tab label="Login" value="login" disabled={isSubmitting} />
-          <Tab label="Registro" value="register" disabled={isSubmitting} />
-        </Tabs>
+          <Tabs value={tab} onChange={handleTabChange} sx={{ mb: 2 }}>
+            <Tab label="Login" value="login" disabled={isSubmitting} />
+            <Tab label="Registro" value="register" disabled={isSubmitting} />
+          </Tabs>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <FormField label="Usuario" error={errors.username}>
-            <input
-              type="text"
-              autoComplete="username"
-              {...register("username", rules.username)}
-            />
-          </FormField>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <FormField label="Usuario" error={errors.username}>
+              <input
+                type="text"
+                autoComplete="username"
+                {...register("username", rules.username)}
+              />
+            </FormField>
 
-          <FormField label="Contraseña" error={errors.password}>
-            <input
-              type="password"
-              autoComplete={isRegister ? "new-password" : "current-password"}
-              {...register("password", rules.password)}
-            />
-          </FormField>
+            <FormField label="Contraseña" error={errors.password}>
+              <input
+                type="password"
+                autoComplete={isRegister ? "new-password" : "current-password"}
+                {...register("password", rules.password)}
+              />
+            </FormField>
 
-          {isRegister && (
-            <>
-              <FormField label="Email" error={errors.email}>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  {...register("email", rules.email)}
-                />
-              </FormField>
+            {isRegister && (
+              <>
+                <FormField label="Email" error={errors.email}>
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    {...register("email", rules.email)}
+                  />
+                </FormField>
 
-              <FormField label="Nombre" error={errors.name}>
-                <input
-                  type="text"
-                  autoComplete="given-name"
-                  {...register("name", rules.name)}
-                />
-              </FormField>
+                <FormField label="Nombre" error={errors.name}>
+                  <input
+                    type="text"
+                    autoComplete="given-name"
+                    {...register("name", rules.name)}
+                  />
+                </FormField>
 
-              <FormField label="Apellido" error={errors.lastName}>
-                <input
-                  type="text"
-                  autoComplete="family-name"
-                  {...register("lastName", rules.lastName)}
-                />
-              </FormField>
+                <FormField label="Apellido" error={errors.lastName}>
+                  <input
+                    type="text"
+                    autoComplete="family-name"
+                    {...register("lastName", rules.lastName)}
+                  />
+                </FormField>
 
-              <FormField label="Fecha de nacimiento" error={errors.dateOfBirth}>
-                <input
-                  type="date"
-                  {...register("dateOfBirth", rules.dateOfBirth)}
-                />
-              </FormField>
-            </>
-          )}
+                <FormField
+                  label="Fecha de nacimiento"
+                  error={errors.dateOfBirth}
+                >
+                  <input
+                    type="date"
+                    {...register("dateOfBirth", rules.dateOfBirth)}
+                  />
+                </FormField>
+              </>
+            )}
 
-          <div className="form-full">
-            <button type="submit" className="btn" disabled={isSubmitting}>
-              {isRegister ? "Registrarse" : "Entrar"}
-            </button>
-          </div>
-        </form>
+            <div className="form-full">
+              <button type="submit" className="btn btn--lg" disabled={isSubmitting}>
+                {isRegister ? "Registrarse" : "Entrar"}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

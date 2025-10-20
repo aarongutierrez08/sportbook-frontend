@@ -1,33 +1,29 @@
 .football-position-selector {
-  position: relative;
-  width: 100%;
-  margin: 0 auto;
-  aspect-ratio: 2/3;
+  display: flex;
+  justify-content: center;
+  padding: 25px;
 }
 
 .position-selector-pitch-container {
-  position: absolute;
-  width: 150%;
-  height: 100%;
-  left: -25%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  width: 100%;
   background: url(../assets/soccer-pitch.png) no-repeat center;
   background-size: contain;
-  transform: rotate(90deg);
 }
 
 .position-selector-pitch {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  height: 900px;
+  width: 500px;
+  margin-top: -180px;
   transform: rotate(-90deg);
-  transform-origin: center center;
 }
 
 .position-button {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: rotate(90deg);
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid #ccc;
   border-radius: 50%;
@@ -47,7 +43,6 @@
 }
 
 .position-button.selected {
-  background: var(--color-primary-background);
   border-color: var(--color-secondary);
   color: var(--color-white);
 }
@@ -74,4 +69,16 @@
 .favorite-star.favorite {
   color: #E98E26;
   transform: scale(1.2);
+}
+
+@media (max-width: 1400px) {
+
+  .football-position-selector {
+    padding: 15px;
+  }
+
+  .position-selector-pitch {
+    height: 700px;
+    margin-top: -80px;
+  }
 }

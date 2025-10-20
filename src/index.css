@@ -77,19 +77,22 @@ body {
   font-weight: 400;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    margin-left: 250px; /* Mismo ancho que el sidebar */
-}
-
 .app-content {
     margin-left: 250px; /* Mismo ancho que el sidebar */
     min-height: 100vh;
     padding: 20px;
     position: relative;
     z-index: 2;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card-container {
+    width: 1280px;
 }
 
 @keyframes fadeIn {
@@ -172,7 +175,9 @@ body {
 
 .buttons-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
     padding: 10px;
     gap: 10px;
 }

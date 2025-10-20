@@ -28,7 +28,7 @@ const ProfilePage: React.FC = () => {
       positions: [],
       favoritePosition: "ST",
       ability: 5,
-      playsOften: false,
+      playFrequency: "often", 
     },
   });
 
@@ -38,9 +38,11 @@ const ProfilePage: React.FC = () => {
       positions: [],
       favoritePosition: "Setter",
       ability: 5,
-      playsOften: false,
       blockHeight: undefined,
-      rolePreference: "OFENSIVO",
+      offensiveLevel: 5, // Agregar
+      defensiveLevel: 5, // Agregar
+      serveType: "", // Agregar esta línea
+      playFrequency: "often",
     },
   });
 
@@ -52,6 +54,7 @@ const ProfilePage: React.FC = () => {
       playsOften: false,
       playStyle: "MIXTO",
       playedTournaments: false,
+      playFrequency: "often", // Agregar valor por defecto
     },
   });
 

@@ -141,13 +141,13 @@ const EventPage: React.FC = () => {
 
   const playerIsNotInEvent = (sportEvent: SportEvent, loggedUser: any) => {
     return !sportEvent.players?.some(
-      (playerInfo) => playerInfo.user?.username === loggedUser.username.sub
+      (playerInfo) => playerInfo.user?.username === loggedUser.username
     );
   };
 
   const isPlayerInTeam = (teamPlayers: PlayerInfo[], loggedUser: any) => {
     return teamPlayers?.some(
-      (playerInfo) => playerInfo.user?.username === loggedUser.username.sub
+      (playerInfo) => playerInfo.user?.username === loggedUser.username
     );
   };
 

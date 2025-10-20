@@ -17,14 +17,14 @@ export interface FootballProfileDTO {
   positions: Position[];
   favoritePosition: Position;
   ability: number;
-  playsOften: boolean;
+  playFrequency?: string;
 }
 
 export interface UpdateFootballProfileRequest {
   positions: Position[];
   favoritePosition: Position;
   ability: number;
-  playsOften: boolean;
+  playFrequency?: string;
 }
 
 export interface VolleyProfileDTO {
@@ -32,9 +32,11 @@ export interface VolleyProfileDTO {
   positions: string[];
   favoritePosition: string;
   ability: number;
-  playsOften: boolean;
   blockHeight?: number;
-  rolePreference: "OFENSIVO" | "DEFENSIVO";
+  offensiveLevel?: number; // Nuevo campo
+  defensiveLevel?: number; // Nuevo campo
+  serveType?: string; // Agregar esta línea
+  playFrequency?: string; // Nuevo campo: 'rarely', 'often', 'veryOften'
 }
 
 export type UpdateVolleyProfileRequest = Omit<VolleyProfileDTO, "sport">
@@ -46,6 +48,7 @@ export interface PaddleProfileDTO {
   playsOften: boolean;
   playStyle: "OFENSIVO" | "DEFENSIVO" | "MIXTO";
   playedTournaments: boolean;
+  playFrequency?: string;
 }
 
 export type UpdatePaddleProfileRequest = Omit<PaddleProfileDTO, "sport">

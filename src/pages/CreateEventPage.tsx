@@ -50,128 +50,130 @@ const CreateEventPage: React.FC = () => {
 
   return (
     <div className="container">
-      <div className="card">
-        <h2 className="page-title">Nuevo evento</h2>
+      <div className="card-container">
+        <div className="card">
+          <h2 className="page-title">Nuevo evento</h2>
 
-        <form className="create-event-form" onSubmit={handleSubmit(onSubmit)}>
-          <FormField label="Deporte" error={errors.sport}>
-            <select {...register("sport", { required: REQUIRED })}>
-              <option value="">Seleccionar deporte...</option>
-              <option value="FOOTBALL">⚽ Football</option>
-              <option value="PADDLE">🏓 Paddle</option>
-              <option value="VOLLEY">🏐 Volley</option>
-            </select>
-          </FormField>
+          <form className="create-event-form" onSubmit={handleSubmit(onSubmit)}>
+            <FormField label="Deporte" error={errors.sport}>
+              <select {...register("sport", { required: REQUIRED })}>
+                <option value="">Seleccionar deporte...</option>
+                <option value="FOOTBALL">⚽ Football</option>
+                <option value="PADDLE">🏓 Paddle</option>
+                <option value="VOLLEY">🏐 Volley</option>
+              </select>
+            </FormField>
 
-          <FormField label="Fecha y Hora" error={errors.dateTime}>
-            <input
-              type="datetime-local"
-              {...register("dateTime", { required: REQUIRED })}
-            />
-          </FormField>
+            <FormField label="Fecha y Hora" error={errors.dateTime}>
+              <input
+                type="datetime-local"
+                {...register("dateTime", { required: REQUIRED })}
+              />
+            </FormField>
 
-          <div className="form-group form-full">
-            <label>Ubicación</label>
-            <LocationPickerMap
-              lat={watch("location.x")}
-              lng={watch("location.y")}
-              onChange={(lat, lng, placeName) => {
-                setValue("location.x", lat, { shouldValidate: true });
-                setValue("location.y", lng, { shouldValidate: true });
-                if (placeName) {
-                  setValue("location.placeName", placeName);
-                }
-              }}
-            />
+            <div className="form-group form-full">
+              <label>Ubicación</label>
+              <LocationPickerMap
+                lat={watch("location.x")}
+                lng={watch("location.y")}
+                onChange={(lat, lng, placeName) => {
+                  setValue("location.x", lat, { shouldValidate: true });
+                  setValue("location.y", lng, { shouldValidate: true });
+                  if (placeName) {
+                    setValue("location.placeName", placeName);
+                  }
+                }}
+              />
 
-            <input
-              type="hidden"
-              {...register("location.x", { valueAsNumber: true })}
-            />
-            <input
-              type="hidden"
-              {...register("location.y", { valueAsNumber: true })}
-            />
+              <input
+                type="hidden"
+                {...register("location.x", { valueAsNumber: true })}
+              />
+              <input
+                type="hidden"
+                {...register("location.y", { valueAsNumber: true })}
+              />
 
-            <div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Nombre del lugar"
+                  {...register("location.placeName", {
+                    required: "Este campo es obligatorio",
+                  })}
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Creador</label>
               <input
                 type="text"
-                placeholder="Nombre del lugar"
-                {...register("location.placeName", {
-                  required: "Este campo es obligatorio",
+                placeholder="Tu nombre"
+                {...register("creator", {
+                  required: { value: true, message: "Este campo es obligatorio" },
                 })}
               />
+              {errors.creator && <div className="input-error">Obligatorio</div>}
             </div>
-          </div>
 
-          <div className="form-group">
-            <label>Creador</label>
-            <input
-              type="text"
-              placeholder="Tu nombre"
-              {...register("creator", {
-                required: { value: true, message: "Este campo es obligatorio" },
-              })}
+            <FormField label="Organizador" error={errors.organizer}>
+              <input
+                type="text"
+                placeholder="Nombre del organizador"
+                {...register("organizer", { required: REQUIRED })}
+              />
+            </FormField>
+
+            <FormField label="Jugadores Mínimos" error={errors.minPlayers}>
+              <input
+                type="number"
+                placeholder="2"
+                {...register("minPlayers", {
+                  required: REQUIRED,
+                  min: 1,
+                  valueAsNumber: true,
+                })}
+              />
+            </FormField>
+
+            <FormField label="Jugadores Máximos" error={errors.maxPlayers}>
+              <input
+                type="number"
+                placeholder="10"
+                {...register("maxPlayers", {
+                  required: REQUIRED,
+                  min: 1,
+                  valueAsNumber: true,
+                  validate: (value, f) =>
+                    value < (f.minPlayers ?? 1)
+                      ? "El número máximo de jugadores no puede ser menor al mínimo."
+                      : true,
+                })}
+              />
+            </FormField>
+
+            <PaymentFields register={register} errors={errors} />
+
+            <MatchDetailsFields
+              sport={sport}
+              register={register}
+              errors={errors}
             />
-            {errors.creator && <div className="input-error">Obligatorio</div>}
-          </div>
 
-          <FormField label="Organizador" error={errors.organizer}>
-            <input
-              type="text"
-              placeholder="Nombre del organizador"
-              {...register("organizer", { required: REQUIRED })}
-            />
-          </FormField>
-
-          <FormField label="Jugadores Mínimos" error={errors.minPlayers}>
-            <input
-              type="number"
-              placeholder="2"
-              {...register("minPlayers", {
-                required: REQUIRED,
-                min: 1,
-                valueAsNumber: true,
-              })}
-            />
-          </FormField>
-
-          <FormField label="Jugadores Máximos" error={errors.maxPlayers}>
-            <input
-              type="number"
-              placeholder="10"
-              {...register("maxPlayers", {
-                required: REQUIRED,
-                min: 1,
-                valueAsNumber: true,
-                validate: (value, f) =>
-                  value < (f.minPlayers ?? 1)
-                    ? "El número máximo de jugadores no puede ser menor al mínimo."
-                    : true,
-              })}
-            />
-          </FormField>
-
-          <PaymentFields register={register} errors={errors} />
-
-          <MatchDetailsFields
-            sport={sport}
-            register={register}
-            errors={errors}
-          />
-
-          <div className="buttons-container form-full">
-            <button type="submit" className="btn btn--lg" disabled={isSubmitting}>
-              Crear
-            </button>
-            <button
-              onClick={() => reset()}
-              className="btn btn--lg btn--secondary"
-            >
-              Limpiar
-            </button>
-          </div>
-        </form>
+            <div className="buttons-container form-full">
+              <button type="submit" className="btn btn--lg" disabled={isSubmitting}>
+                Crear
+              </button>
+              <button
+                onClick={() => reset()}
+                className="btn btn--lg btn--secondary"
+              >
+                Limpiar
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

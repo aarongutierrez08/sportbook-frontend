@@ -5,6 +5,7 @@
   box-shadow: 0 8px 32px var(--shadow-default);
   border: 1px solid #e2e8f0;
   margin-top: 1.5rem;
+  width: 1280px;
 }
 
 .profile-header {
@@ -27,7 +28,7 @@
 .profile-form .form-group {
   display: flex;
   flex-direction: column;
-  background: var(--color-disabled-background);
+  background: var(--color-surface);
   border-radius: 12px;
   padding: 1rem;
   min-height: 120px;
@@ -63,4 +64,365 @@
     height: auto;
     object-fit: contain;
     filter: grayscale(100%);
+    align-self: center;
+}
+
+/* ========== SPORT PROFILE STYLES (GENERIC) ========== */
+
+.sport-card {
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-white) 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.sport-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.sport-card-full {
+  grid-column: 1 / -1;
+}
+
+.sport-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.sport-card-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+/* Posiciones/Opciones con lista */
+.sport-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sport-option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-white);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sport-option-item:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 2px 8px rgba(11, 70, 80, 0.1);
+}
+
+.sport-option-item.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-background);
+  box-shadow: 0 2px 8px rgba(11, 70, 80, 0.15);
+}
+
+.sport-option-item.secondary.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-background);
+  box-shadow: 0 2px 8px rgba(196, 84, 0, 0.15);
+}
+
+.sport-option-item.secondary:hover {
+  border-color: var(--color-secondary-light);
+  box-shadow: 0 2px 8px rgba(196, 84, 0, 0.1);
+}
+
+.sport-option-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sport-option-icon {
+  font-size: 2rem;
+}
+
+.sport-option-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.sport-option-name {
+  font-weight: 600;
+  color: var(--color-text-dark);
+  font-size: 0.95rem;
+}
+
+.sport-option-desc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.sport-favorite-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+  padding: 0.25rem;
+}
+
+.sport-favorite-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.sport-favorite-btn.favorite {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* Nivel (Sliders) */
+.sport-level-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sport-level-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.sport-level-slider {
+  flex: 1;
+}
+
+.sport-level-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.sport-level-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.sport-slider {
+  width: 100%;
+  height: 12px;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0.5rem 0;
+}
+
+.sport-slider.offensive {
+  background: linear-gradient(to right, #fecaca, #ef4444);
+}
+
+.sport-slider.defensive {
+  background: linear-gradient(to right, #bfdbfe, #3b82f6);
+}
+
+.sport-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-white);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--color-primary);
+}
+
+.sport-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-white);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--color-primary);
+}
+
+.sport-level-bars {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.sport-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--color-border);
+  transition: background 0.3s ease;
+}
+
+.sport-bar.active.offensive {
+  background: #ef4444;
+}
+
+.sport-bar.active.defensive {
+  background: #3b82f6;
+}
+
+/* Frecuencia de juego / Opciones con boxes */
+.sport-frequency-options {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.sport-frequency-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  max-width: 150px;
+}
+
+.sport-frequency-box {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border: 4px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sport-frequency-box:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 4px 12px rgba(11, 70, 80, 0.15);
+}
+
+.sport-frequency-box.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-background);
+  box-shadow: 0 4px 16px rgba(11, 70, 80, 0.2);
+}
+
+.sport-frequency-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sport-icons-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.sport-icon-single {
+  font-size: 2rem;
+  display: inline-block;
+  animation: sport-pulse 2s ease-in-out infinite;
+}
+
+.sport-icon-single:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.sport-icon-single:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+.sport-frequency-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-dark);
+  font-weight: 600;
+}
+
+.sport-radio {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: 4px solid var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.sport-radio.checked {
+  background: var(--color-primary);
+  transform: scale(1.1);
+}
+
+.sport-radio-check {
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.sport-frequency-text {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  transition: color 0.3s ease;
+  text-align: center;
+}
+
+.sport-frequency-text.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+@keyframes sport-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+@media (max-width: 768px) {
+  .sport-frequency-options {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .sport-frequency-box {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .sport-icon-single {
+    font-size: 1.5rem;
+  }
 }
