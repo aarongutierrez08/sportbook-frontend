@@ -70,7 +70,10 @@
 /* ========== SPORT PROFILE STYLES (GENERIC) ========== */
 
 .sport-card {
-  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-white) 100%);
+
+  background-image:  url('../assets/background-light.png');
+  background-color: var(--color-surface);
+  background-size: cover;
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);

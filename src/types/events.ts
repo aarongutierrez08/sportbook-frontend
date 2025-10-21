@@ -1,4 +1,4 @@
-import type { Sport } from "./user";
+import type {Sport, SportUser} from "./user";
 
 export type SportEvent = {
   id: number;
@@ -17,8 +17,7 @@ export type SportEvent = {
     alias: string;
   };
   players: PlayerInfo[];
-  creator: string;
-  organizer: string;
+  organizer?: SportUser;
   isFinished?: boolean;
 };
 
@@ -60,8 +59,6 @@ export interface SportEventForm {
   location: { x: number; y: number; placeName: string };
   cbu: string;
   alias: string;
-  creator: string;
-  organizer: string;
   playersText: string;
   cost: number;
   pitchSize?: number;

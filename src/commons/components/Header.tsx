@@ -9,8 +9,9 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const { logout, status } = useAuth();
+  const { logout, status, user } = useAuth();
   const isAuthenticated = status === "auth";
+  const isOrganizer = user?.role === "ORGANIZER";
 
   useEffect(() => {
     const handleResize = () => {
@@ -62,15 +63,17 @@ const Header: React.FC = () => {
                       Eventos
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      to="/events/create"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Crear Evento
-                    </NavLink>
-                  </li>
+                  {isOrganizer && (
+                    <li>
+                      <NavLink
+                        to="/events/create"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Crear Evento
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <NavLink
                       to="/profile"
@@ -100,18 +103,18 @@ const Header: React.FC = () => {
             </ul>
           </nav>
 
-          {isAuthenticated && !isMobile && (
+          {!isMobile && isAuthenticated && (
             <div className="logout-container">
               <LogoutButton />
             </div>
           )}
+          {isAuthenticated && (
+             <div className="header-profile">
+               <ProfilePicture size={50} />
+             </div>
+          )}
         </div>
       </header>
-      {isAuthenticated && (
-        <div className="header-profile">
-          <ProfilePicture size={50} />
-        </div>
-      )}
     </>
   );
 };

@@ -10,6 +10,7 @@ interface FootballPitchProps {
   firstTeamColor: string;
   secondTeamColor: string;
   pitchSize: number;
+  canEdit?: boolean;
 }
 
 // Definimos un tipo para los datos del drag & drop
@@ -23,7 +24,8 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
   eventId,
   firstTeamColor,
   secondTeamColor,
-  pitchSize
+  pitchSize,
+  canEdit = true
 }) => {
   const [lineups, setLineups] = useState<Lineup[]>([]);
   const [draggedPosition, setDraggedPosition] = useState<string | null>(null);
@@ -275,7 +277,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
         <div
           key={player.user?.username + 'bench'}
           className="player bench-player"
-          draggable
+          draggable={canEdit}
           data-lineup-id={lineup.id}
           onDragStart={(e) => handleDragStart(e, player)}
           onDragEnd={handleDragEnd}

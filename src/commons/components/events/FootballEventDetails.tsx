@@ -51,6 +51,9 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
 }) => {
   const { user: loggedUser } = useAuth();
 
+  // Verificar si el usuario puede editar el evento
+  const canEditEvent = !event.isFinished && loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
+
   const pitchKey = useMemo(() => {
     const firstTeamPlayers = event.firstTeam.players?.map((p) => p.id).join(",") || "";
     const secondTeamPlayers = event.secondTeam.players?.map((p) => p.id).join(",") || "";
@@ -64,9 +67,10 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           <h3>Detalles del Evento</h3>
           <p>Fecha y hora: {formatDate(event.dateTime)}</p>
           <EditableField
+            enabled={canEditEvent}
             label="Organizador"
             field="organizer"
-            value={event.organizer}
+            value={event.organizer!.name!}
             editForm={editForm}
             editingField={editingField}
             onEditClick={setEditingField}
@@ -77,6 +81,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
             Jugadores: {event.players.length} / {event.minPlayers}
           </p>
           <EditableField
+            enabled={canEditEvent}
             label="Costo"
             field="cost"
             type="number"
@@ -89,6 +94,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           />
           {event.pitchSize && (
             <EditableField
+              enabled={canEditEvent}
               label="Tamaño de cancha"
               field="pitchSize"
               type="number"
@@ -105,6 +111,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
         <div className="event-page-section">
           <h3>Ubicación</h3>
           <EditableField
+            enabled={canEditEvent}
             label="Lugar"
             field="locationPlaceName"
             value={event.location.placeName}
@@ -118,14 +125,16 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <div className="buttons-container">
-                <button
-                  className="btn btn--block"
-                  onClick={() => setIsEditingLocation(true)}
-                >
-                  Cambiar ubicación
-                </button>
-              </div>
+              {canEditEvent && (
+                <div className="buttons-container">
+                  <button
+                    className="btn btn--block"
+                    onClick={() => setIsEditingLocation(true)}
+                  >
+                    Cambiar ubicación
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="location-picker-container">
@@ -146,7 +155,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
 
         <div className="event-page-section">
           <h3>Datos de Pago</h3>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Alias"
             field="transferDataAlias"
             value={event.transferData.alias}
@@ -156,7 +165,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="CBU"
             field="transferDataCbu"
             value={event.transferData.cbu}
@@ -217,6 +226,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
               eventId={event.id}
               teams={[event.firstTeam, event.secondTeam]}
               onBalanceComplete={onBalanceComplete}
+              canBalance={canEditEvent}
             />
           </div>
           <div className="event-page-section no-team-players">
@@ -240,6 +250,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
           firstTeamColor={event.firstTeam.color}
           secondTeamColor={event.secondTeam.color}
           pitchSize={Number(event.pitchSize)}
+          canEdit={canEditEvent}
         />
       </div>
     </>

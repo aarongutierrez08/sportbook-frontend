@@ -1,7 +1,6 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { FootballPositionSelector } from "./FootballPositionSelector";
 import type { FootballProfileDTO } from "../../../types/user";
-import illustration from "../../../assets/football_sillhouette.png";
 
 const playFrequencies = [
   {

@@ -4,7 +4,6 @@ import type {
   UpdateEventParams,
   SportEvent,
   PlayerInfo,
-  FootballEvent,
 } from "../../../types/events";
 import { formatDate } from "../../../utils/events";
 import MiniMap from "../MiniMap";
@@ -14,6 +13,7 @@ import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 import { useAuth } from "../../../auth/useAuth.ts";
+import AddTeamButton from "../AddTeamButton.tsx";
 
 interface VolleyEventDetailsProps {
   event: VolleyEvent;
@@ -27,7 +27,7 @@ interface VolleyEventDetailsProps {
     field: keyof UpdateEventParams,
     value: string | number
   ) => void;
-  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  onEventUpdate: (updatedEvent: VolleyEvent) => void;
   isJoinTeamDisabled: (
     sportEvent: SportEvent,
     teamPlayers: PlayerInfo[],
@@ -51,16 +51,19 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
 }) => {
   const { user: loggedUser } = useAuth();
 
+  // Verificar si el usuario puede editar el evento
+  const canEditEvent = !event.isFinished && loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer?.id;
+
   return (
     <>
       <div className="event-page-details">
         <div className="event-page-section">
           <h3>Detalles del Evento</h3>
           <p>Fecha y hora: {formatDate(event.dateTime)}</p>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Organizador"
             field="organizer"
-            value={event.organizer}
+            value={event.organizer!.name!}
             editForm={editForm}
             editingField={editingField}
             onEditClick={setEditingField}
@@ -70,7 +73,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
           <p>
             Jugadores: {event.players.length} / {event.minPlayers}
           </p>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Costo"
             field="cost"
             type="number"
@@ -85,7 +88,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
 
         <div className="event-page-section">
           <h3>Ubicación</h3>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Lugar"
             field="locationPlaceName"
             value={event.location.placeName}
@@ -98,14 +101,16 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <div className="buttons-container">
-                <button
-                  className="btn btn--block"
-                  onClick={() => setIsEditingLocation(true)}
-                >
-                  Cambiar ubicación
-                </button>
-              </div>
+              {canEditEvent && (
+                <div className="buttons-container">
+                  <button
+                    className="btn btn--block"
+                    onClick={() => setIsEditingLocation(true)}
+                  >
+                    Cambiar ubicación
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="location-picker-container">
@@ -126,7 +131,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
 
         <div className="event-page-section">
           <h3>Datos de Pago</h3>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Alias"
             field="transferDataAlias"
             value={event.transferData.alias}
@@ -136,7 +141,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="CBU"
             field="transferDataCbu"
             value={event.transferData.cbu}
@@ -174,6 +179,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
               </div>
             ))}
           </div>
+          {canEditEvent && <AddTeamButton event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
         </div>
 
         <div className="balance-and-players-column">
@@ -183,6 +189,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
               eventId={event.id}
               teams={event.teams!}
               onBalanceComplete={onBalanceComplete}
+              canBalance={canEditEvent}
             />
           </div>
           <div className="event-page-section no-team-players">

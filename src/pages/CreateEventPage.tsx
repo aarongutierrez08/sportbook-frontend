@@ -105,26 +105,6 @@ const CreateEventPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="form-group">
-              <label>Creador</label>
-              <input
-                type="text"
-                placeholder="Tu nombre"
-                {...register("creator", {
-                  required: { value: true, message: "Este campo es obligatorio" },
-                })}
-              />
-              {errors.creator && <div className="input-error">Obligatorio</div>}
-            </div>
-
-            <FormField label="Organizador" error={errors.organizer}>
-              <input
-                type="text"
-                placeholder="Nombre del organizador"
-                {...register("organizer", { required: REQUIRED })}
-              />
-            </FormField>
-
             <FormField label="Jugadores Mínimos" error={errors.minPlayers}>
               <input
                 type="number"

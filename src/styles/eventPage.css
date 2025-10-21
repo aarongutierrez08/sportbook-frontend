@@ -32,7 +32,7 @@
 
 .event-page-section.no-team-players {
     border-left: var(--shadow-default) 4px solid;
-    background-color: var(--color-disabled-background);
+    background-color: var(--color-surface);
 }
 
 .event-page-section h3 {
@@ -237,7 +237,9 @@
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    background-color: var(--color-primary-background);
+    background-color: var(--color-surface);
+    background-image: url('../assets/background-light.png');
+    background-size: cover;
     box-shadow: 0 4px 12px var(--shadow-default);
     transition: box-shadow .2s ease, transform .2s ease;
     border: 1px solid var(--color-border, #e3e8ee);

@@ -1,6 +1,5 @@
 import React from "react";
 import type {
-  FootballEvent,
   PaddleEvent,
   PlayerInfo,
   SportEvent,
@@ -14,6 +13,8 @@ import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 import { useAuth } from "../../../auth/useAuth.ts";
+import AddTeamButton from "../AddTeamButton.tsx";
+import RemoveTeamButton from "../RemoveTeamButton.tsx";
 
 interface PaddleEventDetailsProps {
   event: PaddleEvent;
@@ -27,7 +28,7 @@ interface PaddleEventDetailsProps {
     field: keyof UpdateEventParams,
     value: string | number
   ) => void;
-  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  onEventUpdate: (updatedEvent: PaddleEvent) => void;
   isJoinTeamDisabled: (
     sportEvent: SportEvent,
     teamPlayers: PlayerInfo[],
@@ -51,16 +52,19 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
 }) => {
   const { user: loggedUser } = useAuth();
 
+  // Verificar si el usuario puede editar el evento
+  const canEditEvent = !event.isFinished && loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
+
   return (
     <>
       <div className="event-page-details">
         <div className="event-page-section">
           <h3>Detalles del Evento</h3>
           <p>Fecha y hora: {formatDate(event.dateTime)}</p>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Organizador"
             field="organizer"
-            value={event.organizer}
+            value={event.organizer!.name!}
             editForm={editForm}
             editingField={editingField}
             onEditClick={setEditingField}
@@ -70,7 +74,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
           <p>
             Jugadores: {event.players.length} / {event.minPlayers}
           </p>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Costo"
             field="cost"
             type="number"
@@ -85,7 +89,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
 
         <div className="event-page-section">
           <h3>Ubicación</h3>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Lugar"
             field="locationPlaceName"
             value={event.location.placeName}
@@ -98,14 +102,16 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
           {!isEditingLocation ? (
             <div className="event-page-minimap">
               <MiniMap lat={event.location.x} lng={event.location.y} />
-              <div className="buttons-container">
-                <button
-                  className="btn btn--block"
-                  onClick={() => setIsEditingLocation(true)}
-                >
-                  Cambiar ubicación
-                </button>
-              </div>
+              {canEditEvent && (
+                <div className="buttons-container">
+                  <button
+                    className="btn btn--block"
+                    onClick={() => setIsEditingLocation(true)}
+                  >
+                    Cambiar ubicación
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="location-picker-container">
@@ -126,7 +132,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
 
         <div className="event-page-section">
           <h3>Datos de Pago</h3>
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="Alias"
             field="transferDataAlias"
             value={event.transferData.alias}
@@ -136,7 +142,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
             onChange={onFieldChange}
             onBlur={() => setEditingField(null)}
           />
-          <EditableField
+          <EditableField enabled={canEditEvent}
             label="CBU"
             field="transferDataCbu"
             value={event.transferData.cbu}
@@ -171,9 +177,11 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
                   )}
                 />
                 <PlayerList players={team.players!} />
+                {canEditEvent && <RemoveTeamButton team={team} event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
               </div>
             ))}
           </div>
+          {canEditEvent && <AddTeamButton event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
         </div>
 
         <div className="balance-and-players-column">
@@ -183,6 +191,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
               eventId={event.id}
               teams={event.teams!}
               onBalanceComplete={onBalanceComplete}
+              canBalance={canEditEvent}
             />
           </div>
           <div className="event-page-section no-team-players">
