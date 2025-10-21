@@ -1,10 +1,10 @@
 import type {
-  Lineup,
-  Position,
-  SportEvent,
-  UpdateEventParams,
-  FinishEventParams,
-  EventStats,
+    Lineup,
+    Position,
+    SportEvent,
+    UpdateEventParams,
+    FinishEventParams,
+    EventStats, TeamInfo,
 } from "../types/events";
 import api from "./axios";
 
@@ -113,4 +113,14 @@ export const getFairnessRating = async (eventId: number): Promise<number> => {
 
 export const balanceEvent = (eventId: number) => {
     return api.post("/event/" + eventId + "/balance");
+}
+
+export const addTeam = async (eventId: number, team: TeamInfo): Promise<SportEvent> => {
+    const res = await api.put<SportEvent>("/event/" + eventId + "/add-team", team);
+    return res.data
+}
+
+export const removeTeam = async (eventId: number, teamId: number): Promise<SportEvent> => {
+    const res = await api.delete<SportEvent>("/event/" + eventId + "/remove-team/" + teamId);
+    return res.data
 }

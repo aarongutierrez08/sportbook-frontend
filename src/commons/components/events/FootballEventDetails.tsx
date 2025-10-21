@@ -52,7 +52,7 @@ const FootballEventDetails: React.FC<FootballEventDetailsProps> = ({
   const { user: loggedUser } = useAuth();
 
   // Verificar si el usuario puede editar el evento
-  const canEditEvent = loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
+  const canEditEvent = !event.isFinished && loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
 
   const pitchKey = useMemo(() => {
     const firstTeamPlayers = event.firstTeam.players?.map((p) => p.id).join(",") || "";
