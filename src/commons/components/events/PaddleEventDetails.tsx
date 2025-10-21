@@ -1,6 +1,5 @@
 import React from "react";
 import type {
-  FootballEvent,
   PaddleEvent,
   PlayerInfo,
   SportEvent,
@@ -14,6 +13,8 @@ import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 import { useAuth } from "../../../auth/useAuth.ts";
+import AddTeamButton from "../AddTeamButton.tsx";
+import RemoveTeamButton from "../RemoveTeamButton.tsx";
 
 interface PaddleEventDetailsProps {
   event: PaddleEvent;
@@ -27,7 +28,7 @@ interface PaddleEventDetailsProps {
     field: keyof UpdateEventParams,
     value: string | number
   ) => void;
-  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  onEventUpdate: (updatedEvent: PaddleEvent) => void;
   isJoinTeamDisabled: (
     sportEvent: SportEvent,
     teamPlayers: PlayerInfo[],
@@ -52,7 +53,7 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
   const { user: loggedUser } = useAuth();
 
   // Verificar si el usuario puede editar el evento
-  const canEditEvent = loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
+  const canEditEvent = !event.isFinished && loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer!.id;
 
   return (
     <>
@@ -176,9 +177,11 @@ const PaddleEventDetails: React.FC<PaddleEventDetailsProps> = ({
                   )}
                 />
                 <PlayerList players={team.players!} />
+                {canEditEvent && <RemoveTeamButton team={team} event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
               </div>
             ))}
           </div>
+          {canEditEvent && <AddTeamButton event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
         </div>
 
         <div className="balance-and-players-column">

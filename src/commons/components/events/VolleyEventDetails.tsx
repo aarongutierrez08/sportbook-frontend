@@ -4,7 +4,6 @@ import type {
   UpdateEventParams,
   SportEvent,
   PlayerInfo,
-  FootballEvent,
 } from "../../../types/events";
 import { formatDate } from "../../../utils/events";
 import MiniMap from "../MiniMap";
@@ -14,6 +13,7 @@ import AddPlayerButton from "../AddPlayerButton.tsx";
 import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 import { useAuth } from "../../../auth/useAuth.ts";
+import AddTeamButton from "../AddTeamButton.tsx";
 
 interface VolleyEventDetailsProps {
   event: VolleyEvent;
@@ -27,7 +27,7 @@ interface VolleyEventDetailsProps {
     field: keyof UpdateEventParams,
     value: string | number
   ) => void;
-  onEventUpdate: (updatedEvent: FootballEvent) => void;
+  onEventUpdate: (updatedEvent: VolleyEvent) => void;
   isJoinTeamDisabled: (
     sportEvent: SportEvent,
     teamPlayers: PlayerInfo[],
@@ -52,7 +52,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
   const { user: loggedUser } = useAuth();
 
   // Verificar si el usuario puede editar el evento
-  const canEditEvent = loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer?.id;
+  const canEditEvent = !event.isFinished && loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer?.id;
 
   return (
     <>
@@ -179,6 +179,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
               </div>
             ))}
           </div>
+          {canEditEvent && <AddTeamButton event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
         </div>
 
         <div className="balance-and-players-column">
