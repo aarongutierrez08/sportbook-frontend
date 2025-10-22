@@ -175,11 +175,9 @@ const AuthPage: React.FC = () => {
               </>
             )}
 
-            <div className="form-full">
-              <button type="submit" className="btn btn--lg" disabled={isSubmitting}>
+              <button type="submit" className="btn btn--block" disabled={isSubmitting}>
                 {isRegister ? "Registrarse" : "Entrar"}
               </button>
-            </div>
           </form>
         </div>
       </div>
