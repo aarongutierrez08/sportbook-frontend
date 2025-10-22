@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { SportEvent } from "../../../types/events";
-import type { SportUser } from "../../../types/user";
+import type { Sport, SportUser } from "../../../types/user";
 import { formatDate } from "../../../utils/events";
 import { AmountText } from "../AmountText";
 
@@ -9,6 +9,12 @@ interface EventCardProps {
   loggedUser: SportUser | null;
   onDetails: (id: number) => void;
 };
+
+const SPORT_NAME_DICTIONARY: Record<Sport, string> = {
+  FOOTBALL: 'Fútbol',
+  PADDLE: 'Pádel',
+  VOLLEY: 'Vóley',
+}
 
 const isUserInEvent = (
   event: SportEvent,
@@ -34,7 +40,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, loggedUser, onDetails }) =
 
       <div className="card-header">
         <div id={`event-title-${event.id}`} className="sport">
-          {event.sport}
+          {SPORT_NAME_DICTIONARY[event.sport]}
         </div>
         {!event.isFinished && (
           <div className="date">{formatDate(event.dateTime)}</div>

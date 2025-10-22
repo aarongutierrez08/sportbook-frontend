@@ -35,14 +35,6 @@ export const FootballProfileForm = () => {
         <FootballPositionSelector />
       </div>
 
-      {/* Ilustración */}
-
-      {/* <img
-        src={illustration}
-        alt="Football Silhouette"
-        className="profile-illustration"
-      /> */}
-
       {/* Nivel */}
       <Controller
         name="ability"

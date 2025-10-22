@@ -112,9 +112,9 @@ const ProfilePage: React.FC = () => {
               textColor="primary"
               indicatorColor="primary"
             >
-              <Tab label="Football" value="football" />
-              <Tab label="Volley" value="volley" />
-              <Tab label="Paddle" value="paddle" />
+              <Tab label="Fútbol" value="football" />
+              <Tab label="Vóley" value="volley" />
+              <Tab label="Pádel" value="paddle" />
             </Tabs>
           </div>
     
