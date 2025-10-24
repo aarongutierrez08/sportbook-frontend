@@ -14,6 +14,7 @@ import { PlayerList } from "../../../pages/EventPage/components/PlayerList.tsx";
 import EventFairnessRatingComponent from "../../../pages/EventPage/components/EventFairnessRatingComponent.tsx";
 import { useAuth } from "../../../auth/useAuth.ts";
 import AddTeamButton from "../AddTeamButton.tsx";
+import RemoveTeamButton from "../RemoveTeamButton.tsx";
 
 interface VolleyEventDetailsProps {
   event: VolleyEvent;
@@ -176,6 +177,7 @@ const VolleyEventDetails: React.FC<VolleyEventDetailsProps> = ({
                   )}
                 />
                 <PlayerList players={team.players!} />
+                {canEditEvent && <RemoveTeamButton team={team} event={event} disabled={!canEditEvent} onTeamAdded={onEventUpdate}/>}
               </div>
             ))}
           </div>
