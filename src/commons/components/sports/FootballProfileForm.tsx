@@ -1,30 +1,33 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { FootballPositionSelector } from "./FootballPositionSelector";
+import { useTheme } from "@mui/material/styles";
+import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import type { FootballProfileDTO } from "../../../types/user";
+import { FootballPositionSelector } from "./FootballPositionSelector";
 
 const playFrequencies = [
   {
     id: "rarely",
     name: "Ocasional",
-    icon: "⚽",
+    count: 1,
     description: "De vez en cuando",
   },
   {
     id: "often",
     name: "Regular",
-    icon: "⚽⚽",
+    count: 2,
     description: "Varias veces al mes",
   },
   {
     id: "veryOften",
     name: "Frecuente",
-    icon: "⚽⚽⚽",
+    count: 3,
     description: "Varias veces por semana",
   },
 ];
 
 export const FootballProfileForm = () => {
   const { control } = useFormContext<FootballProfileDTO>();
+  const theme = useTheme();
 
   return (
     <>
@@ -40,11 +43,13 @@ export const FootballProfileForm = () => {
         name="ability"
         control={control}
         render={({ field }) => (
-          <div className="sport-card">
+          <div className="sport-card sport-card-full">
             <h3 className="sport-card-title">Nivel de habilidad</h3>
             <p className="sport-card-subtitle">¿Qué tan bueno eres jugando?</p>
             <div className="sport-level-container">
-              <span className="sport-level-icon">⚽</span>
+              <SportsSoccerIcon
+                sx={{ color: theme.palette.primary.main, fontSize: 36 }}
+              />
               <div className="sport-level-slider">
                 <div className="sport-level-labels">
                   <span>Principiante</span>
@@ -59,7 +64,7 @@ export const FootballProfileForm = () => {
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                   className="sport-slider"
                   style={{
-                    background: "linear-gradient(to right, #86efac, #22c55e)",
+                    background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
                   }}
                 />
                 <div className="sport-level-bars">
@@ -71,7 +76,9 @@ export const FootballProfileForm = () => {
                       }`}
                       style={{
                         background:
-                          i < (field.value || 5) ? "#22c55e" : undefined,
+                          i < (field.value || 5)
+                            ? theme.palette.primary.main
+                            : undefined,
                       }}
                     />
                   ))}
@@ -87,7 +94,7 @@ export const FootballProfileForm = () => {
         name="playFrequency"
         control={control}
         render={({ field }) => (
-          <div className="sport-card">
+          <div className="sport-card sport-card-full">
             <h3 className="sport-card-title">Frecuencia de juego</h3>
             <p className="sport-card-subtitle">
               ¿Con qué frecuencia juegas al fútbol?
@@ -103,7 +110,19 @@ export const FootballProfileForm = () => {
                   >
                     <div className="sport-frequency-icon">
                       <div className="sport-icons-row">
-                        <span className="sport-icon-single">{freq.icon}</span>
+                        {[...Array(freq.count)].map((_, i) => (
+                          <SportsSoccerIcon
+                            key={i}
+                            sx={{
+                              color:
+                                field.value === freq.id
+                                  ? theme.palette.primary.main
+                                  : theme.palette.text.secondary,
+                              fontSize: 36,
+                              mr: 0.5,
+                            }}
+                          />
+                        ))}
                       </div>
                       <span className="sport-frequency-label">{freq.name}</span>
                     </div>
@@ -121,6 +140,12 @@ export const FootballProfileForm = () => {
                     className={`sport-frequency-text ${
                       field.value === freq.id ? "active" : ""
                     }`}
+                    style={{
+                      color:
+                        field.value === freq.id
+                          ? theme.palette.primary.main
+                          : theme.palette.text.secondary,
+                    }}
                   >
                     {freq.description}
                   </span>

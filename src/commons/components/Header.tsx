@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo3 from "../../assets/logo3.png";
+import logo from "../../assets/logo.png";
 import ProfilePicture from "./ProfilePicture";
 import { useAuth } from "../../auth/useAuth";
+import {
+  EventAvailable as EventIcon,
+  AddCircleOutline as AddEventIcon,
+  Sports as SportsIcon,
+  Logout as LogoutIcon,
+  Menu as MenuIcon,
+  Login as LoginIcon,
+  ChevronRight as ChevronRightIcon,
+  CheckCircle as FinishEventIcon,
+} from "@mui/icons-material";
 import "../../styles/header.css";
 
 const Header: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { logout, status, user } = useAuth();
   const isAuthenticated = status === "auth";
@@ -15,107 +26,175 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (mobile) {
+        // en mobile no queremos “colapsado” lateral
+        setIsCollapsed(false);
+      }
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleCollapse = () => {
+    // solo colapsa en desktop
+    if (!isMobile) {
+      setIsCollapsed((prev) => !prev);
+    }
+  };
+
+  const toggleMobileMenu = () => {
+    if (isMobile) {
+      setIsMenuOpen((prev) => !prev);
+    }
+  };
+
+  const closeMobileMenu = () => {
+    if (isMobile) {
+      setIsMenuOpen(false);
+    }
   };
 
   const LogoutButton = () => (
     <button onClick={logout} className="logout-button">
-      Cerrar Sesión
+      <LogoutIcon className="nav-icon" />
+      {!isCollapsed && !isMobile && <span>Cerrar Sesión</span>}
+      {isMobile && <span>Cerrar Sesión</span>}
     </button>
   );
 
   return (
-    <>
-      <header className="app-header">
-        <div className="header-container">
-          <NavLink to="/" className="logo-container">
-            <img src={logo3} alt="Sportbook Logo" className="logo" />
-          </NavLink>
-
-          <button
-            className="menu-toggle"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            aria-expanded={isMenuOpen}
-          >
-            <span className="hamburger"></span>
-          </button>
-
-          <nav className={`nav ${isMenuOpen ? "nav-open" : ""}`}>
-            <ul className="nav-links">
-              {isAuthenticated ? (
-                <>
-                  <li>
-                    <NavLink
-                      to="/events"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      end
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Eventos
-                    </NavLink>
-                  </li>
-                  {isOrganizer && (
-                    <li>
-                      <NavLink
-                        to="/events/create"
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Crear Evento
-                      </NavLink>
-                    </li>
-                  )}
-                  <li>
-                    <NavLink
-                      to="/profile"
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Preferencias Deportivas
-                    </NavLink>
-                  </li>
-                  {isMobile && (
-                    <li>
-                      <LogoutButton />
-                    </li>
-                  )}
-                </>
-              ) : (
-                <li>
-                  <NavLink
-                    to="/auth"
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Ingresar
-                  </NavLink>
-                </li>
-              )}
-            </ul>
-          </nav>
-
-          {!isMobile && isAuthenticated && (
-            <div className="logout-container">
-              <LogoutButton />
-            </div>
+    <header
+      className={`app-header ${isCollapsed && !isMobile ? "collapsed" : ""} ${
+        isMobile ? "mobile" : ""
+      }`}
+    >
+      <div className="header-container">
+        {/* TOP BAR */}
+        <div className="logo-section">
+          {!isCollapsed && (
+            <NavLink
+              to="/"
+              className="logo-container"
+              onClick={closeMobileMenu}
+            >
+              <img src={logo} alt="Sportbook Logo" className="logo" />
+            </NavLink>
           )}
-          {isAuthenticated && (
-             <div className="header-profile">
-               <ProfilePicture size={50} />
-             </div>
+
+          {/* botón colapsar (desktop) / menú hamburguesa (mobile) */}
+          {isMobile ? (
+            <button
+              className="collapse-toggle"
+              onClick={toggleMobileMenu}
+              aria-label="Abrir/cerrar menú"
+            >
+              <MenuIcon fontSize="medium" />
+            </button>
+          ) : (
+            <button
+              className="collapse-toggle"
+              onClick={toggleCollapse}
+              aria-label="Colapsar menú lateral"
+            >
+              {isCollapsed ? (
+                <ChevronRightIcon fontSize="medium" />
+              ) : (
+                <MenuIcon fontSize="medium" />
+              )}
+            </button>
           )}
         </div>
-      </header>
-    </>
+
+        {/* NAV */}
+        <nav
+          className={`nav ${
+            isMobile ? (isMenuOpen ? "nav-open" : "nav-closed") : ""
+          }`}
+        >
+          <ul className="nav-links">
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <NavLink
+                    to="/events"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    end
+                    onClick={closeMobileMenu}
+                  >
+                    <EventIcon className="nav-icon" />
+                    {!isCollapsed && <span>Eventos</span>}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/events/finished"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={closeMobileMenu}
+                  >
+                    <FinishEventIcon className="nav-icon" />
+                    {!isCollapsed && <span>Finalizados</span>}
+                  </NavLink>
+                </li>
+                {isOrganizer && (
+                  <li>
+                    <NavLink
+                      to="/events/create"
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={closeMobileMenu}
+                    >
+                      <AddEventIcon className="nav-icon" />
+                      {!isCollapsed && <span>Crear Evento</span>}
+                    </NavLink>
+                  </li>
+                )}
+                <li>
+                  <NavLink
+                    to="/profile"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={closeMobileMenu}
+                  >
+                    <SportsIcon className="nav-icon" />
+                    {!isCollapsed && <span>Preferencias Deportivas</span>}
+                  </NavLink>
+                </li>
+                {isMobile && (
+                  <li>
+                    <LogoutButton />
+                  </li>
+                )}
+              </>
+            ) : (
+              <li>
+                <NavLink
+                  to="/auth"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                  onClick={closeMobileMenu}
+                >
+                  <LoginIcon className="nav-icon" />
+                  {!isCollapsed && <span>Ingresar</span>}
+                </NavLink>
+              </li>
+            )}
+          </ul>
+        </nav>
+
+        {/* pie (desktop) */}
+        {!isMobile && isAuthenticated && (
+          <div className="logout-container">
+            <LogoutButton />
+          </div>
+        )}
+
+        {/* foto arriba a la derecha (como lo tenías) */}
+        {isAuthenticated && (
+          <div className="header-profile">
+            <ProfilePicture size={50} />
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 
