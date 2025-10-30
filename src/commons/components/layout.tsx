@@ -1,9 +1,9 @@
-import Header from "./Header.tsx";
+import Header from "./Header";
 import { Outlet } from "react-router";
 
 const Layout: React.FC = () => {
   return (
-    <div>
+    <div className="app-shell">
       <Header />
       <main className="app-content">
         <Outlet />

@@ -1,15 +1,16 @@
-import CreateEventPage from "./pages/CreateEventPage.tsx";
-import EventCardsPage from "./pages/EventCardsPage.tsx";
-import Layout from "./commons/components/layout.tsx";
+import CreateEventPage from "./pages/CreateEventPage";
+import ActiveEventsPage from "./pages/ActiveEventsPage";
+import FinishedEventsPage from "./pages/FinishedEventsPage";
+import Layout from "./commons/components/layout";
 import { Toaster } from "react-hot-toast";
-import AuthPage from "./pages/AuthPage.tsx";
+import AuthPage from "./pages/AuthPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import EventPage from "./pages/EventPage/EventPage.tsx";
-import ProfilePage from "./pages/ProfilePage.tsx";
+import EventPage from "./pages/EventPage/EventPage";
+import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./auth/AuthContext";
 import { ProfilePictureProvider } from "./auth/ProfilePictureContext";
-import RequireAuth from "./auth/RequireAuth.tsx";
 import MyDataPage from "./pages/MyDataPage.tsx";
+import RequireAuth from "./auth/RequireAuth";
 
 function App() {
   return (
@@ -22,7 +23,11 @@ function App() {
                 <Route path="auth" element={<AuthPage />} />
 
                 <Route element={<RequireAuth />}>
-                  <Route path="events" element={<EventCardsPage />} />
+                  <Route path="events" element={<ActiveEventsPage />} />
+                  <Route
+                    path="events/finished"
+                    element={<FinishedEventsPage />}
+                  />
                   <Route path="events/create" element={<CreateEventPage />} />
                   <Route path="events/:id" element={<EventPage />} />
                   <Route path="profile" element={<ProfilePage />} />

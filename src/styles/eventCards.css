@@ -19,24 +19,6 @@
   gap: 2rem;
 }
 
-@media (max-width: 1400px) {
-  .grid-container main {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 1024px) {
-  .grid-container main {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .grid-container main {
-    grid-template-columns: 1fr;
-  }
-}
-
 .empty-state {
   text-align: center;
   padding: 1.25rem;
@@ -95,7 +77,7 @@
   top: 8px;
   right: 8px;
   padding: 3px 8px;
-  background-color: rgba(31, 42, 51, .85);
+  background-color: var(--color-primary);
   color: var(--color-white);
   font-size: .8rem;
   border-radius: 4px;
@@ -123,13 +105,13 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
-    margin-top: 4rem; /* Para dejar espacio para el ProfilePicture */
-    margin-right: 4rem; /* Para evitar que el contenido se solape con el ProfilePicture */
+    margin: 4rem 4rem 0 4rem;
     background: var(--color-primary-background);
     border-radius: 16px;
     padding: 2rem;
     box-shadow: 0 8px 32px var(--shadow-default);
     border: 1px solid #e2e8f0;
+    min-height: 80vh;
 }
 
 .events-section:last-child {
@@ -146,4 +128,33 @@
     margin: 2rem 0;
     opacity: 0.3;
     width: 100%;
+}
+
+.event-detail-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.event-detail-row svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1400px) {
+  .grid-container main {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid-container main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-container main {
+    grid-template-columns: 1fr;
+  }
 }
