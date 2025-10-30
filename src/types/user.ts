@@ -9,8 +9,18 @@ export interface SportUser {
   lastName?: string;
   dateOfBirth?: string;
   role?: Role;
+  additionalInfo?: AdditionalInfo;
+}
+export interface AdditionalInfo {
+    phoneNumber?: string;
+    city?: string;
+    country?: string;
+    address?: string;
+    gender?: Gender;
+    languages?: string[];
 }
 
+export type Gender = "MAN" | "WOMAN" | "NON_BINARY" | "PREFER_NOT_TO_SAY"
 export type Sport = "FOOTBALL" | "VOLLEY" | "PADDLE";
 
 export type Role = "PLAYER" | "ORGANIZER";

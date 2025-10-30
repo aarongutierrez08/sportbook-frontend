@@ -7,28 +7,33 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import EventPage from "./pages/EventPage/EventPage.tsx";
 import ProfilePage from "./pages/ProfilePage.tsx";
 import { AuthProvider } from "./auth/AuthContext";
+import { ProfilePictureProvider } from "./auth/ProfilePictureContext";
 import RequireAuth from "./auth/RequireAuth.tsx";
+import MyDataPage from "./pages/MyDataPage.tsx";
 
 function App() {
   return (
     <>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="auth" element={<AuthPage />} />
+        <ProfilePictureProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="auth" element={<AuthPage />} />
 
-              <Route element={<RequireAuth />}>
-                <Route path="events" element={<EventCardsPage />} />
-                <Route path="events/create" element={<CreateEventPage />} />
-                <Route path="events/:id" element={<EventPage />} />
-                <Route path="profile" element={<ProfilePage />} />
+                <Route element={<RequireAuth />}>
+                  <Route path="events" element={<EventCardsPage />} />
+                  <Route path="events/create" element={<CreateEventPage />} />
+                  <Route path="events/:id" element={<EventPage />} />
+                  <Route path="profile" element={<ProfilePage />} />
+                  <Route path="my-data" element={<MyDataPage />} />
+                </Route>
+
+                <Route path="*" element={<Navigate to="/events" replace />} />
               </Route>
-
-              <Route path="*" element={<Navigate to="/events" replace />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+            </Routes>
+          </BrowserRouter>
+        </ProfilePictureProvider>
       </AuthProvider>
 
       <Toaster

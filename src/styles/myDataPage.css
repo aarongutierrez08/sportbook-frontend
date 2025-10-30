@@ -1,0 +1,689 @@
+.my-data-card {
+    background: var(--color-primary-background);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px var(--shadow-default);
+    border: 1px solid #e2e8f0;
+    margin-top: 1.5rem;
+    width: 1280px;
+}
+
+.my-data-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.my-data-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.my-data-info-card {
+    background: var(--color-white);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.25rem; /* Reducido de 1.5rem */
+}
+
+.my-data-profile-card {
+    background: var(--color-white);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.my-data-card-header {
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #1f2937;
+    margin-bottom: 0.75rem; /* Reducido de 1rem */
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+}
+
+.my-data-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.profile-picture-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #e5e7eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 3px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    font-size: 3rem;
+    color: #9ca3af;
+}
+
+.change-photo-button {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+}
+
+.change-photo-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.file-input {
+    display: none;
+}
+
+.my-data-info-card p {
+    margin: 0.75rem 0;
+    color: #374151;
+    font-size: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
+    padding: 0.75rem; /* Reducido de 1rem a 0.75rem */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.info-item:hover {
+    background: rgba(102, 126, 234, 0.03);
+    transform: translateX(4px);
+}
+
+.info-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.75rem; /* Reducido de 1rem a 0.75rem */
+    color: #667eea;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover .info-icon {
+    color: #5a67d8;
+    transform: scale(1.1);
+}
+
+/* Estilo para spans de información */
+.info-item span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    flex-wrap: wrap;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem; /* Reducido el padding */
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.info-item span:hover {
+    background-color: rgba(102, 126, 234, 0.08);
+    color: #5a67d8;
+}
+
+/* Indicador visual de que el campo es editable */
+.info-item span:not(:has(input)):not(:has(select))::after {
+    content: "✏️";
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.info-item span:not(:has(input)):not(:has(select)):hover::after {
+    opacity: 0.6;
+}
+
+/* Estilos para inputs cuando están en modo edición */
+.info-item span:has(input),
+.info-item span:has(select) {
+    cursor: default;
+    background-color: rgba(102, 126, 234, 0.05);
+    border: 2px solid #667eea;
+}
+
+/* Auto-focus para inputs */
+.edit-input,
+.edit-select {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-input:focus,
+.edit-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .my-data-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .my-data-card {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .profile-picture,
+    .profile-picture-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+
+    .change-photo-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ========== ESTILOS DE EDICIÓN MEJORADOS ========== */
+
+/* Header con botones */
+.my-data-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    background: var(--color-primary-dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Contenedor de botones de edición */
+.edit-buttons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* ========== CAMPOS DE EDICIÓN ========== */
+
+/* Inputs de texto */
+.edit-input {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.edit-input:hover {
+    border-color: #cbd5e0;
+}
+
+/* Select dropdown */
+.edit-select {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.edit-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.edit-select:hover {
+    border-color: #cbd5e0;
+}
+
+/* ========== MEJORAS EN INFO-ITEMS ========== */
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
+    padding: 0.75rem; /* Reducido de 1rem a 0.75rem */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.info-item:hover {
+    background: rgba(102, 126, 234, 0.03);
+    transform: translateX(4px);
+}
+
+.info-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.75rem; /* Reducido de 1rem a 0.75rem */
+    color: #667eea;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover .info-icon {
+    color: #5a67d8;
+    transform: scale(1.1);
+}
+
+/* Estilo para spans de información */
+.info-item span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    flex-wrap: wrap;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem; /* Reducido el padding */
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.info-item span:hover {
+    background-color: rgba(102, 126, 234, 0.08);
+    color: #5a67d8;
+}
+
+/* Indicador visual de que el campo es editable */
+.info-item span:not(:has(input)):not(:has(select))::after {
+    content: "✏️";
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.info-item span:not(:has(input)):not(:has(select)):hover::after {
+    opacity: 0.6;
+}
+
+/* Estilos para inputs cuando están en modo edición */
+.info-item span:has(input),
+.info-item span:has(select) {
+    cursor: default;
+    background-color: rgba(102, 126, 234, 0.05);
+    border: 2px solid #667eea;
+}
+
+/* Auto-focus para inputs */
+.edit-input,
+.edit-select {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-input:focus,
+.edit-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .my-data-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .my-data-card {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .profile-picture,
+    .profile-picture-placeholder {
+        width: 120px;
+        height: 120px;
+    }
+
+    .change-photo-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ========== ESTILOS DE EDICIÓN MEJORADOS ========== */
+
+/* Header con botones */
+.my-data-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    background: var(--color-primary-dark);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Contenedor de botones de edición */
+.edit-buttons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* ========== CAMPOS DE EDICIÓN ========== */
+
+/* Inputs de texto */
+.edit-input {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.edit-input:hover {
+    border-color: #cbd5e0;
+}
+
+/* Select dropdown */
+.edit-select {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.edit-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.edit-select:hover {
+    border-color: #cbd5e0;
+}
+
+/* ========== MEJORAS EN INFO-ITEMS ========== */
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Reducido de 1rem a 0.5rem */
+    padding: 0.75rem; /* Reducido de 1rem a 0.75rem */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.info-item:hover {
+    background: rgba(102, 126, 234, 0.03);
+    transform: translateX(4px);
+}
+
+.info-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.75rem; /* Reducido de 1rem a 0.75rem */
+    color: #667eea;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover .info-icon {
+    color: #5a67d8;
+    transform: scale(1.1);
+}
+
+/* Estilo para spans de información */
+.info-item span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    flex-wrap: wrap;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem; /* Reducido el padding */
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.info-item span:hover {
+    background-color: rgba(102, 126, 234, 0.08);
+    color: #5a67d8;
+}
+
+/* Indicador visual de que el campo es editable */
+.info-item span:not(:has(input)):not(:has(select))::after {
+    content: "✏️";
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.info-item span:not(:has(input)):not(:has(select)):hover::after {
+    opacity: 0.6;
+}
+
+/* Estilos para inputs cuando están en modo edición */
+.info-item span:has(input),
+.info-item span:has(select) {
+    cursor: default;
+    background-color: rgba(102, 126, 234, 0.05);
+    border: 2px solid #667eea;
+}
+
+/* Auto-focus para inputs */
+.edit-input,
+.edit-select {
+    margin-left: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    min-width: 220px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.edit-input:focus,
+.edit-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== RESPONSIVE MEJORADO ========== */
+@media (max-width: 768px) {
+    .my-data-header {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+    }
+
+    .edit-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .edit-button,
+    .save-button,
+    .cancel-button {
+        width: 100%;
+        justify-content: center;
+        padding: 1rem 1.5rem;
+    }
+
+    .edit-input,
+    .edit-select {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.75rem;
+        width: 100%;
+        min-width: auto;
+    }
+
+    .info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .info-item span {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .info-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .edit-input,
+    .edit-select {
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+
+    .my-data-card {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+}
