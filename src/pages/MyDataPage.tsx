@@ -371,7 +371,7 @@ const MyDataPage: React.FC = () => {
                             />
                         </span>
                     ) : (
-                        <span onClick={() => startEditingField('phoneNumber')}>Número de teléfono: {getFieldValue('phoneNumber') || "1128620683"}</span>
+                        <span onClick={() => startEditingField('phoneNumber')}>Número de teléfono: {getFieldValue('phoneNumber') || ""}</span>
                     )}
                 </div>
                 <div className="info-item">
@@ -394,7 +394,7 @@ const MyDataPage: React.FC = () => {
                             />
                         </span>
                     ) : (
-                        <span onClick={() => startEditingField('country')}>País: {getFieldValue('country') || "Argentina"}</span>
+                        <span onClick={() => startEditingField('country')}>País: {getFieldValue('country') || ""}</span>
                     )}
                 </div>
                 <div className="info-item">
@@ -416,7 +416,7 @@ const MyDataPage: React.FC = () => {
                             />
                         </span>
                     ) : (
-                        <span onClick={() => startEditingField('city')}>Ciudad: {getFieldValue('city') || "Buenos Aires"}</span>
+                        <span onClick={() => startEditingField('city')}>Ciudad: {getFieldValue('city') || ""}</span>
                     )}
                 </div>
                 <div className="info-item">
@@ -438,7 +438,7 @@ const MyDataPage: React.FC = () => {
                             />
                         </span>
                     ) : (
-                        <span onClick={() => startEditingField('address')}>Dirección: {getFieldValue('address') || "Calle Falsa 123"}</span>
+                        <span onClick={() => startEditingField('address')}>Dirección: {getFieldValue('address') || ""}</span>
                     )}
                 </div>
                 <div className="info-item">
@@ -462,7 +462,7 @@ const MyDataPage: React.FC = () => {
                             </select>
                         </span>
                     ) : (
-                        <span onClick={() => startEditingField('gender')}>Género: {mapGender(getFieldValue('gender')) || "Prefiero no decirlo"}</span>
+                        <span onClick={() => startEditingField('gender')}>Género: {mapGender(getFieldValue('gender')) || ""}</span>
                     )}
                 </div>
                 <div className="info-item">
@@ -483,7 +483,7 @@ const MyDataPage: React.FC = () => {
                             />
                         </span>
                     ) : (
-                        <span onClick={() => startEditingField('languages')}>Idiomas: {getFieldValue('languages') || "Español, Inglés"}</span>
+                        <span onClick={() => startEditingField('languages')}>Idiomas: {getFieldValue('languages') || ""}</span>
                     )}
                 </div>
             </>)
@@ -494,8 +494,10 @@ const MyDataPage: React.FC = () => {
             </div>
             {loggedUser?.additionalInfo || editingField === 'all'
                 ? <span>{aboutMeWithPreviousData()}</span>
-                : <span>Aquí puedes agregar información adicional sobre ti.</span>}
-
+                : <>
+                    <span>Aquí puedes agregar información adicional sobre ti.</span>
+                    <span>{aboutMeWithPreviousData()}</span>
+                </>}
         </div>
     }
 

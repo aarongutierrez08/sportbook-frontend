@@ -34,6 +34,8 @@
 
 .my-data-info-card {
     background: var(--color-white);
+    background-image: url('../assets/background-light.png');
+    background-size: cover;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 1.25rem; /* Reducido de 1.5rem */
@@ -47,6 +49,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url('../assets/background-light.png');
+    background-size: cover;
 }
 
 .my-data-card-header {
