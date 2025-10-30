@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { getProfilePicture, uploadProfilePicture } from '../api/profileApi';
+import { useAuth } from './useAuth';
 
 interface ProfilePictureContextType {
     image: string | null;
@@ -17,8 +18,15 @@ interface ProfilePictureProviderProps {
 export const ProfilePictureProvider: React.FC<ProfilePictureProviderProps> = ({ children }) => {
     const [image, setImage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { status } = useAuth();
 
     const loadProfilePicture = async () => {
+        // Solo intentar cargar si el usuario está autenticado
+        if (status !== 'auth') {
+            setImage(null);
+            return;
+        }
+
         try {
             setIsLoading(true);
             const blob = await getProfilePicture();
@@ -45,9 +53,15 @@ export const ProfilePictureProvider: React.FC<ProfilePictureProviderProps> = ({ 
         }
     };
 
+    // Cargar la foto cuando el usuario se autentica
     useEffect(() => {
-        loadProfilePicture();
-    }, []);
+        if (status === 'auth') {
+            loadProfilePicture();
+        } else {
+            // Limpiar la imagen cuando el usuario no está autenticado
+            setImage(null);
+        }
+    }, [status]);
 
     const value = {
         image,
@@ -63,6 +77,7 @@ export const ProfilePictureProvider: React.FC<ProfilePictureProviderProps> = ({ 
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProfilePicture = () => {
     const context = useContext(ProfilePictureContext);
     if (context === undefined) {
