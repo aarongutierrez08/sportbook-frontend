@@ -1,4 +1,3 @@
-/* sidebar base */
 .app-header {
     background: linear-gradient(
       90deg,
@@ -22,7 +21,6 @@
     width: 80px;
   }
   
-  /* contenedor */
   .header-container {
     display: flex;
     flex-direction: column;
@@ -31,7 +29,6 @@
     position: relative;
   }
   
-  /* logo + botón */
   .logo-section {
     display: flex;
     align-items: center;
@@ -44,7 +41,6 @@
     margin: 0 auto;
   }
   
-  /* botón colapsar */
   .collapse-toggle {
     background: none;
     border: none;
@@ -54,7 +50,6 @@
     border-radius: 6px;
   }
   
-  /* nav */
   .nav {
     display: flex;
     flex-direction: column;
@@ -88,7 +83,6 @@
     flex-shrink: 0;
   }
   
-  /* cuando está colapsado: esconder textos */
   .app-header.collapsed .nav-links a span,
   .app-header.collapsed .logout-button span {
     display: none;
@@ -98,7 +92,6 @@
     justify-content: center;
   }
   
-  /* footer / logout */
   .logout-container {
     margin-top: auto;
     padding-top: 1rem;
@@ -122,20 +115,17 @@
     gap: 10px;
   }
   
-  /* contenido a la derecha del sidebar */
   .app-content {
     margin-left: 250px;
     transition: margin-left 0.3s ease;
     padding: 1.5rem;
   }
   
-  /* cuando sidebar colapsa */
   .app-header.collapsed ~ .app-content,
   .app-shell .app-header.collapsed + .app-content {
     margin-left: 80px;
   }
   
-  /* perfil */
   .header-profile {
     position: fixed;
     top: 1rem;
@@ -143,7 +133,6 @@
     z-index: 1100;
   }
   
-  /* ----------------- MOBILE ----------------- */
   @media (max-width: 768px) {
     .app-header {
       width: 100%;
@@ -161,7 +150,6 @@
       padding: 1rem;
     }
   
-    /* en mobile el nav se oculta/abre */
     .nav {
       display: none;
     }
@@ -181,7 +169,6 @@
       margin-top: 80px;
     }
   
-    /* en mobile NO hay colapsado */
     .app-header.collapsed {
       width: 100%;
     }

@@ -1,4 +1,3 @@
-// src/pages/FinishedEventsPage.tsx
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "../commons/components/Grid";

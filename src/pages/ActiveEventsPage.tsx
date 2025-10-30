@@ -1,4 +1,3 @@
-// src/pages/ActiveEventsPage.tsx
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "../commons/components/Grid";
@@ -18,7 +17,6 @@ const ActiveEventsPage: React.FC = () => {
     (async () => {
       try {
         const all = await getAllEvents();
-        // filtra eventos que NO están finalizados
         const active = all.filter((e) => !e.isFinished);
         setEvents(active);
       } catch {

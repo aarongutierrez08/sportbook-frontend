@@ -68,7 +68,6 @@ export const PaddleProfileForm = () => {
 
   return (
     <>
-      {/* Lado preferido */}
       <Controller
         name="preferredSide"
         control={control}
@@ -107,7 +106,6 @@ export const PaddleProfileForm = () => {
         )}
       />
 
-      {/* Estilo de juego */}
       <Controller
         name="playStyle"
         control={control}
@@ -146,7 +144,6 @@ export const PaddleProfileForm = () => {
         )}
       />
 
-      {/* Nivel */}
       <Controller
         name="ability"
         control={control}
@@ -197,7 +194,6 @@ export const PaddleProfileForm = () => {
         )}
       />
 
-      {/* Experiencia en torneos */}
       <Controller
         name="playedTournaments"
         control={control}
@@ -258,7 +254,6 @@ export const PaddleProfileForm = () => {
         )}
       />
 
-      {/* Frecuencia de juego */}
       <Controller
         name="playFrequency"
         control={control}

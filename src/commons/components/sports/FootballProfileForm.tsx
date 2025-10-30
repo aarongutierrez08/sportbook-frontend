@@ -31,14 +31,12 @@ export const FootballProfileForm = () => {
 
   return (
     <>
-      {/* Selector de posiciones */}
       <div className="sport-card sport-card-full">
         <h3 className="sport-card-title">Selecciona tus posiciones</h3>
         <p className="sport-card-subtitle">Elige tus posiciones en el campo</p>
         <FootballPositionSelector />
       </div>
 
-      {/* Nivel */}
       <Controller
         name="ability"
         control={control}
@@ -89,7 +87,6 @@ export const FootballProfileForm = () => {
         )}
       />
 
-      {/* Frecuencia de juego */}
       <Controller
         name="playFrequency"
         control={control}

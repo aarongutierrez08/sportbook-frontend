@@ -29,7 +29,6 @@ const Header: React.FC = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
       if (mobile) {
-        // en mobile no queremos “colapsado” lateral
         setIsCollapsed(false);
       }
     };
@@ -38,7 +37,6 @@ const Header: React.FC = () => {
   }, []);
 
   const toggleCollapse = () => {
-    // solo colapsa en desktop
     if (!isMobile) {
       setIsCollapsed((prev) => !prev);
     }
@@ -71,7 +69,6 @@ const Header: React.FC = () => {
       }`}
     >
       <div className="header-container">
-        {/* TOP BAR */}
         <div className="logo-section">
           {!isCollapsed && (
             <NavLink
@@ -83,7 +80,6 @@ const Header: React.FC = () => {
             </NavLink>
           )}
 
-          {/* botón colapsar (desktop) / menú hamburguesa (mobile) */}
           {isMobile ? (
             <button
               className="collapse-toggle"
@@ -107,7 +103,6 @@ const Header: React.FC = () => {
           )}
         </div>
 
-        {/* NAV */}
         <nav
           className={`nav ${
             isMobile ? (isMenuOpen ? "nav-open" : "nav-closed") : ""
@@ -180,14 +175,12 @@ const Header: React.FC = () => {
           </ul>
         </nav>
 
-        {/* pie (desktop) */}
         {!isMobile && isAuthenticated && (
           <div className="logout-container">
             <LogoutButton />
           </div>
         )}
 
-        {/* foto arriba a la derecha (como lo tenías) */}
         {isAuthenticated && (
           <div className="header-profile">
             <ProfilePicture size={50} />

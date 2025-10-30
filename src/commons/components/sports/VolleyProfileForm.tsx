@@ -106,7 +106,6 @@ export const VolleyProfileForm = () => {
 
   return (
     <>
-      {/* Posiciones favoritas */}
       <Controller
         name="positions"
         control={control}
@@ -196,7 +195,6 @@ export const VolleyProfileForm = () => {
         )}
       />
 
-      {/* Tipo de saque */}
       <Controller
         name="serveType"
         control={control}
@@ -235,7 +233,6 @@ export const VolleyProfileForm = () => {
         )}
       />
 
-      {/* Nivel ofensivo */}
       <Controller
         name="offensiveLevel"
         control={control}
@@ -286,7 +283,6 @@ export const VolleyProfileForm = () => {
         )}
       />
 
-      {/* Nivel defensivo */}
       <Controller
         name="defensiveLevel"
         control={control}
@@ -339,7 +335,6 @@ export const VolleyProfileForm = () => {
         )}
       />
 
-      {/* Frecuencia de juego */}
       <Controller
         name="playFrequency"
         control={control}
