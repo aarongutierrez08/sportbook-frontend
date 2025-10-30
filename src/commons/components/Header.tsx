@@ -114,6 +114,7 @@ const Header: React.FC = () => {
                 <li>
                   <NavLink
                     to="/events"
+                    data-tooltip="Eventos"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     end
                     onClick={closeMobileMenu}
@@ -125,6 +126,7 @@ const Header: React.FC = () => {
                 <li>
                   <NavLink
                     to="/events/finished"
+                    data-tooltip="Finalizados"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeMobileMenu}
                   >
@@ -136,6 +138,7 @@ const Header: React.FC = () => {
                   <li>
                     <NavLink
                       to="/events/create"
+                      data-tooltip="Crear Evento"
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={closeMobileMenu}
                     >
@@ -147,6 +150,7 @@ const Header: React.FC = () => {
                 <li>
                   <NavLink
                     to="/profile"
+                    data-tooltip="Preferencias Deportivas"
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeMobileMenu}
                   >
@@ -164,6 +168,7 @@ const Header: React.FC = () => {
               <li>
                 <NavLink
                   to="/auth"
+                  data-tooltip="Ingresar"
                   className={({ isActive }) => (isActive ? "active" : "")}
                   onClick={closeMobileMenu}
                 >

@@ -133,6 +133,47 @@
     z-index: 1100;
   }
   
+  .app-header.collapsed .nav-links a[data-tooltip] {
+    position: relative;
+  }
+
+  .app-header.collapsed .nav-links a[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    margin-left: 8px;
+    z-index: 2000;
+  }
+
+  .app-header.collapsed .nav-links a[data-tooltip]::before {
+    content: "";
+    position: absolute;
+    left: calc(100% + 2px);
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: var(--color-primary-dark);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .app-header.collapsed .nav-links a[data-tooltip]:hover::after,
+  .app-header.collapsed .nav-links a[data-tooltip]:hover::before {
+    opacity: 1;
+    transform: translateY(-50%) translateX(2px);
+  }
+  
   @media (max-width: 768px) {
     .app-header {
       width: 100%;
