@@ -6,12 +6,12 @@ import { useAuth } from "../../auth/useAuth";
 import {
   EventAvailable as EventIcon,
   AddCircleOutline as AddEventIcon,
-  Sports as SportsIcon,
   Logout as LogoutIcon,
   Menu as MenuIcon,
   Login as LoginIcon,
   ChevronRight as ChevronRightIcon,
   CheckCircle as FinishEventIcon,
+  Settings,
 } from "@mui/icons-material";
 import "../../styles/header.css";
 
@@ -154,7 +154,7 @@ const Header: React.FC = () => {
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={closeMobileMenu}
                   >
-                    <SportsIcon className="nav-icon" />
+                    <Settings className="nav-icon" />
                     {!isCollapsed && <span>Preferencias Deportivas</span>}
                   </NavLink>
                 </li>

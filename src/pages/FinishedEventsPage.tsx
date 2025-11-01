@@ -30,7 +30,7 @@ const FinishedEventsPage: React.FC = () => {
   );
 
   return (
-    <div className="events-section">
+    <div>
       <Pagination
         items={finishedEvents}
         pageSize={8}

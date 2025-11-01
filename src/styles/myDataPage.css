@@ -1,11 +1,6 @@
 .my-data-card {
-    background: var(--color-primary-background);
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 8px 32px var(--shadow-default);
-    border: 1px solid #e2e8f0;
-    margin-top: 1.5rem;
     width: 1280px;
+    place-self: center;
 }
 
 .my-data-header {
@@ -60,13 +55,6 @@
     margin-bottom: 0.75rem; /* Reducido de 1rem */
     border-bottom: 2px solid #e5e7eb;
     padding-bottom: 0.5rem;
-}
-
-.my-data-grid-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 1rem;
 }
 
 .profile-picture-container {

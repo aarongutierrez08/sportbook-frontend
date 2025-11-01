@@ -101,27 +101,6 @@
   vertical-align: middle;
 }
 
-.events-section {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-    margin: 4rem 4rem 0 4rem;
-    background: var(--color-primary-background);
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: 0 8px 32px var(--shadow-default);
-    border: 1px solid #e2e8f0;
-    min-height: 80vh;
-}
-
-.events-section:last-child {
-    margin-bottom: 0;
-}
-
-.events-section .pagination {
-    margin-top: 1.5rem;
-}
-
 .section-divider {
     height: 1px;
     background: linear-gradient(to right, transparent, var(--color-primary-light), transparent);

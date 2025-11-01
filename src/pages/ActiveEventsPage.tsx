@@ -31,7 +31,7 @@ const ActiveEventsPage: React.FC = () => {
   );
 
   return (
-    <div className="events-section">
+    <div>
       <Pagination
         items={events}
         pageSize={8}

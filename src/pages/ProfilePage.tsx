@@ -17,10 +17,12 @@ import type {
   SportProfileDTO,
   PaddleProfileDTO,
 } from "../types/user";
-import "../styles/profile-page.css"
+import "../styles/profile-page.css";
 
 const ProfilePage: React.FC = () => {
-  const [tab, setTab] = React.useState<"football" | "volley" | "paddle">("football");
+  const [tab, setTab] = React.useState<"football" | "volley" | "paddle">(
+    "football"
+  );
 
   const footballForm = useForm<FootballProfileDTO>({
     defaultValues: {
@@ -28,7 +30,7 @@ const ProfilePage: React.FC = () => {
       positions: [],
       favoritePosition: "ST",
       ability: 5,
-      playFrequency: "often", 
+      playFrequency: "often",
     },
   });
 
@@ -60,13 +62,13 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     fetchProfiles().then((profiles: SportProfileDTO[]) => {
-      const football = profiles.find(profile => profile.sport === "FOOTBALL");
+      const football = profiles.find((profile) => profile.sport === "FOOTBALL");
       if (football) footballForm.reset(football.details as FootballProfileDTO);
 
-      const volley = profiles.find(profile => profile.sport === "VOLLEY");
+      const volley = profiles.find((profile) => profile.sport === "VOLLEY");
       if (volley) volleyForm.reset(volley.details as VolleyProfileDTO);
 
-      const paddle = profiles.find(profile => profile.sport === "PADDLE");
+      const paddle = profiles.find((profile) => profile.sport === "PADDLE");
       if (paddle) paddleForm.reset(paddle.details as PaddleProfileDTO);
     });
   }, [footballForm, volleyForm, paddleForm]);
@@ -96,48 +98,51 @@ const ProfilePage: React.FC = () => {
   };
 
   const currentMethods: any =
-    tab === "football" ? footballForm : tab === "volley" ? volleyForm : paddleForm;
+    tab === "football"
+      ? footballForm
+      : tab === "volley"
+      ? volleyForm
+      : paddleForm;
 
-    return (
-      <div className="container">
-        <div className="profile-card">
-          <div className="profile-header">
-            <h2 className="page-title">Configurar perfil</h2>
-          </div>
-    
-          <div className="profile-tabs">
-            <Tabs
-              value={tab}
-              onChange={(_, v) => setTab(v)}
-              textColor="primary"
-              indicatorColor="primary"
-            >
-              <Tab label="Fútbol" value="football" />
-              <Tab label="Vóley" value="volley" />
-              <Tab label="Pádel" value="paddle" />
-            </Tabs>
-          </div>
-    
-          <FormProvider {...currentMethods}>
-            <form
-              onSubmit={currentMethods.handleSubmit(handleSubmit)}
-              className="profile-form"
-            >
-              {tab === "football" && <FootballProfileForm />}
-              {tab === "volley" && <VolleyProfileForm />}
-              {tab === "paddle" && <PaddleProfileForm />}
-    
-              <div className="buttons-container form-full">
-                <button type="submit" className="btn btn--lg">
-                  Guardar cambios
-                </button>
-              </div>
-            </form>
-          </FormProvider>
+  return (
+    <div className="container">
+      <div className="profile-card">
+        <div className="profile-header">
+          <h2 className="page-title">Configurar perfil</h2>
         </div>
+
+        <div className="profile-tabs">
+          <Tabs
+            value={tab}
+            onChange={(_, v) => setTab(v)}
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab label="Fútbol" value="football" />
+            <Tab label="Vóley" value="volley" />
+            <Tab label="Pádel" value="paddle" />
+          </Tabs>
+        </div>
+
+        <FormProvider {...currentMethods}>
+          <form
+            onSubmit={currentMethods.handleSubmit(handleSubmit)}
+            className="profile-form"
+          >
+            {tab === "football" && <FootballProfileForm />}
+            {tab === "volley" && <VolleyProfileForm />}
+            {tab === "paddle" && <PaddleProfileForm />}
+
+            <div className="buttons-container form-full">
+              <button type="submit" className="btn btn--lg">
+                Guardar cambios
+              </button>
+            </div>
+          </form>
+        </FormProvider>
       </div>
-    );
-    
+    </div>
+  );
 };
 
 export default ProfilePage;
