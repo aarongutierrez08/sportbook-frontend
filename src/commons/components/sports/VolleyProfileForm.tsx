@@ -336,7 +336,7 @@ export const VolleyProfileForm = () => {
       />
 
       <Controller
-        name="playFrequency"
+        name="playsOften"
         control={control}
         render={({ field }) => (
           <div className="sport-card sport-card-full">

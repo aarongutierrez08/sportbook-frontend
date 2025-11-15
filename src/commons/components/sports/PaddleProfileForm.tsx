@@ -1,5 +1,4 @@
 import { Controller, useFormContext } from "react-hook-form";
-import type { PaddleProfileDTO } from "../../../types/user";
 import { useTheme } from "@mui/material/styles";
 import SportsTennisIcon from "@mui/icons-material/SportsTennis";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
@@ -9,6 +8,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
+import type { PaddleProfileDetail } from "../../../types/apiTypes";
 
 const preferredSides = [
   {
@@ -63,7 +63,7 @@ const playFrequencies = [
 ];
 
 export const PaddleProfileForm = () => {
-  const { control } = useFormContext<PaddleProfileDTO>();
+  const { control } = useFormContext<PaddleProfileDetail>();
   const theme = useTheme();
 
   return (
@@ -255,7 +255,7 @@ export const PaddleProfileForm = () => {
       />
 
       <Controller
-        name="playFrequency"
+        name="playsOften"
         control={control}
         render={({ field }) => (
           <div className="sport-card sport-card-full">

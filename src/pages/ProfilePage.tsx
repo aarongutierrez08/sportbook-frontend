@@ -11,85 +11,85 @@ import {
   updatePaddleProfile,
   updateVolleyProfile,
 } from "../api/profileApi";
-import type {
-  FootballProfileDTO,
-  VolleyProfileDTO,
-  SportProfileDTO,
-  PaddleProfileDTO,
-} from "../types/user";
 import "../styles/profile-page.css";
+import type {
+  FootballProfileDetail,
+  PaddleProfileDetail,
+  SportProfile,
+  VolleyProfileDetail,
+} from "../types/apiTypes";
 
 const ProfilePage: React.FC = () => {
   const [tab, setTab] = React.useState<"football" | "volley" | "paddle">(
     "football"
   );
 
-  const footballForm = useForm<FootballProfileDTO>({
+  const footballForm = useForm<FootballProfileDetail>({
     defaultValues: {
       sport: "FOOTBALL",
       positions: [],
       favoritePosition: "ST",
       ability: 5,
-      playFrequency: "often",
+      playsOften: "often",
     },
   });
 
-  const volleyForm = useForm<VolleyProfileDTO>({
+  const volleyForm = useForm<VolleyProfileDetail>({
     defaultValues: {
       sport: "VOLLEY",
       positions: [],
       favoritePosition: "Setter",
       ability: 5,
       blockHeight: undefined,
-      offensiveLevel: 5, // Agregar
-      defensiveLevel: 5, // Agregar
-      serveType: "", // Agregar esta línea
-      playFrequency: "often",
+      offensiveLevel: 5,
+      defensiveLevel: 5,
+      serveType: "",
+      playsOften: "often",
     },
   });
 
-  const paddleForm = useForm<PaddleProfileDTO>({
+  const paddleForm = useForm<PaddleProfileDetail>({
     defaultValues: {
       sport: "PADDLE",
       preferredSide: "DRIVE",
       ability: 5,
-      playsOften: false,
       playStyle: "MIXTO",
       playedTournaments: false,
-      playFrequency: "often", // Agregar valor por defecto
+      playsOften: "often",
     },
   });
 
   useEffect(() => {
-    fetchProfiles().then((profiles: SportProfileDTO[]) => {
+    fetchProfiles().then((profiles: SportProfile[]) => {
       const football = profiles.find((profile) => profile.sport === "FOOTBALL");
-      if (football) footballForm.reset(football.details as FootballProfileDTO);
+      if (football)
+        footballForm.reset(football.details as FootballProfileDetail);
 
       const volley = profiles.find((profile) => profile.sport === "VOLLEY");
-      if (volley) volleyForm.reset(volley.details as VolleyProfileDTO);
+      if (volley) volleyForm.reset(volley.details as VolleyProfileDetail);
 
       const paddle = profiles.find((profile) => profile.sport === "PADDLE");
-      if (paddle) paddleForm.reset(paddle.details as PaddleProfileDTO);
+      if (paddle) paddleForm.reset(paddle.details as PaddleProfileDetail);
     });
   }, [footballForm, volleyForm, paddleForm]);
 
   const handleSubmit = async (
-    data: FootballProfileDTO | VolleyProfileDTO | PaddleProfileDTO
+    data: FootballProfileDetail | VolleyProfileDetail | PaddleProfileDetail
   ) => {
     if (tab === "football") {
-      toast.promise(updateFootballProfile(data as FootballProfileDTO), {
+      toast.promise(updateFootballProfile(data as FootballProfileDetail), {
         loading: "Guardando perfil de fútbol...",
         success: "Perfil de fútbol actualizado",
         error: "Error al guardar fútbol",
       });
     } else if (tab === "volley") {
-      toast.promise(updateVolleyProfile(data as VolleyProfileDTO), {
+      toast.promise(updateVolleyProfile(data as VolleyProfileDetail), {
         loading: "Guardando perfil de vóley...",
         success: "Perfil de vóley actualizado",
         error: "Error al guardar vóley",
       });
     } else if (tab === "paddle") {
-      toast.promise(updatePaddleProfile(data as PaddleProfileDTO), {
+      toast.promise(updatePaddleProfile(data as PaddleProfileDetail), {
         loading: "Guardando perfil de pádel...",
         success: "Perfil de pádel actualizado",
         error: "Error al guardar pádel",

@@ -1,15 +1,10 @@
 import { PITCH_SIZE_MAP } from "../constants/events";
-import type { PlayerInfo } from "../types/events";
-
-export const stringToPlayerInfoList = (players?: string): PlayerInfo[] => {
-  if (!players) return [];
-  return (
-    players
-      ?.split(/[\n,]/g)
-      .map((s) => ({ id: 0, name: s.trim(), user: { username: s.trim() } }))
-      .filter(Boolean) || []
-  );
-};
+import type {
+  Event,
+  FootballEvent,
+  Player,
+  SportUser,
+} from "../types/apiTypes";
 
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -26,4 +21,37 @@ export const formatDate = (dateString: string): string => {
 
 export function getPitchSizeLabel(key?: string): number {
   return key ? PITCH_SIZE_MAP[key] : 0;
+}
+
+const matchesUser = (player: Player, loggedUser: SportUser | null) =>
+  player.user?.id === loggedUser?.id;
+
+export function isLoggedUserInEvent(
+  event: Event,
+  loggedUser: SportUser | null
+): boolean {
+  const inGeneralPlayers = event.unnasignedPlayers.some((player) =>
+    matchesUser(player, loggedUser)
+  );
+  const inFootballEvent = isLoggedUserInFootballEvent(
+    event as FootballEvent,
+    loggedUser
+  );
+  return inGeneralPlayers || inFootballEvent;
+}
+
+export function isLoggedUserInFootballEvent(
+  event: FootballEvent,
+  loggedUser: SportUser | null
+): boolean {
+  const inFirstTeam =
+    event.firstTeam?.players?.some((player) =>
+      matchesUser(player, loggedUser)
+    ) ?? false;
+  const inSecondTeam =
+    event.secondTeam?.players?.some((player) =>
+      matchesUser(player, loggedUser)
+    ) ?? false;
+
+  return inFirstTeam || inSecondTeam;
 }

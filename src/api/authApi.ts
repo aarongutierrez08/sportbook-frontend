@@ -1,5 +1,5 @@
+import type { SportUser } from "../types/apiTypes";
 import api from "./axios";
-import type { SportUser } from "../types/user";
 
 const extractBearerToken = (
   authorizationHeader?: string | null

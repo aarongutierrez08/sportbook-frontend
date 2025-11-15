@@ -3,14 +3,16 @@ import "../styles/myDataPage.css";
 import { useAuth } from "../auth/useAuth.ts";
 import { useProfilePicture } from "../auth/ProfilePictureContext";
 import { formatDate } from "../utils/dateUtils.ts";
-import { updateSportUser, UpdateUserDataParams } from "../api/userDataApi.ts";
+import {
+  updateSportUser,
+  type UpdateUserDataParams,
+} from "../api/userDataApi.ts";
 import toast from "react-hot-toast";
 
 const MyDataPage: React.FC = () => {
   const { user: loggedUser, setUser } = useAuth();
   const { image, isLoading, updateProfilePicture } = useProfilePicture();
 
-  // Estado para campos editables individuales
   const [editingField, setEditingField] = useState<string | null>(null);
   const [editedUser, setEditedUser] = useState<UpdateUserDataParams | null>(
     null
@@ -18,7 +20,6 @@ const MyDataPage: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Inicializar datos editables
   const initializeEditedUser = () => {
     if (!editedUser) {
       setEditedUser({
@@ -39,25 +40,21 @@ const MyDataPage: React.FC = () => {
     }
   };
 
-  // Empezar a editar un campo específico
   const startEditingField = (fieldName: string) => {
     initializeEditedUser();
     setEditingField(fieldName);
   };
 
-  // Terminar de editar (al perder focus o presionar Enter)
   const stopEditingField = () => {
     setEditingField(null);
   };
 
-  // Cancelar todos los cambios
   const cancelAllChanges = () => {
     setEditedUser(null);
     setEditingField(null);
     setHasChanges(false);
   };
 
-  // Guardar cambios
   const saveChanges = async () => {
     if (!editedUser || !hasChanges) return;
 
@@ -79,7 +76,6 @@ const MyDataPage: React.FC = () => {
     }
   };
 
-  // Manejar cambios en los campos
   const handleFieldChange = (field: string, value: string) => {
     initializeEditedUser();
 
@@ -90,12 +86,10 @@ const MyDataPage: React.FC = () => {
 
     setEditedUser(newEditedUser);
 
-    // Verificar si hay cambios comparando con los datos originales
     const hasActualChanges = checkForChanges(newEditedUser);
     setHasChanges(hasActualChanges);
   };
 
-  // Manejar cambios en idiomas
   const handleLanguagesChange = (languages: string) => {
     initializeEditedUser();
 
@@ -114,7 +108,6 @@ const MyDataPage: React.FC = () => {
     setHasChanges(hasActualChanges);
   };
 
-  // Verificar si hay cambios reales comparando con los datos originales
   const checkForChanges = (currentData: UpdateUserDataParams): boolean => {
     if (!loggedUser) return false;
 
@@ -136,13 +129,11 @@ const MyDataPage: React.FC = () => {
     );
   };
 
-  // Obtener el valor actual del campo (editado o original)
   const getFieldValue = (field: string): string => {
     if (editedUser) {
       return (editedUser as any)[field] || "";
     }
 
-    // Mapear campos de additionalInfo
     if (field === "phoneNumber")
       return loggedUser?.additionalInfo?.phoneNumber || "";
     if (field === "country") return loggedUser?.additionalInfo?.country || "";

@@ -1,13 +1,13 @@
-import type { PlayerInfo } from "../../../types/events";
+import type { Player } from "../../../types/apiTypes";
 
 interface PlayerListProps {
-  players: PlayerInfo[];
+  players?: Player[];
 }
 
 export const PlayerList = ({ players }: PlayerListProps) => {
   return (
     <ul className="event-page-players-list">
-      {players.map((player) => (
+      {players?.map((player) => (
         <li key={player?.user?.username}>{player.name}</li>
       ))}
     </ul>

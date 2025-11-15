@@ -5,6 +5,7 @@ import { Tabs, Tab } from "@mui/material";
 import { FormField } from "../commons/components/FormField";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/useAuth";
+import type { SportUser } from "../types/user";
 
 type TabMode = "login" | "register";
 
@@ -64,8 +65,16 @@ const AuthPage: React.FC = () => {
   }
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const sportUser: SportUser = {
+      username: data.username,
+      password: data.password,
+      email: data.email,
+      name: data.name,
+      lastName: data.lastName,
+      dateOfBirth: data.dateOfBirth,
+    };
     if (isRegister) {
-      toast.promise(registerUser(data), {
+      toast.promise(registerUser(sportUser), {
         loading: "Registrando...",
         success: () => {
           reset();
@@ -175,9 +184,13 @@ const AuthPage: React.FC = () => {
               </>
             )}
 
-              <button type="submit" className="btn btn--block" disabled={isSubmitting}>
-                {isRegister ? "Registrarse" : "Entrar"}
-              </button>
+            <button
+              type="submit"
+              className="btn btn--block"
+              disabled={isSubmitting}
+            >
+              {isRegister ? "Registrarse" : "Entrar"}
+            </button>
           </form>
         </div>
       </div>

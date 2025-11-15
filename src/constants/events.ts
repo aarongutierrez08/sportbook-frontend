@@ -1,4 +1,4 @@
-import type { Color, Position } from "../types/events";
+import type { Position, TeamColor } from "../types/apiTypes";
 
 export const REQUIRED = { value: true, message: "Este campo es obligatorio" };
 
@@ -12,13 +12,17 @@ export const PITCH_SIZE_MAP: Record<string, number> = {
 };
 
 export const PITCH_SIZES = [5, 6, 7, 8, 9, 11];
-export const TEAM_COLORS: Color[] = [
-  "Azul",
-  "Verde",
-  "Rojo",
-  "Negro",
-  "Blanco",
-];
+
+export const COLOR_MAPPER: Record<TeamColor, string> = {
+  BLUE: "Azul",
+  GREEN: "Verde",
+  BLACK: "Negro",
+  RED: "Rojo",
+  WHITE: "Blanco",
+};
+
+export const COLOR_KEYS = Object.keys(COLOR_MAPPER) as TeamColor[];
+export const COLOR_VALUES = Object.values(COLOR_MAPPER);
 
 export const positionLabels: Record<Position, string> = {
   GK: "Arquero",

@@ -1,34 +1,45 @@
-import React from 'react';
-import { joinTeam } from '../../api/eventsApi';
-import toast from 'react-hot-toast';
-import '../../styles/addPlayerButton.css';
+import React from "react";
+import { joinTeam } from "../../api/eventsApi";
+import toast from "react-hot-toast";
+import "../../styles/addPlayerButton.css";
 
 interface AddPlayerButtonProps {
   eventId: number;
-  teamId: number;
+  teamId?: number;
   onPlayerAdded?: (updatedEvent: any) => void;
-  disabled?: boolean
+  disabled?: boolean;
 }
 
-const AddPlayerButton: React.FC<AddPlayerButtonProps> = ({ eventId, teamId, onPlayerAdded, disabled }) => {
+const AddPlayerButton: React.FC<AddPlayerButtonProps> = ({
+  eventId,
+  teamId,
+  onPlayerAdded,
+  disabled,
+}) => {
   const handleClick = async () => {
     try {
-      const updatedEvent = await joinTeam(eventId, teamId);
-      toast.success('Te has unido al equipo exitosamente');
+      const updatedEvent = await joinTeam(eventId, teamId!);
+      toast.success("Te has unido al equipo exitosamente");
       if (onPlayerAdded) {
         onPlayerAdded(updatedEvent);
       }
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || 'Error al unirse al equipo');
+      toast.error(
+        error?.response?.data?.message || "Error al unirse al equipo"
+      );
     }
   };
 
   return (
-      <div>
-        <button className="add-player-btn" onClick={handleClick} disabled={disabled}>
-          +
-        </button>
-      </div>
+    <div>
+      <button
+        className="add-player-btn"
+        onClick={handleClick}
+        disabled={disabled}
+      >
+        +
+      </button>
+    </div>
   );
 };
 

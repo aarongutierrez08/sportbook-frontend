@@ -1,51 +1,107 @@
 import React from "react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import type { SportEvent, SportEventForm } from "../types/events.ts";
-import { createEvent } from "../api/eventsApi.ts";
+import { useForm, FormProvider, type SubmitHandler } from "react-hook-form";
+import { createEvent, type CreateEventRequest } from "../api/eventsApi.ts";
 import { format } from "date-fns";
-import { matchDetailsBuilder } from "../utils/matchDetailsBuilder.ts";
 import { FormField } from "../commons/components/FormField.tsx";
 import { MatchDetailsFields } from "../commons/components/MatchDetailsFields.tsx";
 import { PaymentFields } from "../commons/components/PaymentFields.tsx";
 import LocationPickerMap from "../commons/components/LocationPickerMap.tsx";
 import toast from "react-hot-toast";
 import { REQUIRED } from "../constants/events.ts";
+import type { PitchSize, Player, Sport, TeamColor } from "../types/apiTypes.ts";
+
+export interface SportEventForm {
+  sport: Sport;
+  cost: number;
+  cbu?: string;
+  alias?: string;
+  location: {
+    x: number;
+    y: number;
+    placeName: string;
+  };
+  pitchSize: PitchSize;
+  minPlayers: number;
+  maxPlayers: number;
+  dateTime: string;
+  firstTeamColor: TeamColor;
+  secondTeamColor: TeamColor;
+  firstTeamPlayersInput: Array<Player>;
+  secondTeamPlayersInput: Array<Player>;
+  allEventPlayersInput: Array<Player>;
+  teams: string;
+}
 
 const CreateEventPage: React.FC = () => {
+  const methods = useForm<SportEventForm>({
+    defaultValues: {
+      sport: undefined,
+      cost: 0,
+      location: { x: 0, y: 0, placeName: "" },
+      minPlayers: 2,
+      maxPlayers: 10,
+      dateTime: "",
+      firstTeamPlayersInput: [],
+      secondTeamPlayersInput: [],
+      allEventPlayersInput: [],
+    },
+  });
+
   const {
     register,
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isSubmitting },
     setValue,
-  } = useForm<SportEventForm>();
+    formState: { errors, isSubmitting },
+  } = methods;
 
   const sport = watch("sport");
 
   const onSubmit: SubmitHandler<SportEventForm> = async (data) => {
-    const payload: SportEvent = {
-      id: 0,
-      ...data,
+    const simplifyUser = (u?: { id?: number }) =>
+      u?.id ? { id: u.id } : undefined;
+
+    const simplifyPlayers = (players?: Player[]) =>
+      (players ?? []).map((p) => ({
+        name: p.name,
+        user: simplifyUser(p.user),
+      }));
+
+    const payload: CreateEventRequest = {
+      sport: data.sport as Sport,
+      minPlayers: data.minPlayers,
+      maxPlayers: data.maxPlayers,
+      cost: data.cost,
       dateTime: format(new Date(data.dateTime), "yyyy-MM-dd HH:mm:ss"),
+      location: {
+        x: String(data.location.x),
+        y: String(data.location.y),
+        placeName: data.location.placeName,
+      },
       transferData: {
-        cbu: data.cbu,
+        cbu: data.cbu?.toString(),
         alias: data.alias,
       },
-      players: [],
-      ...matchDetailsBuilder(data),
+      pitchSize: data.pitchSize,
+      players: simplifyPlayers(data.allEventPlayersInput ?? []),
+      firstTeam: {
+        color: data.firstTeamColor,
+        players: simplifyPlayers(data.firstTeamPlayersInput),
+      },
+      secondTeam: {
+        color: data.secondTeamColor,
+        players: simplifyPlayers(data.secondTeamPlayersInput),
+      },
     };
 
-    toast.promise(
-      async () => {
-        await createEvent(payload);
-      },
-      {
-        loading: "Intentando crear evento...",
-        success: "Evento creado exitosamente",
-        error: (err: Error) => `No se pudo crear el evento: ${err.message}`,
-      }
-    );
+    await toast.promise(createEvent(payload), {
+      loading: "Creando evento...",
+      success: "Evento creado exitosamente 🎉",
+      error: (err: Error) => `No se pudo crear el evento: ${err.message}`,
+    });
+
+    reset();
   };
 
   return (
@@ -54,47 +110,51 @@ const CreateEventPage: React.FC = () => {
         <div className="card">
           <h2 className="page-title">Nuevo evento</h2>
 
-          <form className="create-event-form" onSubmit={handleSubmit(onSubmit)}>
-            <FormField label="Deporte" error={errors.sport}>
-              <select {...register("sport", { required: REQUIRED })}>
-                <option value="">Seleccionar deporte...</option>
-                <option value="FOOTBALL">⚽ Fútbol</option>
-                <option value="PADDLE">🏓 Pádel</option>
-                <option value="VOLLEY">🏐 Vóley</option>
-              </select>
-            </FormField>
+          <FormProvider {...methods}>
+            <form
+              className="create-event-form"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              {/* 🏀 Deporte */}
+              <FormField label="Deporte" error={errors.sport}>
+                <select {...register("sport", { required: REQUIRED })}>
+                  <option value="">Seleccionar deporte...</option>
+                  <option value="FOOTBALL">⚽ Fútbol</option>
+                  <option value="PADDLE">🏓 Pádel</option>
+                  <option value="VOLLEY">🏐 Vóley</option>
+                </select>
+              </FormField>
 
-            <FormField label="Fecha y Hora" error={errors.dateTime}>
-              <input
-                type="datetime-local"
-                {...register("dateTime", { required: REQUIRED })}
-              />
-            </FormField>
+              {/* 📅 Fecha y hora */}
+              <FormField label="Fecha y Hora" error={errors.dateTime}>
+                <input
+                  type="datetime-local"
+                  {...register("dateTime", { required: REQUIRED })}
+                />
+              </FormField>
 
-            <div className="form-group form-full">
-              <label>Ubicación</label>
-              <LocationPickerMap
-                lat={watch("location.x")}
-                lng={watch("location.y")}
-                onChange={(lat, lng, placeName) => {
-                  setValue("location.x", lat, { shouldValidate: true });
-                  setValue("location.y", lng, { shouldValidate: true });
-                  if (placeName) {
-                    setValue("location.placeName", placeName);
-                  }
-                }}
-              />
+              {/* 📍 Ubicación */}
+              <div className="form-group form-full">
+                <label>Ubicación</label>
+                <LocationPickerMap
+                  lat={watch("location.x")}
+                  lng={watch("location.y")}
+                  onChange={(lat, lng, placeName) => {
+                    setValue("location.x", lat, { shouldValidate: true });
+                    setValue("location.y", lng, { shouldValidate: true });
+                    if (placeName) setValue("location.placeName", placeName);
+                  }}
+                />
 
-              <input
-                type="hidden"
-                {...register("location.x", { valueAsNumber: true })}
-              />
-              <input
-                type="hidden"
-                {...register("location.y", { valueAsNumber: true })}
-              />
+                <input
+                  type="hidden"
+                  {...register("location.x", { valueAsNumber: true })}
+                />
+                <input
+                  type="hidden"
+                  {...register("location.y", { valueAsNumber: true })}
+                />
 
-              <div>
                 <input
                   type="text"
                   placeholder="Nombre del lugar"
@@ -103,56 +163,63 @@ const CreateEventPage: React.FC = () => {
                   })}
                 />
               </div>
-            </div>
 
-            <FormField label="Jugadores Mínimos" error={errors.minPlayers}>
-              <input
-                type="number"
-                placeholder="2"
-                {...register("minPlayers", {
-                  required: REQUIRED,
-                  min: 1,
-                  valueAsNumber: true,
-                })}
+              {/* 👥 Mínimo y máximo */}
+              <FormField label="Jugadores Mínimos" error={errors.minPlayers}>
+                <input
+                  type="number"
+                  {...register("minPlayers", {
+                    required: REQUIRED,
+                    min: 1,
+                    valueAsNumber: true,
+                  })}
+                />
+              </FormField>
+
+              <FormField label="Jugadores Máximos" error={errors.maxPlayers}>
+                <input
+                  type="number"
+                  {...register("maxPlayers", {
+                    required: REQUIRED,
+                    min: 1,
+                    valueAsNumber: true,
+                    validate: (value, f) =>
+                      value < (f.minPlayers ?? 1)
+                        ? "El número máximo no puede ser menor al mínimo."
+                        : true,
+                  })}
+                />
+              </FormField>
+
+              {/* 💰 Datos de pago */}
+              <PaymentFields register={register} errors={errors} />
+
+              {/* ⚽️ Detalles según deporte */}
+              <MatchDetailsFields
+                sport={sport}
+                register={register}
+                errors={errors}
               />
-            </FormField>
 
-            <FormField label="Jugadores Máximos" error={errors.maxPlayers}>
-              <input
-                type="number"
-                placeholder="10"
-                {...register("maxPlayers", {
-                  required: REQUIRED,
-                  min: 1,
-                  valueAsNumber: true,
-                  validate: (value, f) =>
-                    value < (f.minPlayers ?? 1)
-                      ? "El número máximo de jugadores no puede ser menor al mínimo."
-                      : true,
-                })}
-              />
-            </FormField>
-
-            <PaymentFields register={register} errors={errors} />
-
-            <MatchDetailsFields
-              sport={sport}
-              register={register}
-              errors={errors}
-            />
-
-            <div className="buttons-container form-full">
-              <button type="submit" className="btn btn--lg" disabled={isSubmitting}>
-                Crear
-              </button>
-              <button
-                onClick={() => reset()}
-                className="btn btn--lg btn--secondary"
-              >
-                Limpiar
-              </button>
-            </div>
-          </form>
+              {/* 🔘 Botones */}
+              <div className="buttons-container form-full">
+                <button
+                  type="submit"
+                  className="btn btn--lg"
+                  disabled={isSubmitting}
+                >
+                  Crear
+                </button>
+                <button
+                  type="button"
+                  className="btn btn--lg btn--secondary"
+                  onClick={() => reset()}
+                >
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </FormProvider>
         </div>
       </div>
     </div>

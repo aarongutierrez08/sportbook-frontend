@@ -1,8 +1,8 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { useTheme } from "@mui/material/styles";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
-import type { FootballProfileDTO } from "../../../types/user";
 import { FootballPositionSelector } from "./FootballPositionSelector";
+import type { FootballProfileDetail } from "../../../types/apiTypes";
 
 const playFrequencies = [
   {
@@ -26,7 +26,7 @@ const playFrequencies = [
 ];
 
 export const FootballProfileForm = () => {
-  const { control } = useFormContext<FootballProfileDTO>();
+  const { control } = useFormContext<FootballProfileDetail>();
   const theme = useTheme();
 
   return (
@@ -88,7 +88,7 @@ export const FootballProfileForm = () => {
       />
 
       <Controller
-        name="playFrequency"
+        name="playsOften"
         control={control}
         render={({ field }) => (
           <div className="sport-card sport-card-full">

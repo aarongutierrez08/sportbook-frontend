@@ -1,6 +1,4 @@
 import { useMemo, type JSX } from "react";
-import type { SportEvent } from "../../../types/events";
-import type { Sport, SportUser } from "../../../types/user";
 import { formatDate } from "../../../utils/events";
 import { AmountText } from "../AmountText";
 import { useTheme } from "@mui/material/styles";
@@ -16,9 +14,10 @@ import PlaceIcon from "@mui/icons-material/Place";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import type { Event, Sport, SportUser } from "../../../types/apiTypes";
 
 interface EventCardProps {
-  event: SportEvent;
+  event: Event;
   loggedUser: SportUser | null;
   onDetails: (id: number) => void;
 }
@@ -32,12 +31,11 @@ const SPORT_NAME_DICTIONARY: Record<
   VOLLEY: { label: "Vóley", icon: <SportsVolleyballIcon fontSize="small" /> },
 };
 
-const isUserInEvent = (
-  event: SportEvent,
-  loggedUser: SportUser | null
-): boolean =>
+const isUserInEvent = (event: Event, loggedUser: SportUser | null): boolean =>
   !!loggedUser &&
-  event.players.some((p) => p?.user?.username === loggedUser.username);
+  event.unnasignedPlayers.some(
+    (p) => p?.user?.username === loggedUser.username
+  );
 
 const EventCard: React.FC<EventCardProps> = ({
   event,
@@ -95,7 +93,7 @@ const EventCard: React.FC<EventCardProps> = ({
           }}
         />
         <span>
-          Jugadores: {event.players.length} / {event.minPlayers}
+          Jugadores: {event.unnasignedPlayers.length} / {event.minPlayers}
         </span>
       </div>
 

@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Grid from "../commons/components/Grid";
 import Pagination from "../commons/components/Pagination";
 import { getAllEvents } from "../api/eventsApi";
-import type { SportEvent } from "../types/events";
 import EventCard from "../commons/components/events/EventCard";
 import { useAuth } from "../auth/useAuth";
 import "../styles/eventCards.css";
+import type { Event } from "../types/apiTypes";
 
 const ActiveEventsPage: React.FC = () => {
   const navigate = useNavigate();
-  const [events, setEvents] = useState<SportEvent[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const { user: loggedUser } = useAuth();
 
   useEffect(() => {

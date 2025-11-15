@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useReducer } from "react";
-import type { SportUser } from "../types/user";
 import { clearAuthData } from "../api/axios";
 import { fetchMe, loginUser, registerUser } from "../api/authApi";
 import { AuthContext } from "./useAuth";
+import type { SportUser } from "../types/apiTypes";
 
 type AuthStatus = "idle" | "guest" | "auth";
 

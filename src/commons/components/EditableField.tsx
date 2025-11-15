@@ -1,16 +1,13 @@
-import React from "react";
-import type { UpdateEventParams } from "../../types/events";
+import React, { useState } from "react";
 import "../../styles/eventPage.css";
+import type { UpdateEventParams } from "../../pages/EventPage/EventPage";
 
 interface EditableFieldProps {
   label: string;
   field: keyof UpdateEventParams;
-  value: string | number;
+  value?: string | number;
   editForm: UpdateEventParams;
-  editingField: keyof UpdateEventParams | null;
-  onEditClick: (field: keyof UpdateEventParams) => void;
   onChange: (field: keyof UpdateEventParams, value: string | number) => void;
-  onBlur: () => void;
   type?: string;
   enabled?: boolean;
 }
@@ -20,39 +17,38 @@ const EditableField: React.FC<EditableFieldProps> = ({
   field,
   value,
   editForm,
-  editingField,
-  onEditClick,
   onChange,
-  onBlur,
   type = "text",
   enabled = true,
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
   const currentValue = editForm[field] ?? value;
-
 
   return (
     <p className="editable-field">
       {label}:{" "}
-      {editingField === field ? (
+      {isEditing ? (
         <input
           type={type}
           value={currentValue}
           onChange={(e) =>
-            onChange(field, type === "number" ? Number(e.target.value) : e.target.value)
+            onChange(
+              field,
+              type === "number" ? Number(e.target.value) : e.target.value
+            )
           }
-          onBlur={onBlur}
+          onBlur={() => setIsEditing(false)}
           className="inline-edit-input"
           autoFocus
         />
       ) : (
         <span>{currentValue}</span>
       )}
-
       {enabled && (
         <span
           className="edit-icon"
           title="Editar"
-          onClick={() => onEditClick(field)}
+          onClick={() => setIsEditing(!isEditing)}
           style={{ cursor: "pointer" }}
         >
           <svg
@@ -65,7 +61,7 @@ const EditableField: React.FC<EditableFieldProps> = ({
             style={{ verticalAlign: "middle" }}
           >
             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-            <path d="M18.5 2.5a2.121 2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
           </svg>
         </span>
       )}

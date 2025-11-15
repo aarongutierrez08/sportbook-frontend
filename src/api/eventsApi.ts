@@ -1,50 +1,96 @@
+import type { UpdateEventParams } from "../pages/EventPage/EventPage";
 import type {
-    Lineup,
-    Position,
-    SportEvent,
-    UpdateEventParams,
-    FinishEventParams,
-    EventStats, TeamInfo,
-} from "../types/events";
+  Event,
+  FinishedEventStats,
+  FootballLineup,
+  Lineup,
+  Position,
+  Sport,
+  Team,
+} from "../types/apiTypes";
 import api from "./axios";
 
-export const createEvent = async (params: SportEvent): Promise<SportEvent> => {
-  const res = await api.post<SportEvent>("/event", params);
+export type SimplifiedPlayer = {
+  name: string | undefined;
+  user:
+    | {
+        id: number;
+      }
+    | undefined;
+};
+
+export type CreateEventRequest = {
+  sport: Sport;
+  minPlayers: number;
+  maxPlayers: number;
+  cost?: number | string | null;
+  dateTime: string;
+
+  location: {
+    x: string;
+    y: string;
+    placeName: string;
+  };
+
+  transferData: {
+    cbu?: string | null;
+    alias?: string | null;
+  };
+
+  pitchSize?: number | null;
+
+  players: SimplifiedPlayer[];
+
+  firstTeam: {
+    color: string;
+    players: SimplifiedPlayer[];
+  };
+
+  secondTeam: {
+    color: string;
+    players: SimplifiedPlayer[];
+  };
+};
+
+export const createEvent = async (
+  params: CreateEventRequest
+): Promise<Event> => {
+  const res = await api.post<Event>("/event", params);
   return res.data;
 };
 
-export const getAllEvents = async (): Promise<SportEvent[]> => {
-  const res = await api.get<SportEvent[]>("/event");
+export const getAllEvents = async (): Promise<Event[]> => {
+  const res = await api.get<Event[]>("/event");
   return res.data;
 };
 
-export const getFinishedEvents = async (): Promise<SportEvent[]> => {
-    const res = await api.get<SportEvent[]>("/event/finished");
-    return res.data;
+export const getFinishedEvents = async (): Promise<Event[]> => {
+  const res = await api.get<Event[]>("/event/finished");
+  return res.data;
 };
 
-export const joinEvent = async (eventId: number): Promise<SportEvent> => {
-  const res = await api.put<SportEvent>("/event/" + eventId + "/join");
+export const joinEvent = async (eventId: number): Promise<Event> => {
+  const res = await api.put<Event>("/event/" + eventId + "/join");
   return res.data;
 };
 
 export const joinTeam = async (
   eventId: number,
   teamId: number
-): Promise<SportEvent> => {
-  const res = await api.put<SportEvent>(
-    "/event/" + eventId + "/join/" + teamId
-  );
+): Promise<Event> => {
+  const res = await api.put<Event>("/event/" + eventId + "/join/" + teamId);
   return res.data;
 };
 
-export const getEvent = async (eventId: number): Promise<SportEvent> => {
-  const res = await api.get<SportEvent>("/event/" + eventId);
+export const getEvent = async (eventId: number): Promise<Event> => {
+  const res = await api.get<Event>("/event/" + eventId);
   return res.data;
 };
 
-export const getLineups = async (eventId: number): Promise<Lineup[]> => {
-  const res = await api.get<Lineup[]>("/event/" + eventId + "/lineup");
+export const getLineups = async (
+  eventId: number
+): Promise<FootballLineup[]> => {
+  const res = await api.get<FootballLineup[]>("/event/" + eventId + "/lineup");
   return res.data;
 };
 
@@ -82,45 +128,49 @@ export const leaveEvent = async (eventId: number): Promise<Lineup> => {
 export const updateEvent = async (
   eventId: number,
   params: UpdateEventParams
-): Promise<SportEvent> => {
-  const res = await api.put<SportEvent>("/event/" + eventId, params);
+): Promise<Event> => {
+  const res = await api.put<Event>("/event/" + eventId, params);
   return res.data;
 };
 
 export const finishEvent = async (
   eventId: number,
-  params: FinishEventParams
-): Promise<SportEvent> => {
-  const res = await api.post<SportEvent>(`/event/${eventId}/finish`, params);
+  params: FinishedEventStats
+): Promise<Event> => {
+  const res = await api.post<Event>(`/event/${eventId}/finish`, params);
   return res.data;
 };
 
 export const getEventStats = async (
   eventId: number,
   params?: { userId?: number }
-): Promise<EventStats> => {
-  const res = await api.get<EventStats>(
-    `/event/${eventId}/stats`,
-    { params }
-  );
+): Promise<FinishedEventStats> => {
+  const res = await api.get<FinishedEventStats>(`/event/${eventId}/stats`, {
+    params,
+  });
   return res.data;
 };
 
 export const getFairnessRating = async (eventId: number): Promise<number> => {
-    const res = await api.get<number>("/event/" + eventId + "/fairness-score");
-    return res.data;
-}
+  const res = await api.get<number>("/event/" + eventId + "/fairness-score");
+  return res.data;
+};
 
 export const balanceEvent = (eventId: number) => {
-    return api.post("/event/" + eventId + "/balance");
-}
+  return api.post("/event/" + eventId + "/balance");
+};
 
-export const addTeam = async (eventId: number, team: TeamInfo): Promise<SportEvent> => {
-    const res = await api.put<SportEvent>("/event/" + eventId + "/add-team", team);
-    return res.data
-}
+export const addTeam = async (eventId: number, team: Team): Promise<Event> => {
+  const res = await api.put<Event>("/event/" + eventId + "/add-team", team);
+  return res.data;
+};
 
-export const removeTeam = async (eventId: number, teamId: number): Promise<SportEvent> => {
-    const res = await api.delete<SportEvent>("/event/" + eventId + "/remove-team/" + teamId);
-    return res.data
-}
+export const removeTeam = async (
+  eventId: number,
+  teamId: number
+): Promise<Event> => {
+  const res = await api.delete<Event>(
+    "/event/" + eventId + "/remove-team/" + teamId
+  );
+  return res.data;
+};
