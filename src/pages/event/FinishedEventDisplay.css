@@ -1,40 +1,3 @@
-/* =========================================
-   THEMING SYSTEM
-   ========================================= */
-.theme-blue {
-  --current-team-main: var(--color-team-blue);
-  --current-team-dark: var(--color-team-blue-dark);
-  --current-team-light: var(--color-team-blue-light);
-  --current-team-text: var(--color-white);
-}
-.theme-green {
-  --current-team-main: var(--color-team-green);
-  --current-team-dark: var(--color-team-green-dark);
-  --current-team-light: var(--color-team-green-light);
-  --current-team-text: var(--color-white);
-}
-.theme-red {
-  --current-team-main: var(--color-team-red);
-  --current-team-dark: var(--color-team-red-dark);
-  --current-team-light: var(--color-team-red-light);
-  --current-team-text: var(--color-white);
-}
-.theme-black {
-  --current-team-main: var(--color-team-black);
-  --current-team-dark: var(--color-team-black-dark);
-  --current-team-light: var(--color-team-black-light);
-  --current-team-text: var(--color-white);
-}
-.theme-white {
-  --current-team-main: #94a3b8;
-  --current-team-dark: var(--color-team-white-dark);
-  --current-team-light: var(--color-team-white-light);
-  --current-team-text: var(--color-text-dark);
-}
-
-/* =========================================
-   DASHBOARD LAYOUT (100vh FIJO)
-   ========================================= */
 .dashboard-container {
   width: 100%;
 
@@ -70,9 +33,6 @@
   }
 }
 
-/* =========================================
-   HEADER
-   ========================================= */
 .dashboard-header {
   flex-shrink: 0;
   text-align: center;
@@ -128,9 +88,6 @@
   font-size: 1rem !important;
 }
 
-/* =========================================
-   MAIN GRID
-   ========================================= */
 .dashboard-grid {
   flex: 1;
   display: grid;

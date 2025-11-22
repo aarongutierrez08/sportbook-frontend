@@ -36,6 +36,11 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
   const theme = useTheme();
   const sportInfo = SPORT_NAME_DICTIONARY[event.sport];
 
+  const totalPlayers =
+    (event.unnasignedPlayers?.length || 0) +
+    (event.teams?.reduce((acc, team) => acc + (team.players?.length || 0), 0) ||
+      0);
+
   return (
     <article className="card" aria-labelledby={`event-title-${event.id}`}>
       {event.isFinished && (
@@ -80,7 +85,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
           }}
         />
         <span>
-          Jugadores: {event.unnasignedPlayers.length} / {event.minPlayers}
+          Jugadores: {totalPlayers} / {event.maxPlayers}
         </span>
       </div>
 

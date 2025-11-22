@@ -69,22 +69,19 @@
   font-weight: 700;
 }
 
-/* Hover/Drag Over */
 .position-slot.drag-over .empty-position-marker {
-  /* CAMBIO: Usamos variables para feedback */
   background-color: var(--color-primary-background);
   border-color: var(--color-white);
   transform: scale(1.2);
 }
 
-/* --- FICHAS DE JUGADOR (TOKENS) --- */
 .player-token {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   background-color: var(--current-team-main);
   border: 2px solid var(--color-white);
-  /* CAMBIO: Sombra sutil */
+
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   background-size: cover;
   background-position: center;
@@ -114,13 +111,12 @@
   border-color: var(--current-team-main);
 }
 
-/* Nombre Siempre Visible (Tooltip) */
 .player-token-name {
   position: absolute;
   bottom: -22px;
   left: 50%;
   transform: translateX(-50%);
-  /* Fondo oscuro semi-transparente */
+
   background: rgba(0, 0, 0, 0.6);
   color: var(--color-white);
   padding: 1px 5px;
@@ -139,12 +135,11 @@
   background: rgba(0, 0, 0, 0.9);
 }
 
-/* --- BANCA EXTERNA --- */
 .bench-outside-area {
   flex: 1;
   min-width: 80px;
   max-width: 120px;
-  /* CAMBIO: Fondo usando variable de la paleta */
+
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 12px;
@@ -158,13 +153,11 @@
   transition: all 0.3s ease;
 }
 
-/* Borde superior dinámico */
 .bench-outside-area[class*="theme-"] {
   border-top: 4px solid var(--current-team-main);
 }
 
 .bench-outside-area.drag-over {
-  /* CAMBIO: Feedback arrastre */
   background-color: var(--color-primary-background);
   border-color: var(--color-primary);
 }
@@ -182,11 +175,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  gap: 11px;
   width: 100%;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .football-pitch-layout {
     flex-direction: column;
@@ -215,7 +207,7 @@
     margin-bottom: 0;
     margin-right: 10px;
   }
-  /* Ajuste de tamaño de fichas para móvil */
+
   .player-token {
     width: 30px;
     height: 30px;

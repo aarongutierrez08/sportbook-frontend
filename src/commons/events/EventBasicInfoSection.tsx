@@ -8,6 +8,7 @@ import EventIcon from "@mui/icons-material/Event";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonIcon from "@mui/icons-material/Person";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import GroupsIcon from "@mui/icons-material/Groups";
 
 interface Props {
   event: Event;
@@ -26,7 +27,6 @@ const EventBasicInfoSection: React.FC<Props> = ({
   canEdit,
 }) => {
   const currentDateTime = editForm.dateTime || event.dateTime;
-
   const [datePart, timeFull] = currentDateTime.split(" ");
   const timePart = timeFull ? timeFull.substring(0, 5) : "00:00";
 
@@ -121,19 +121,22 @@ const EventBasicInfoSection: React.FC<Props> = ({
       </div>
 
       <div className="section-row" style={{ marginTop: "auto" }}>
-        <div style={{ width: 32, flexShrink: 0 }}></div>
-        <p
-          style={{
-            margin: 0,
-            padding: 0,
-            background: "transparent",
-            border: "none",
-            color: "var(--color-text-muted)",
-            fontSize: "0.9rem",
-          }}
+        <GroupsIcon className="section-icon" titleAccess="Total inscriptos" />
+        <div
+          className="editable-field"
+          style={{ border: "none", paddingLeft: "0.5rem" }}
         >
-          Inscriptos actuales: <strong>{totalPlayers}</strong>
-        </p>
+          <strong>Inscriptos actuales:</strong>
+          <span
+            style={{
+              marginLeft: "0.5rem",
+              color: "var(--color-primary)",
+              fontWeight: 800,
+            }}
+          >
+            {totalPlayers}
+          </span>
+        </div>
       </div>
     </div>
   );

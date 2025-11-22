@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import toast from "react-hot-toast";
 import {
   joinEvent,
@@ -7,13 +7,26 @@ import {
   getEvent,
 } from "../../api/eventsApi";
 import { useAuth } from "../../auth/useAuth";
+
 import EventBasicInfoSection from "../../commons/events/EventBasicInfoSection";
 import EventLocationSection from "../../commons/events/EventLocationSection";
 import EventPaymentSection from "../../commons/events/EventPaymentSection";
-import RenderEventDetails from "../../commons/events/RenderEventDetails";
 import FinishEventButton from "./finish-event-modal/FinishEventButton";
+
+import EventFairnessRatingComponent from "../../pages/event/commons/EventFairnessRatingComponent";
+import { PlayerList } from "../../pages/event/commons/PlayerList";
+
 import { isLoggedUserInEvent } from "../../utils/events";
-import type { Event, PitchSize, Sport } from "../../types/apiTypes";
+import { COLOR_MAPPER } from "../../constants/events";
+import type {
+  Event,
+  PitchSize,
+  Sport,
+  FootballEvent,
+} from "../../types/apiTypes";
+import "../../pages/event/EventPage.css";
+import AddPlayerButton from "../../commons/components/AddPlayerButton";
+import FootballPitch from "../../commons/components/FootballPitch";
 
 const SPORT_LABELS: Record<Sport, string> = {
   FOOTBALL: "Fútbol",
@@ -53,6 +66,19 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 
   const canEditEvent =
     loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer?.id;
+
+  const isUserInEvent = useMemo(() => {
+    if (!loggedUser) return false;
+    const inUnassigned = event.unnasignedPlayers.some(
+      (p) => p.user?.id === loggedUser.id
+    );
+    const inTeams = event.teams?.some((t) =>
+      t.players.some((p) => p.user?.id === loggedUser.id)
+    );
+    return inUnassigned || inTeams;
+  }, [event, loggedUser]);
+
+  const hasUnassignedPlayers = event.unnasignedPlayers.length > 0;
 
   const handleFieldChange = (
     field: keyof UpdateEventParams,
@@ -118,10 +144,15 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
     }
   };
 
+  const pitchKey = useMemo(() => {
+    if (event.sport !== "FOOTBALL") return "";
+    const ids = event.teams.map((p) => p.id);
+    return ids.join("-");
+  }, [event.teams, event.sport]);
+
   return (
     <div className="event-page-root">
       <div className="event-page-container">
-        {}
         <div className="active-event-header">
           <h2>{event.name || "Evento Sin Nombre"}</h2>
           <span className="sport-type-badge">
@@ -151,12 +182,83 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
           />
         </div>
 
-        <RenderEventDetails
-          event={event}
-          pictures={pictures}
-          onEventUpdate={onEventUpdate}
-          onBalanceComplete={refreshEventData}
-        />
+        <div className="event-page-section full-width-teams-section">
+          <h3>Equipos</h3>
+          <div className="event-page-team-section">
+            {event.teams?.map((team) => {
+              const isUserInThisTeam = team.players.some(
+                (p) => p.user?.id === loggedUser?.id
+              );
+              const maxPerTeam = Math.ceil(event.maxPlayers / 2);
+              const isTeamFull = team.players.length >= maxPerTeam;
+
+              const isDisabled =
+                isUserInThisTeam || !isUserInEvent || isTeamFull;
+
+              return (
+                <div
+                  key={team.id}
+                  className="event-page-team-card"
+                  data-color={team.color}
+                >
+                  <h4>{team.name || `Equipo ${COLOR_MAPPER[team.color]}`}</h4>
+
+                  <AddPlayerButton
+                    eventId={event.id}
+                    teamId={team.id}
+                    onPlayerAdded={onEventUpdate}
+                    disabled={isDisabled}
+                  />
+
+                  <div className="team-players-scroll-container">
+                    <PlayerList players={team.players!} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div
+          className="secondary-details-grid"
+          style={{
+            gridTemplateColumns: hasUnassignedPlayers ? "1fr 1fr" : "1fr",
+          }}
+        >
+          <div className="event-page-section">
+            <h3>Balance</h3>
+            <EventFairnessRatingComponent
+              eventId={event.id}
+              teams={event.teams!}
+              onBalanceComplete={refreshEventData}
+              canBalance={canEditEvent}
+            />
+          </div>
+
+          {hasUnassignedPlayers && (
+            <div className="event-page-section no-team-players">
+              <h3>Jugadores sin equipo</h3>
+              <div className="unassigned-players-scroll-container">
+                <PlayerList players={event.unnasignedPlayers} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {event.sport === "FOOTBALL" && (
+          <div className="event-page-section" style={{ marginTop: "2rem" }}>
+            <h3>Distribución táctica</h3>
+            <FootballPitch
+              key={pitchKey}
+              eventId={event.id}
+              firstTeamColor={event.teams[0]?.color}
+              secondTeamColor={event.teams[1]?.color}
+              pitchSize={Number((event as FootballEvent).pitchSize)}
+              canEdit={canEditEvent}
+              pictures={pictures}
+            />
+          </div>
+        )}
 
         <div className="buttons-container">
           {hasChanges && canEditEvent && (

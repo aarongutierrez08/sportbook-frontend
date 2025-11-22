@@ -59,11 +59,6 @@
   --color-team-white-light: #ffffff;
 }
 
-/* =========================================
-   THEMING SYSTEM (Unificado)
-   Define las variables --current-team-* para cada color
-   ========================================= */
-
 .theme-blue {
   --current-team-main: var(--color-team-blue);
   --current-team-light: var(--color-team-blue-light);

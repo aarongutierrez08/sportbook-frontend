@@ -1,6 +1,3 @@
-/* =========================================
-   LAYOUT & CONTAINER
-   ========================================= */
 .event-page-root {
   width: 100%;
   margin: 0 auto;
@@ -27,9 +24,6 @@
   background-clip: text;
 }
 
-/* =========================================
-   GRID SUPERIOR (3 COLUMNAS - DETALLES/MAPA/PAGO)
-   ========================================= */
 .event-page-details {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -53,9 +47,6 @@
   margin-top: auto;
 }
 
-/* =========================================
-   GRID INFERIOR (2 COLUMNAS - BALANCE/SIN EQUIPO)
-   ========================================= */
 .secondary-details-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -63,9 +54,6 @@
   margin-bottom: 2rem;
 }
 
-/* =========================================
-   CARD ESTILO BASE
-   ========================================= */
 .event-page-section {
   background-color: var(--color-white);
   border-radius: 12px;
@@ -150,9 +138,6 @@
   opacity: 0.6;
 }
 
-/* =========================================
-   FILAS DE DETALLE (ICONO + EDITABLE)
-   ========================================= */
 .section-row {
   display: flex;
   align-items: center;
@@ -177,10 +162,6 @@
   justify-content: center;
   width: 32px;
 }
-
-/* =========================================
-   EDITABLE FIELD
-   ========================================= */
 
 .section-row .editable-field {
   flex: 1;
@@ -254,9 +235,6 @@
   opacity: 1;
 }
 
-/* =========================================
-   USER SEARCH COMPONENT (Organizador)
-   ========================================= */
 .editable-user-container {
   position: relative;
   display: flex;
@@ -296,9 +274,6 @@
   margin-left: 0;
 }
 
-/* =========================================
-   SECCIÓN DE EQUIPOS (FULL WIDTH)
-   ========================================= */
 .full-width-teams-section {
   margin-bottom: 2rem;
 }
@@ -470,9 +445,24 @@
   box-shadow: 0 2px 6px rgba(196, 84, 0, 0.3);
 }
 
-/* =========================================
-   RESPONSIVE DESIGN
-   ========================================= */
+.team-players-scroll-container,
+.unassigned-players-scroll-container {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  padding-right: 4px;
+}
+
+.team-players-scroll-container::-webkit-scrollbar,
+.unassigned-players-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+.team-players-scroll-container::-webkit-scrollbar-thumb,
+.unassigned-players-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
 @media (max-width: 1200px) {
   .event-page-details {
     grid-template-columns: repeat(2, 1fr);
