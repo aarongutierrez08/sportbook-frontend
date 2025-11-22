@@ -32,7 +32,7 @@ const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
 
   const handleRemoveGoal = (index: number, playerId: number) => {
     if (missingPlayers.includes(playerId)) return;
-    setGoals((prev) => prev.filter((_, i) => i !== index));
+    setGoals((prev) => prev.filter((_, currentIdx) => currentIdx !== index));
   };
 
   const handleToggleMissingPlayer = (playerId: number) => {
@@ -42,7 +42,7 @@ const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
         ? prev.filter((id) => id !== playerId)
         : [...prev, playerId];
       if (!isMissing) {
-        setGoals((prev) => prev.filter((g) => g.playerId !== playerId));
+        setGoals((prev) => prev.filter((goal) => goal.playerId !== playerId));
       }
       if (mvpId === playerId) {
         setMvpId(null);
@@ -56,9 +56,11 @@ const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
     setMvpId(playerId === mvpId ? null : playerId);
   };
 
-  const firstTeamGoals = goals.filter((g) => g.teamId === firstTeam.id).length;
+  const firstTeamGoals = goals.filter(
+    (goal) => goal.teamId === firstTeam.id
+  ).length;
   const secondTeamGoals = goals.filter(
-    (g) => g.teamId === secondTeam.id
+    (goal) => goal.teamId === secondTeam.id
   ).length;
 
   const winningTeamId = useMemo(() => {

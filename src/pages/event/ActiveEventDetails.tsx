@@ -70,10 +70,10 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
   const isUserInEvent = useMemo(() => {
     if (!loggedUser) return false;
     const inUnassigned = event.unnasignedPlayers.some(
-      (p) => p.user?.id === loggedUser.id
+      (player) => player.user?.id === loggedUser.id
     );
-    const inTeams = event.teams?.some((t) =>
-      t.players.some((p) => p.user?.id === loggedUser.id)
+    const inTeams = event.teams?.some((team) =>
+      team.players.some((player) => player.user?.id === loggedUser.id)
     );
     return inUnassigned || inTeams;
   }, [event, loggedUser]);
@@ -146,7 +146,7 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 
   const pitchKey = useMemo(() => {
     if (event.sport !== "FOOTBALL") return "";
-    const ids = event.teams.map((p) => p.id);
+    const ids = event.teams.map((team) => team.id);
     return ids.join("-");
   }, [event.teams, event.sport]);
 
@@ -187,7 +187,7 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
           <div className="event-page-team-section">
             {event.teams?.map((team) => {
               const isUserInThisTeam = team.players.some(
-                (p) => p.user?.id === loggedUser?.id
+                (player) => player.user?.id === loggedUser?.id
               );
               const maxPerTeam = Math.ceil(event.maxPlayers / 2);
               const isTeamFull = team.players.length >= maxPerTeam;

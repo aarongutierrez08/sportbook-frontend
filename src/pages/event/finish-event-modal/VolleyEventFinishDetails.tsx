@@ -58,25 +58,25 @@ const VolleyEventFinishDetails: React.FC<VolleyEventFinishDetailsProps> = ({
   };
 
   const removeSet = (index: number) => {
-    if (sets.length > 1) setSets(sets.filter((_, i) => i !== index));
+    if (sets.length > 1) setSets(sets.filter((_, idx) => idx !== index));
   };
 
   const winningTeamId = useMemo(() => {
     let t1Wins = 0;
     let t2Wins = 0;
 
-    sets.forEach((s, idx) => {
+    sets.forEach((set, idx) => {
       const target = idx === 4 ? 15 : 25;
 
       const t1WonSet =
-        s.team1Score >= target && s.team1Score - s.team2Score >= 2;
+        set.team1Score >= target && set.team1Score - set.team2Score >= 2;
       const t2WonSet =
-        s.team2Score >= target && s.team2Score - s.team1Score >= 2;
+        set.team2Score >= target && set.team2Score - set.team1Score >= 2;
 
       if (t1WonSet) t1Wins++;
       else if (t2WonSet) t2Wins++;
-      else if (s.team1Score > s.team2Score) t1Wins++;
-      else if (s.team2Score > s.team1Score) t2Wins++;
+      else if (set.team1Score > set.team2Score) t1Wins++;
+      else if (set.team2Score > set.team1Score) t2Wins++;
     });
 
     if (t1Wins > t2Wins) return team1.id;
@@ -86,7 +86,9 @@ const VolleyEventFinishDetails: React.FC<VolleyEventFinishDetailsProps> = ({
 
   const handleToggleMissing = (id: number) => {
     setMissingPlayers((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((playerId) => playerId !== id)
+        : [...prev, id]
     );
     if (mvpId === id) setMvpId(null);
   };

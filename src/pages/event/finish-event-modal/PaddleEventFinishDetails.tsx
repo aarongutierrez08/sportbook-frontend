@@ -57,23 +57,23 @@ const PaddleEventFinishDetails: React.FC<PaddleEventFinishDetailsProps> = ({
 
   const removeSet = (index: number) => {
     if (sets.length > 1) {
-      setSets(sets.filter((_, i) => i !== index));
+      setSets(sets.filter((_, idx) => idx !== index));
     }
   };
 
   const winningTeamId = useMemo(() => {
     let t1Wins = 0;
     let t2Wins = 0;
-    sets.forEach((s) => {
+    sets.forEach((set) => {
       const t1Win =
-        (s.team1Score === 6 && s.team2Score < 5) || s.team1Score === 7;
+        (set.team1Score === 6 && set.team2Score < 5) || set.team1Score === 7;
       const t2Win =
-        (s.team2Score === 6 && s.team1Score < 5) || s.team2Score === 7;
+        (set.team2Score === 6 && set.team1Score < 5) || set.team2Score === 7;
 
       if (t1Win) t1Wins++;
       else if (t2Win) t2Wins++;
-      else if (s.team1Score > s.team2Score) t1Wins++;
-      else if (s.team2Score > s.team1Score) t2Wins++;
+      else if (set.team1Score > set.team2Score) t1Wins++;
+      else if (set.team2Score > set.team1Score) t2Wins++;
     });
     if (t1Wins > t2Wins) return team1.id;
     if (t2Wins > t1Wins) return team2.id;
@@ -82,7 +82,9 @@ const PaddleEventFinishDetails: React.FC<PaddleEventFinishDetailsProps> = ({
 
   const handleToggleMissing = (id: number) => {
     setMissingPlayers((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((playerId) => playerId !== id)
+        : [...prev, id]
     );
     if (mvpId === id) setMvpId(null);
   };

@@ -29,8 +29,11 @@ import type {
 } from "../../types/apiTypes";
 import { getEventStats } from "../../api/eventsApi";
 import { generateMatchSummary } from "../../api/aiApi";
-import { getTeamColorName } from "./event-stats/colorUtils";
 import { formatDate } from "../../utils/events";
+import {
+  getColorThemeClass,
+  getTeamDisplayName,
+} from "./event-stats/colorUtils";
 
 type SportConfigType = {
   label: string;
@@ -94,24 +97,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
       .finally(() => setLoading(false));
   }, [event.id]);
 
-  const getColorThemeClass = (colorData: any): string => {
-    const colorName = getTeamColorName(colorData).toLowerCase();
-    if (colorName.includes("azul")) return "theme-blue";
-    if (colorName.includes("rojo")) return "theme-red";
-    if (colorName.includes("verde")) return "theme-green";
-    if (colorName.includes("negro")) return "theme-black";
-    if (colorName.includes("blanco")) return "theme-white";
-    return "theme-blue";
-  };
-
-  const getTeamDisplayName = (teamId: number, colorData: any): string => {
-    const originalTeam = event.teams.find((t) => t.id === teamId);
-    if (originalTeam && originalTeam.name && originalTeam.name.trim() !== "") {
-      return originalTeam.name;
-    }
-    return getTeamColorName(colorData);
-  };
-
   const handleGenerateAI = async () => {
     if (!stats) return;
     setIsAiLoading(true);
@@ -139,7 +124,9 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
 
   const config = SPORT_CONFIG[event.sport] || SPORT_CONFIG.FOOTBALL;
 
-  const sortedTeams = [...stats.scores].sort((a, b) => b.goals - a.goals);
+  const sortedTeams = [...stats.scores].sort(
+    (teamA, teamB) => teamB.goals - teamA.goals
+  );
   const isDraw = stats.winningTeam === null;
 
   const topScorers = stats.scorersRanking;
@@ -165,7 +152,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
     status: "winner" | "runner-up" | "draw"
   ) => {
     const themeClass = getColorThemeClass(team.color);
-    const displayName = getTeamDisplayName(team.teamId, team.color);
+    const displayName = getTeamDisplayName(event, team.teamId, team.color);
 
     let medalClass = "medal-bronze";
     let MainIcon = WorkspacePremiumIcon;
@@ -284,7 +271,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             <div className="final-score-display">
               {sortedTeams.map((team, idx) => {
                 const themeClass = getColorThemeClass(team.color);
-                const name = getTeamDisplayName(team.teamId, team.color);
+                const name = getTeamDisplayName(event, team.teamId, team.color);
                 return (
                   <React.Fragment key={team.teamId}>
                     <div className={`score-team ${themeClass}`}>
@@ -417,7 +404,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
           {stats.mvp && (
             <div
               className={`details-card mvp-card-mini ${getColorThemeClass(
-                stats.mvp.teamColor
+                stats.mvp.teamColor!
               )}`}
             >
               <div className="mvp-mini-icon">
@@ -440,7 +427,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
               <div className="scorers-list-mini">
                 {topScorers.map((scorer, index) => {
                   const teamScore = stats.scores.find(
-                    (s) => s.teamId === scorer.teamId
+                    (score) => score.teamId === scorer.teamId
                   );
                   const themeClass = teamScore
                     ? getColorThemeClass(teamScore.color)
