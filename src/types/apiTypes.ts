@@ -13,18 +13,18 @@ export type TeamColor = "BLUE" | "GREEN" | "BLACK" | "RED" | "WHITE";
 export type PitchSize = 5 | 6 | 7 | 8 | 9 | 11;
 
 export type Position =
-  | "GK" // Arquero
-  | "RB" // Lateral derecho
-  | "LB" // Lateral izquierdo
-  | "CB" // Defensa central
-  | "LIB" // Líbero
-  | "CM" // Mediocampista central
-  | "RM" // Mediocampista derecho
-  | "LM" // Mediocampista izquierdo
-  | "ST" // Delantero
-  | "CT" // Centro delantero
-  | "RW" // Extremo derecho
-  | "LW"; // Extremo izquierdo
+  | "GK"
+  | "RB"
+  | "LB"
+  | "CB"
+  | "LIB"
+  | "CM"
+  | "RM"
+  | "LM"
+  | "ST"
+  | "CT"
+  | "RW"
+  | "LW";
 
 /** ============================
  * 📦 BASIC ENTITIES
@@ -100,7 +100,7 @@ export interface SportUser {
   name?: string;
   lastName?: string;
   password?: string;
-  dateOfBirth?: string; // ISO date string
+  dateOfBirth?: string;
   profiles: SportProfile[];
   players: Player[];
   role: Role;
@@ -116,20 +116,25 @@ export interface Player {
   name?: string;
   user?: SportUser;
   event?: Event;
-  sportUsername?: string;
 }
 
 export interface Team {
   id: number;
   players: Player[];
   color: TeamColor;
+  name: string;
 }
 
 export interface TeamGoal {
   id: number;
-  team?: Team;
-  player?: Player;
+  team: Team;
+  player: Player;
   finishedEventStats?: FinishedEventStats;
+}
+
+export interface PartialTeamGoal {
+  team: Partial<Team>;
+  player: Partial<Player>;
 }
 
 /** ============================
@@ -138,9 +143,10 @@ export interface TeamGoal {
 
 export interface Event {
   id: number;
+  name: string;
   minPlayers: number;
   maxPlayers: number;
-  dateTime: string; // ISO date
+  dateTime: string;
   location: Location;
   cost?: number;
   transferData?: TransferData;
@@ -149,6 +155,7 @@ export interface Event {
   sport: Sport;
   isFinished: boolean;
   finishedStats?: FinishedEventStats;
+  teams: Team[];
 }
 
 /** ============================
@@ -157,8 +164,6 @@ export interface Event {
 
 export interface FootballEvent extends Event {
   sport: "FOOTBALL";
-  firstTeam?: Team;
-  secondTeam?: Team;
   pitchSize: number;
 }
 
@@ -168,7 +173,6 @@ export interface FootballEvent extends Event {
 
 export interface PaddleEvent extends Event {
   sport: "PADDLE";
-  teams: Team[];
 }
 
 /** ============================
@@ -177,7 +181,6 @@ export interface PaddleEvent extends Event {
 
 export interface VolleyEvent extends Event {
   sport: "VOLLEY";
-  teams: Team[];
 }
 
 /** ============================
@@ -200,6 +203,25 @@ export interface FootballLineup extends Lineup {
  * 🏁 FINISHED EVENT STATS
  * ============================ */
 
+export interface TeamGoalRequest {
+  teamId: number;
+  playerId: number;
+}
+
+export interface SetResult {
+  team1Score: number;
+  team2Score: number;
+}
+
+export interface FinishEventRequest {
+  winningTeamId: number | null;
+  goals: TeamGoalRequest[];
+  missingPlayerIds: number[];
+  mvpId?: number;
+
+  sets?: SetResult[];
+}
+
 export interface FinishedEventStats {
   id: number;
   event?: Event;
@@ -207,6 +229,57 @@ export interface FinishedEventStats {
   winningTeam?: Team;
   mvp?: Player;
   missingPlayers: Player[];
+
+  sets?: SetResult[];
+}
+
+export interface EventStatsResponse {
+  eventId: number;
+  sport: Sport;
+  dateTime: string;
+  finished: boolean;
+
+  totalRegisteredPlayers: number;
+  presentPlayers: number;
+  absentPlayers: number;
+  attendanceRate: number;
+
+  totalGoals: number;
+  scores: TeamScoreDTO[];
+  scorersRanking: PlayerGoalsDTO[];
+
+  winningTeam?: TeamSummary;
+  mvp?: PlayerSummary;
+  missingPlayers: PlayerSummary[];
+
+  sets?: SetResult[];
+}
+
+export interface TeamScoreDTO {
+  teamId: number;
+  color: TeamColor;
+  goals: number;
+  isWinner: boolean;
+  name: string;
+}
+
+export interface PlayerGoalsDTO {
+  player: PlayerSummary;
+  teamId: number;
+  goals: number;
+}
+
+export interface PlayerSummary {
+  id: number;
+  name: string;
+  teamId: number | null;
+  teamColor: TeamColor | null;
+}
+
+export interface TeamSummary {
+  id: number;
+  color: TeamColor;
+  name: string;
 }
 
 /** ============================

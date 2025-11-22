@@ -1,16 +1,16 @@
-import CreateEventPage from "./pages/CreateEventPage";
-import ActiveEventsPage from "./pages/ActiveEventsPage";
-import FinishedEventsPage from "./pages/FinishedEventsPage";
 import Layout from "./commons/components/layout";
 import { Toaster } from "react-hot-toast";
-import AuthPage from "./pages/AuthPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import EventPage from "./pages/EventPage/EventPage";
-import ProfilePage from "./pages/ProfilePage";
 import { AuthProvider } from "./auth/AuthContext";
 import { ProfilePictureProvider } from "./auth/ProfilePictureContext";
-import MyDataPage from "./pages/MyDataPage.tsx";
+import ActiveEventsPage from "./pages/events/ActiveEventsPage.tsx";
 import RequireAuth from "./auth/RequireAuth";
+import AuthPage from "./pages/auth/AuthPage.tsx";
+import FinishedEventsPage from "./pages/finished/FinishedEventsPage.tsx";
+import CreateEventPage from "./pages/create/CreateEventPage.tsx";
+import EventPage from "./pages/event/EventPage.tsx";
+import ProfilePage from "./pages/sport-profiles/ProfilePage.tsx";
+import MyDataPage from "./pages/profile/MyDataPage.tsx";
 
 function App() {
   return (

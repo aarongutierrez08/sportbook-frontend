@@ -38,11 +38,9 @@ export const ProfilePictureProvider: React.FC<ProfilePictureProviderProps> = ({
 
     try {
       setIsLoading(true);
-      const blob = await getProfilePicture();
-      const imageUrl = URL.createObjectURL(blob);
+      const imageUrl = await getProfilePicture();
       setImage(imageUrl);
-    } catch (error) {
-      console.error("Error cargando la foto de perfil:", error);
+    } catch {
       setImage(null);
     } finally {
       setIsLoading(false);
@@ -84,7 +82,6 @@ export const ProfilePictureProvider: React.FC<ProfilePictureProviderProps> = ({
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useProfilePicture = () => {
   const context = useContext(ProfilePictureContext);
   if (context === undefined) {

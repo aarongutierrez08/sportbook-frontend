@@ -1,12 +1,12 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormField } from "./FormField";
-import { ColorSelector } from "./ColorSelectorProps";
+import { ColorSelector } from "./ColorSelector";
 import { PlayerSelector } from "./PlayerSelector";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import { PITCH_SIZES } from "../../constants/events";
-import type { SportEventForm } from "../../pages/CreateEventPage";
 import type { Player } from "../../types/apiTypes";
+import type { SportEventForm } from "../../pages/create/CreateEventPage";
 
 interface MatchDetailsFieldsProps {
   sport: SportEventForm["sport"];
@@ -27,11 +27,13 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
   const secondTeamPlayers = watch("secondTeamPlayersInput") as
     | Player[]
     | undefined;
-  const allEventPlayers = watch("allEventPlayersInput") as Player[] | undefined;
 
-  if (sport === "FOOTBALL") {
-    return (
-      <div className="form-group form-full">
+  if (!sport) return null;
+
+  return (
+    <div className="form-group form-full">
+      {}
+      {sport === "FOOTBALL" && (
         <FormField label="Tamaño de cancha" error={errors.pitchSize} fullWidth>
           <select {...register("pitchSize", { valueAsNumber: true })}>
             <option value="">Seleccioná un tamaño</option>
@@ -42,14 +44,21 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
             ))}
           </select>
         </FormField>
+      )}
 
+      {}
+      <div
+        className="form-full form-group flex"
+        style={{ gap: "2rem", marginTop: "1rem" }}
+      >
         {(["firstTeamColor", "secondTeamColor"] as const).map(
           (fieldName, index) => (
-            <div key={fieldName} className="form-group form-full">
-              <label>{`Color equipo ${index + 1}`}</label>
+            <div key={fieldName} style={{ flex: 1 }}>
+              <label>{`Color Equipo ${index + 1}`}</label>
               <Controller
                 name={fieldName}
                 control={control}
+                rules={{ required: "Debes elegir un color" }}
                 render={({ field }) => (
                   <ColorSelector
                     value={field.value}
@@ -64,54 +73,26 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
             </div>
           )
         )}
-
-        <div className="form-group form-full">
-          <PlayerSelector
-            label="Jugadores equipo 1"
-            selectedPlayers={firstTeamPlayers ?? []}
-            onChange={(data) => setValue("firstTeamPlayersInput", data)}
-            placeholder="Buscar jugadores para equipo 1..."
-          />
-        </div>
-
-        <div className="form-group form-full">
-          <PlayerSelector
-            label="Jugadores equipo 2"
-            selectedPlayers={secondTeamPlayers ?? []}
-            onChange={(data) => setValue("secondTeamPlayersInput", data)}
-            placeholder="Buscar jugadores para equipo 2..."
-          />
-        </div>
       </div>
-    );
-  }
 
-  if (sport === "PADDLE" || sport === "VOLLEY") {
-    return (
+      {}
       <div className="form-group form-full">
-        <div className="form-group form-full">
-          <PlayerSelector
-            label="Jugadores del evento"
-            selectedPlayers={allEventPlayers ?? []}
-            onChange={(data) => setValue("allEventPlayersInput", data)}
-            placeholder="Buscar jugadores por username o agregar invitados..."
-          />
-        </div>
-
-        <FormField
-          label="Nombres de los equipos (separados por coma o enter)"
-          error={errors.teams}
-          fullWidth
-        >
-          <textarea
-            rows={3}
-            placeholder="Ejemplo: Quilmes FC, Los Pibes, Team Rocket"
-            {...register("teams", { required: "Este campo es obligatorio" })}
-          />
-        </FormField>
+        <PlayerSelector
+          label="Jugadores Equipo 1"
+          selectedPlayers={firstTeamPlayers ?? []}
+          onChange={(data) => setValue("firstTeamPlayersInput", data)}
+          placeholder="Buscar jugadores para el primer equipo..."
+        />
       </div>
-    );
-  }
 
-  return null;
+      <div className="form-group form-full">
+        <PlayerSelector
+          label="Jugadores Equipo 2"
+          selectedPlayers={secondTeamPlayers ?? []}
+          onChange={(data) => setValue("secondTeamPlayersInput", data)}
+          placeholder="Buscar jugadores para el segundo equipo..."
+        />
+      </div>
+    </div>
+  );
 };

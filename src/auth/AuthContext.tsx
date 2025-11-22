@@ -55,6 +55,7 @@ export type AuthContextValue = {
   status: AuthStatus;
   user: SportUser | null;
   token: string | null;
+  isOrganizer: boolean;
   login: (credentials: Credentials) => Promise<void>;
   register: (user: SportUser) => Promise<void>;
   logout: () => void;
@@ -122,6 +123,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       status: state.status,
       user: state.user,
       token: state.token,
+      isOrganizer: state.user?.role === "ORGANIZER",
       login,
       register,
       logout,

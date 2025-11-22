@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import "../../styles/eventPage.css";
-import type { UpdateEventParams } from "../../pages/EventPage/EventPage";
 import type { SportUser, Player } from "../../types/apiTypes";
 import { PlayerSelector } from "./PlayerSelector";
+import type { UpdateEventParams } from "../../pages/event/ActiveEventDetails";
 
 interface EditableUserFieldProps {
   label: string;

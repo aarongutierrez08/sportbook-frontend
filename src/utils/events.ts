@@ -1,10 +1,5 @@
 import { PITCH_SIZE_MAP } from "../constants/events";
-import type {
-  Event,
-  FootballEvent,
-  Player,
-  SportUser,
-} from "../types/apiTypes";
+import type { Event, Player, SportUser } from "../types/apiTypes";
 
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -33,25 +28,8 @@ export function isLoggedUserInEvent(
   const inGeneralPlayers = event.unnasignedPlayers.some((player) =>
     matchesUser(player, loggedUser)
   );
-  const inFootballEvent = isLoggedUserInFootballEvent(
-    event as FootballEvent,
-    loggedUser
+  const inFootballEvent = event.teams.some((team) =>
+    team.players.some((player) => matchesUser(player, loggedUser))
   );
   return inGeneralPlayers || inFootballEvent;
-}
-
-export function isLoggedUserInFootballEvent(
-  event: FootballEvent,
-  loggedUser: SportUser | null
-): boolean {
-  const inFirstTeam =
-    event.firstTeam?.players?.some((player) =>
-      matchesUser(player, loggedUser)
-    ) ?? false;
-  const inSecondTeam =
-    event.secondTeam?.players?.some((player) =>
-      matchesUser(player, loggedUser)
-    ) ?? false;
-
-  return inFirstTeam || inSecondTeam;
 }

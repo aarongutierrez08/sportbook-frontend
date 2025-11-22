@@ -52,18 +52,17 @@
 }
 
 .profile-illustration {
-    width: 80%;
-    margin: 0 auto 2rem auto;
-    opacity: 90%;
-    height: auto;
-    object-fit: contain;
-    filter: grayscale(100%);
-    align-self: center;
+  width: 80%;
+  margin: 0 auto 2rem auto;
+  opacity: 90%;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  align-self: center;
 }
 
 .sport-card {
-
-  background-image:  url('../assets/background-light.png');
+  background-image: url("../assets/background-light.png");
   background-color: var(--color-surface);
   background-size: cover;
   padding: 1.5rem;
@@ -181,7 +180,6 @@
   transform: scale(1.2);
 }
 
-/* Nivel (Sliders) */
 .sport-level-container {
   display: flex;
   align-items: center;
@@ -393,7 +391,8 @@
 }
 
 @keyframes sport-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -409,12 +408,12 @@
     gap: 1rem;
     align-items: center;
   }
-  
+
   .sport-frequency-box {
     width: 120px;
     height: 120px;
   }
-  
+
   .sport-icon-single {
     font-size: 1.5rem;
   }

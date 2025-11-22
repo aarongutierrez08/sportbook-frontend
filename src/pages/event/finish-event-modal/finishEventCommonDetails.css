@@ -1,0 +1,292 @@
+/* =========================================
+   THEMING SYSTEM (Variables CSS)
+   ========================================= */
+.theme-blue {
+  --current-team-main: var(--color-team-blue, #2563eb);
+  --current-team-light: var(--color-team-blue-light, #dbeafe);
+  --current-team-dark: var(--color-team-blue-dark, #1d4ed8);
+  --current-team-text: #ffffff;
+}
+.theme-green {
+  --current-team-main: var(--color-team-green, #16a34a);
+  --current-team-light: var(--color-team-green-light, #dcfce7);
+  --current-team-dark: var(--color-team-green-dark, #15803d);
+  --current-team-text: #ffffff;
+}
+.theme-black {
+  --current-team-main: var(--color-team-black, #1f2937);
+  --current-team-light: var(--color-team-black-light, #f3f4f6);
+  --current-team-dark: var(--color-team-black-dark, #111827);
+  --current-team-text: #ffffff;
+}
+.theme-red {
+  --current-team-main: var(--color-team-red, #dc2626);
+  --current-team-light: var(--color-team-red-light, #fee2e2);
+  --current-team-dark: var(--color-team-red-dark, #b91c1c);
+  --current-team-text: #ffffff;
+}
+.theme-white {
+  --current-team-main: #9ca3af;
+  --current-team-light: var(--color-team-white-light, #ffffff);
+  --current-team-dark: var(--color-team-white-dark, #d1d5db);
+  --current-team-text: var(--color-text-dark, #1f2a33);
+}
+
+/* =========================================
+   LAYOUT & TEAMS
+   ========================================= */
+.fem-teams-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.fem-team-section {
+  background-color: var(--color-surface, #f7f9fb);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 6px solid var(--current-team-main);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.fem-team-winner-selector.selected .fem-team-section,
+.fem-team-section.winner-feedback {
+  background-color: #fffbf0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: scale(1.02);
+}
+
+.fem-team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border, #e3e8ee);
+}
+
+.fem-team-color-badge {
+  background-color: var(--current-team-main);
+  color: var(--current-team-text);
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.fem-winner-badge {
+  color: var(--color-warning, #ffb020);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+/* =========================================
+   PLAYERS LIST & ITEMS
+   ========================================= */
+.fem-players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.fem-player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  background-color: var(--color-white, #fff);
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: background-color 0.2s;
+}
+
+.fem-player-item:hover {
+  border-color: var(--color-border, #e3e8ee);
+}
+
+.fem-player-item.missing {
+  opacity: 0.6;
+  background-color: #f9f9f9;
+}
+.fem-player-item.mvp {
+  border: 1px solid var(--color-warning, #ffb020);
+  background-color: var(--color-warning-bg, #fff3d6);
+}
+
+.fem-player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.fem-player-name {
+  font-weight: 600;
+  color: var(--color-text-dark, #1f2a33);
+}
+.fem-mvp-indicator {
+  font-size: 0.75rem;
+  color: var(--color-warning);
+  font-weight: 700;
+}
+.fem-missing-indicator {
+  font-size: 0.75rem;
+  color: var(--color-error, #e53935);
+  font-weight: 700;
+}
+
+/* =========================================
+   CONTROLS (GOALS & ACTIONS)
+   ========================================= */
+.fem-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fem-goals-counter {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.fem-goal-button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.fem-goal-button.remove {
+  background: transparent;
+  color: var(--color-error);
+}
+.fem-goal-button.remove:hover:not(:disabled) {
+  background: var(--color-error-bg);
+}
+.fem-goal-button.add {
+  background: var(--color-success, #2ea44f);
+  color: white;
+}
+.fem-goal-button.add:hover:not(:disabled) {
+  background-color: #258540;
+}
+.fem-goal-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.fem-goals-count {
+  width: 30px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.fem-player-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.fem-action-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.fem-action-button:hover:not(:disabled) {
+  background-color: var(--color-surface);
+}
+
+.mvp-btn.selected,
+.fem-action-button.mvp.selected {
+  background-color: var(--color-warning);
+  color: white;
+  border-color: var(--color-warning);
+}
+.missing-btn.selected,
+.fem-action-button.missing.selected {
+  background-color: var(--color-error);
+  color: white;
+  border-color: var(--color-error);
+}
+
+/* =========================================
+   SUMMARY SECTION
+   ========================================= */
+.fem-match-summary {
+  text-align: center;
+  padding: 2rem;
+  background: var(--color-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.fem-summary-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.fem-score {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+.fem-team-score {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.7;
+}
+.fem-team-score.winner-score {
+  opacity: 1;
+  transform: scale(1.1);
+}
+.fem-team-name {
+  color: var(--current-team-main);
+}
+.fem-score-number {
+  font-size: 3rem;
+  color: var(--current-team-main);
+}
+.fem-score-separator {
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
+.fem-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .fem-teams-container {
+    grid-template-columns: 1fr;
+  }
+  .fem-player-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .fem-player-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

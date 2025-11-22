@@ -1,0 +1,60 @@
+/* =========================================
+   MODAL CONTAINER & OVERLAY
+   ========================================= */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.fem-modal {
+  background-color: var(--color-white, #ffffff);
+  padding: 2rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.fem-modal h2 {
+  color: var(--color-primary-dark, #0b4650);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+@media (max-width: 1024px) {
+  .fem-modal {
+    min-width: 95vw;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    margin-left: 0;
+  }
+  .fem-modal {
+    padding: 1rem;
+    min-width: 98vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .fem-modal h2 {
+    font-size: 1.3rem;
+  }
+}

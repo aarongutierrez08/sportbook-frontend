@@ -34,7 +34,8 @@ export const updatePaddleProfile = async (
 
 export const getProfilePicture = async () => {
   const res = await api.get("/profile-picture", { responseType: "blob" });
-  return res.data;
+  const imageURL = URL.createObjectURL(res.data);
+  return imageURL;
 };
 
 export const uploadProfilePicture = async (file: File) => {
@@ -47,4 +48,13 @@ export const uploadProfilePicture = async (file: File) => {
     },
   });
   return res.data;
+};
+
+export const getUserProfilePicture = async (userId: number) => {
+  const res = await api.get(`/profile-picture/user/${userId}`, {
+    responseType: "blob",
+  });
+
+  const imageURL = URL.createObjectURL(res.data);
+  return imageURL;
 };

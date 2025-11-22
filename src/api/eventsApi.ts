@@ -1,7 +1,8 @@
-import type { UpdateEventParams } from "../pages/EventPage/EventPage";
+import type { UpdateEventParams } from "../pages/event/ActiveEventDetails";
 import type {
   Event,
-  FinishedEventStats,
+  EventStatsResponse,
+  FinishEventRequest,
   FootballLineup,
   Lineup,
   Position,
@@ -41,15 +42,7 @@ export type CreateEventRequest = {
 
   players: SimplifiedPlayer[];
 
-  firstTeam: {
-    color: string;
-    players: SimplifiedPlayer[];
-  };
-
-  secondTeam: {
-    color: string;
-    players: SimplifiedPlayer[];
-  };
+  teams: Partial<Team>[];
 };
 
 export const createEvent = async (
@@ -135,7 +128,7 @@ export const updateEvent = async (
 
 export const finishEvent = async (
   eventId: number,
-  params: FinishedEventStats
+  params: FinishEventRequest
 ): Promise<Event> => {
   const res = await api.post<Event>(`/event/${eventId}/finish`, params);
   return res.data;
@@ -144,8 +137,8 @@ export const finishEvent = async (
 export const getEventStats = async (
   eventId: number,
   params?: { userId?: number }
-): Promise<FinishedEventStats> => {
-  const res = await api.get<FinishedEventStats>(`/event/${eventId}/stats`, {
+): Promise<EventStatsResponse> => {
+  const res = await api.get<EventStatsResponse>(`/event/${eventId}/stats`, {
     params,
   });
   return res.data;
