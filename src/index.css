@@ -7,13 +7,19 @@
 :root {
   --font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
 
+  /* --- COLORES PRIMARIOS (VERDE/PETRÓLEO) --- */
   --color-primary: #0b4650;
-  --color-primary-dark: #073138;
+  /* ANTES: #073138 (Muy poco contraste) */
+  /* AHORA: Un tono más profundo y casi negro */
+  --color-primary-dark: #04282e;
   --color-primary-light: #547d84;
   --color-primary-background: #dae3e4;
 
+  /* --- COLORES SECUNDARIOS (NARANJA) --- */
   --color-secondary: #c45400;
-  --color-secondary-dark: #a84f00;
+  /* ANTES: #a84f00 (Poco contraste, se ve marrón claro) */
+  /* AHORA: Un naranja quemado mucho más intenso */
+  --color-secondary-dark: #8f3d00;
   --color-secondary-light: #f8ae7c;
   --color-secondary-background: #fdeade;
 
@@ -256,6 +262,7 @@ body {
   background: var(--color-primary);
   color: var(--color-white);
   padding: 8px 12px;
+  white-space: nowrap;
 }
 
 .btn--block {
@@ -286,25 +293,63 @@ body {
 }
 
 .btn:hover:not(:disabled) {
-  background: var(--color-surface);
-  color: var(--color-primary-dark);
+  background: var(--color-primary-dark);
   transform: translateY(-1px);
 }
 .btn:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.btn--secondary {
-  background: var(--color-secondary-light);
-  color: var(--color-text-dark);
+.btn--pill {
+  border-radius: 50px;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
-.btn--secondary:hover:not(:disabled) {
+
+/* Botón Outline (Borde de color, fondo transparente) */
+.btn--outline {
+  background-color: transparent;
+  border: 2px solid currentColor;
+  box-shadow: none;
+}
+
+/* Danger (Rojo) - Para acciones destructivas */
+.btn--danger {
+  background: var(--color-team-red); /* O color-error */
+  color: var(--color-white);
+}
+.btn--danger:hover:not(:disabled) {
+  background: var(--color-team-red-dark);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+}
+
+/* Danger Outline (Para "Salir") */
+.btn--danger-outline {
+  background-color: transparent; /* O blanco */
+  color: var(--color-error);
+  border: 2px solid var(--color-error);
+}
+.btn--danger-outline:hover:not(:disabled) {
+  /* Al hacer hover, lo llenamos con el color base (o el dark si quieres más contraste) */
+  background-color: var(--color-error);
+  color: var(--color-white);
+  border-color: var(--color-error);
+}
+
+.btn--secondary {
   background: var(--color-secondary);
   color: var(--color-white);
+}
+.btn--secondary:hover:not(:disabled) {
+  background: var(--color-secondary-dark);
   transform: translateY(-1px);
 }
 .btn--secondary:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.btn--shadow {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .create-event-form {

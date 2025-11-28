@@ -98,14 +98,14 @@ const Header: React.FC = () => {
 
                 <li>
                   <NavLink to="/profile" data-tooltip="Configurar perfiles">
-                    <PersonIcon className="nav-icon" />
+                    <Settings className="nav-icon" />
                     {!isCollapsed && <span>Configurar perfiles</span>}
                   </NavLink>
                 </li>
 
                 <li>
                   <NavLink to="/my-data" data-tooltip="Mis datos">
-                    <Settings className="nav-icon" />
+                    <PersonIcon className="nav-icon" />
                     {!isCollapsed && <span>Mis datos</span>}
                   </NavLink>
                 </li>

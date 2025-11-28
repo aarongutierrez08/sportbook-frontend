@@ -400,7 +400,7 @@
 }
 .edit-location-button {
   background: var(--color-secondary-light);
-  color: black;
+  color: var(--color-text-dark);
 }
 .edit-location-button:hover {
   background: var(--color-secondary-dark);
@@ -463,6 +463,56 @@
   border-radius: 10px;
 }
 
+.event-dock-spacer {
+  height: 100px; /* Altura aproximada de la barra + margen */
+  width: 100%;
+}
+
+.event-actions-dock {
+  position: fixed;
+  bottom: 0;
+
+  /* --- CORRECCIÓN --- */
+  /* En lugar de left: 0 y width: 100% */
+
+  left: 250px; /* Empieza 250px a la derecha (el ancho de tu menú) */
+  width: calc(100% - 250px); /* El ancho es el total MENOS los 250px del menú */
+
+  /* --- Resto de tus estilos (glassmorphism, padding, etc.) --- */
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  padding: 1rem 0;
+  animation: slideUp 0.3s ease-out;
+}
+
+.dock-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.dock-status {
+  font-size: 1rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dock-buttons {
+  display: flex;
+  gap: 1rem; /* Espacio entre botones */
+  align-items: center;
+}
+
 @media (max-width: 1200px) {
   .event-page-details {
     grid-template-columns: repeat(2, 1fr);
@@ -486,6 +536,12 @@
   .event-page-team-section {
     grid-template-columns: 1fr;
   }
+  .event-actions-dock {
+    left: 80px; /* Empieza 250px a la derecha (el ancho de tu menú) */
+    width: calc(
+      100% - 80px
+    ); /* El ancho es el total MENOS los 250px del menú */
+  }
 }
 
 @media (max-width: 768px) {
@@ -494,6 +550,18 @@
   }
   .event-page-container h2 {
     font-size: 2rem;
+  }
+  .dock-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .dock-buttons {
+    width: 100%;
+  }
+  /* Hacemos que los botones globales ocupen todo el ancho SOLO en el dock móvil */
+  .dock-buttons .btn {
+    flex: 1;
+    width: 100%;
   }
 }
 

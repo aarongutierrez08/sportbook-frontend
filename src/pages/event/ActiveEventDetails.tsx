@@ -5,6 +5,7 @@ import {
   leaveEvent,
   updateEvent,
   getEvent,
+  finishEvent,
 } from "../../api/eventsApi";
 import { useAuth } from "../../auth/useAuth";
 
@@ -23,10 +24,11 @@ import type {
   PitchSize,
   Sport,
   FootballEvent,
+  FinishEventRequest,
 } from "../../types/apiTypes";
-import "../../pages/event/EventPage.css";
 import AddPlayerButton from "../../commons/components/AddPlayerButton";
 import FootballPitch from "../../commons/components/FootballPitch";
+import FinishEventModal from "./finish-event-modal/FinishEventModal";
 
 const SPORT_LABELS: Record<Sport, string> = {
   FOOTBALL: "Fútbol",
@@ -62,10 +64,26 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 }) => {
   const [editForm, setEditForm] = useState<UpdateEventParams>({});
   const [hasChanges, setHasChanges] = useState(false);
-  const { user: loggedUser } = useAuth();
+  const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const canEditEvent =
-    loggedUser?.role === "ORGANIZER" && loggedUser?.id === event?.organizer?.id;
+  const { user: loggedUser, isOrganizer } = useAuth();
+
+  const handleModalSubmit = async (params: FinishEventRequest) => {
+    setIsSubmitting(true);
+    try {
+      await finishEvent(event.id, params);
+      toast.success("Evento finalizado exitosamente");
+      setShowModal(false);
+      window.location.href = "/events";
+    } catch {
+      toast.error("Error al finalizar el evento");
+    } finally {
+      setShowModal(false);
+    }
+  };
+
+  const canEditEvent = isOrganizer && loggedUser?.id === event?.organizer?.id;
 
   const isUserInEvent = useMemo(() => {
     if (!loggedUser) return false;
@@ -146,9 +164,18 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 
   const pitchKey = useMemo(() => {
     if (event.sport !== "FOOTBALL") return "";
-    const ids = event.teams.map((team) => team.id);
-    return ids.join("-");
-  }, [event.teams, event.sport]);
+
+    const teamComposition = event.teams
+      .map((t) =>
+        t.players
+          .map((p) => p.id)
+          .sort()
+          .join(",")
+      )
+      .join("||");
+
+    return `${event.id}-${teamComposition}-${Date.now()}`;
+  }, [event.teams, event.sport, event.id]);
 
   return (
     <div className="event-page-root">
@@ -249,7 +276,8 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
           <div className="event-page-section" style={{ marginTop: "2rem" }}>
             <h3>Distribución táctica</h3>
             <FootballPitch
-              key={pitchKey}
+              // key={pitchKey}
+              lastUpdate={pitchKey}
               eventId={event.id}
               firstTeamColor={event.teams[0]?.color}
               secondTeamColor={event.teams[1]?.color}
@@ -260,29 +288,75 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
           </div>
         )}
 
-        <div className="buttons-container">
-          {hasChanges && canEditEvent && (
-            <button onClick={saveEvent} className="btn" disabled={!hasChanges}>
-              Guardar Cambios
-            </button>
-          )}
+        <div className="event-dock-spacer" />
 
-          {!isLoggedUserInEvent(event, loggedUser) ? (
-            <button onClick={() => joinOrLeave("join")} className="btn btn--lg">
-              Unirse al evento
-            </button>
-          ) : (
-            <button
-              onClick={() => joinOrLeave("leave")}
-              className="btn btn--secondary btn--lg"
-            >
-              Salir del evento
-            </button>
-          )}
+        {/* BARRA FLOTANTE */}
+        <div className="event-actions-dock">
+          <div className="dock-content">
+            <div className="dock-info">
+              <span className="dock-status">
+                {isLoggedUserInEvent(event, loggedUser)
+                  ? "Estás participando"
+                  : `Cupos: ${
+                      event.teams.reduce(
+                        (acc, t) => acc + t.players.length,
+                        0
+                      ) + event.unnasignedPlayers.length
+                    }/${event.maxPlayers}`}
+              </span>
+            </div>
 
-          {canEditEvent && <FinishEventButton event={event} />}
+            <div className="dock-buttons">
+              {/* 1. Botón GUARDAR CAMBIOS (Naranja sólido) */}
+              {hasChanges && canEditEvent && (
+                <button
+                  onClick={saveEvent}
+                  className="btn btn--lg btn--secondary btn--pill btn--shadow"
+                  disabled={!hasChanges}
+                >
+                  Guardar Cambios
+                </button>
+              )}
+
+              {/* 2. Botón UNIRSE/SALIR */}
+              {!isLoggedUserInEvent(event, loggedUser) ? (
+                // Unirse: Verde (Primary), Grande, Redondo
+                <button
+                  onClick={() => joinOrLeave("join")}
+                  className="btn btn--lg btn--pill btn--shadow"
+                >
+                  Unirse ahora
+                </button>
+              ) : (
+                // Salir: Blanco con borde Rojo (Danger Outline), Grande, Redondo
+                <button
+                  onClick={() => joinOrLeave("leave")}
+                  className="btn btn--lg btn--danger-outline btn--pill"
+                >
+                  Salir
+                </button>
+              )}
+
+              {/* 3. Botón FINALIZAR EVENTO */}
+              {/* Nota: Asegúrate de que FinishEventButton acepte className o edítalo internamente para que use: "btn btn--lg btn--primary btn--pill" */}
+              {canEditEvent && (
+                <FinishEventButton
+                  event={event}
+                  onClick={() => setShowModal(true)}
+                  isSubmitting={isSubmitting}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
+      {showModal && (
+        <FinishEventModal
+          event={event}
+          onClose={() => setShowModal(false)}
+          onSubmit={handleModalSubmit}
+        />
+      )}
     </div>
   );
 };

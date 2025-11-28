@@ -34,6 +34,7 @@ import {
   getColorThemeClass,
   getTeamDisplayName,
 } from "./event-stats/colorUtils";
+import { formatAmountIntl } from "../../utils/formatAmount";
 
 type SportConfigType = {
   label: string;
@@ -226,7 +227,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
           {event.cost && (
             <div className="header-pill" title="Costo">
               <AttachMoneyIcon fontSize="small" className="pill-icon" />
-              <span>{event.cost}</span>
+              <span>{formatAmountIntl(event.cost)}</span>
             </div>
           )}
           {event.transferData &&

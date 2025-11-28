@@ -1,6 +1,6 @@
+import "../../styles/footballPitch.css";
 import React, { useEffect, useState, useCallback } from "react";
 import footballPitch from "../../assets/soccer-pitch.png";
-import "../../styles/footballPitch.css";
 import {
   getLineups,
   addPlayerToPosition,
@@ -22,6 +22,7 @@ interface FootballPitchProps {
   pitchSize: number;
   canEdit?: boolean;
   pictures: Record<number, string>;
+  lastUpdate?: string;
 }
 
 interface DragData {
@@ -52,6 +53,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
   pitchSize,
   canEdit = false,
   pictures,
+  lastUpdate,
 }) => {
   const [lineups, setLineups] = useState<FootballLineup[]>([]);
   const [draggedPosition, setDraggedPosition] = useState<string | null>(null);
@@ -68,7 +70,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
 
   useEffect(() => {
     fetchLineups();
-  }, [fetchLineups]);
+  }, [fetchLineups, lastUpdate]);
 
   const handleDragStart = (
     e: React.DragEvent,
