@@ -14,7 +14,6 @@ const SPORT_LABELS: Record<Sport, string> = {
   VOLLEY: "Vóley",
 };
 
-// Helper para obtener nombre real del equipo o fallback al color
 const getTeamName = (teamId: number, color: TeamColor, event: Event) => {
   const team = event.teams.find((t) => t.id === teamId);
   if (team && team.name && team.name.trim() !== "") return team.name;
@@ -31,10 +30,6 @@ const getClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
-/**
- * Genera "Insights" basados en el rendimiento inmediato del partido
- * (Hat-tricks, goleadores por posición, valla invicta, sets reñidos).
- */
 const getLocalPerformanceInsights = (
   event: Event,
   stats: EventStatsResponse,
@@ -43,11 +38,9 @@ const getLocalPerformanceInsights = (
   const insights: string[] = [];
   const sport = event.sport;
 
-  // 1. ANÁLISIS DE GOLEADORES (Solo Fútbol)
   if (stats.goalsDetail && stats.goalsDetail.length > 0) {
     const topScorer = stats.goalsDetail[0];
 
-    // Hat-trick o más
     if (topScorer.goals >= 3) {
       insights.push(
         `ACTUACIÓN ESTELAR: ${topScorer.player.name} se llevó la pelota con un Hat-Trick (${topScorer.goals} goles).`
@@ -58,7 +51,6 @@ const getLocalPerformanceInsights = (
       );
     }
 
-    // Defensor Goleador (Curiosidad táctica)
     if (sport === "FOOTBALL") {
       const fullScorer = event.teams
         .flatMap((t) => t.players)
@@ -79,7 +71,6 @@ const getLocalPerformanceInsights = (
     }
   }
 
-  // 2. ANÁLISIS DE RESULTADO (Valla invicta)
   if (winnerId) {
     const loserScore =
       stats.scores.find((s) => s.teamId !== winnerId)?.goals || 0;
@@ -91,10 +82,8 @@ const getLocalPerformanceInsights = (
     }
   }
 
-  // 3. ANÁLISIS DE SETS (Padel/Voley)
   if (sport !== "FOOTBALL" && stats.sets) {
     const sets = stats.sets;
-    // Sets muy peleados (diferencia <= 2 puntos)
     const tightSets = sets.filter(
       (s) => Math.abs(s.team1Score - s.team2Score) <= 2
     ).length;
@@ -113,7 +102,6 @@ const getLocalPerformanceInsights = (
   return insights;
 };
 
-// --- FUNCIÓN PRINCIPAL ---
 export const generateMatchSummary = async (
   event: Event,
   stats: EventStatsResponse
@@ -125,7 +113,6 @@ export const generateMatchSummary = async (
   const sportName = SPORT_LABELS[sport] || sport;
   const location = event.location.placeName;
 
-  // Ordenar resultados para determinar ganador visualmente
   const sortedScores = [...stats.scores].sort((a, b) => b.goals - a.goals);
   const winner = sortedScores[0];
   const loser = sortedScores[1];
@@ -134,7 +121,6 @@ export const generateMatchSummary = async (
   const loserName = getTeamName(loser.teamId, loser.color, event);
   const isDraw = stats.winningTeam === null;
 
-  // Construcción de narrativa básica del resultado
   let scoreDetail = "";
   let matchContext = "";
 
@@ -150,7 +136,6 @@ export const generateMatchSummary = async (
       matchContext = "Triunfo trabajado y ajustado.";
     }
   } else {
-    // PADEL / VOLEY
     const sets = stats.sets || [];
     const setsStr = sets
       .map((s) => `${s.team1Score}-${s.team2Score}`)
@@ -159,19 +144,14 @@ export const generateMatchSummary = async (
     matchContext = "Encuentro definido por consistencia en los puntos clave.";
   }
 
-  // --- UNIFICACIÓN DE INSIGHTS ---
-  // 1. Insights Históricos (Vienen del Backend: "Racha de 3 derrotas", "Primera vez MVP")
-  // Nota: Asumiendo que agregaste 'insights' a EventStatsResponse en el frontend también.
-  const historicalInsights = (stats as any).insights || [];
+  const historicalInsights = stats.insights || [];
 
-  // 2. Insights del Partido (Calculados ahora: "Hat-trick", "Clean Sheet")
   const performanceInsights = getLocalPerformanceInsights(
     event,
     stats,
     stats.winningTeam?.id
   );
 
-  // Unimos todo
   const allInsights = [...historicalInsights, ...performanceInsights];
 
   const insightsText =
@@ -187,7 +167,6 @@ export const generateMatchSummary = async (
       )})`
     : "Rendimiento colectivo destacado";
 
-  // --- PROMPT PARA LA IA ---
   const prompt = `
     Actúa como un Analista Deportivo Senior (estilo OptaJoe o VarskySports).
     Genera un resumen post-partido de ${sportName} breve, profesional y centrado en datos curiosos.
@@ -201,13 +180,13 @@ export const generateMatchSummary = async (
     INSIGHTS ESTADÍSTICOS (PRIORIDAD ALTA - ÚSALOS):
     - ${insightsText}
 
-REGLAS DE REDACCIÓN:
-    1. Usa **negritas** (con doble asterisco) para resaltar ÚNICAMENTE los datos estadísticos clave y nombres propios importantes (ej: **Lio Messi**, **Hat-trick**, **Valla Invicta**).
-    2. NO uses listas, ni títulos, ni encabezados Markdown (#). Escribe en párrafos fluidos.
-    3. Prioridad absoluta a los "INSIGHTS ESTADÍSTICOS".
-    4. NO uses frases de relleno genéricas. Ve al dato duro.
-    5. Extensión: Máximo 80 palabras.
-    6. Termina con 1 solo emoji relevante.
+    REGLAS DE REDACCIÓN:
+      1. Usa **negritas** (con doble asterisco) para resaltar ÚNICAMENTE los datos estadísticos clave y nombres propios importantes (ej: **Lio Messi**, **Hat-trick**, **Valla Invicta**).
+      2. NO uses listas, ni títulos, ni encabezados Markdown (#). Escribe en párrafos fluidos.
+      3. Prioridad absoluta a los "INSIGHTS ESTADÍSTICOS".
+      4. NO uses frases de relleno genéricas. Ve al dato duro.
+      5. Extensión: Máximo 80 palabras.
+      6. Termina con 1 solo emoji relevante.
   `;
 
   try {

@@ -275,7 +275,6 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
           <div className="event-page-section" style={{ marginTop: "2rem" }}>
             <h3>Distribución táctica</h3>
             <FootballPitch
-              // key={pitchKey}
               lastUpdate={pitchKey}
               eventId={event.id}
               firstTeamColor={event.teams[0]?.color}
@@ -289,7 +288,6 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 
         <div className="event-dock-spacer" />
 
-        {/* BARRA FLOTANTE */}
         <div className="event-actions-dock">
           <div className="dock-content">
             <div className="dock-info">
@@ -306,7 +304,6 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
             </div>
 
             <div className="dock-buttons">
-              {/* 1. Botón GUARDAR CAMBIOS (Naranja sólido) */}
               {hasChanges && canEditEvent && (
                 <button
                   onClick={saveEvent}
@@ -317,11 +314,8 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
                 </button>
               )}
 
-              {/* 2. Botón UNIRSE/SALIR */}
               {!isLoggedUserInEvent(event, loggedUser) ? (
-                // Caso: NO estoy unido
                 isEventFull ? (
-                  // Caso: Lleno -> Botón deshabilitado
                   <button
                     disabled
                     className="btn btn--lg btn--disabled btn--pill"
@@ -329,7 +323,6 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
                     Evento Lleno
                   </button>
                 ) : (
-                  // Caso: Hay lugar -> Botón Unirse
                   <button
                     onClick={() => joinOrLeave("join")}
                     className="btn btn--lg btn--pill btn--shadow"
@@ -338,7 +331,6 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
                   </button>
                 )
               ) : (
-                // Caso: YA estoy unido -> Botón Salir
                 <button
                   onClick={() => joinOrLeave("leave")}
                   className="btn btn--lg btn--danger-outline btn--pill"
@@ -346,9 +338,6 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
                   Salir
                 </button>
               )}
-
-              {/* 3. Botón FINALIZAR EVENTO */}
-              {/* Nota: Asegúrate de que FinishEventButton acepte className o edítalo internamente para que use: "btn btn--lg btn--primary btn--pill" */}
               {canEditEvent && (
                 <FinishEventButton
                   event={event}

@@ -9,7 +9,6 @@ interface PlayerSelectorProps {
   label: string;
   placeholder?: string;
   allowGuests?: boolean;
-  // Nueva prop opcional
   excludePlayers?: Player[];
 }
 
@@ -43,8 +42,6 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
       try {
         const users = await searchUsers(searchTerm);
 
-        // Filtramos usuarios que ya están seleccionados en ESTE selector
-        // Y TAMBIÉN los que están en la lista de excluidos (el otro equipo)
         const filtered = users.filter((user) => {
           const inCurrentList = selectedPlayers.some(
             (player) => player.user?.username === user.username
@@ -85,7 +82,6 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
   }, []);
 
   const handleAddPlayer = (sportUser: SportUser) => {
-    // Doble chequeo por seguridad al hacer click
     const exists =
       selectedPlayers.some((p) => p.user?.username === sportUser.username) ||
       excludePlayers.some((p) => p.user?.username === sportUser.username);
@@ -112,9 +108,6 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
       onChange([...selectedPlayers, newGuest]);
       setSearchTerm("");
       setShowDropdown(false);
-    } else if (existsInExcluded) {
-      // Opcional: Mostrar feedback visual o toast de que ya está en el otro equipo
-      console.warn("El jugador ya está en el otro equipo");
     }
   };
 

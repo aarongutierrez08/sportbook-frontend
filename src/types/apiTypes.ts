@@ -112,24 +112,18 @@ export interface SportUser {
   additionalInfo?: AdditionalInfo;
 }
 
-/** ============================
- * ⚽ TEAM & PLAYER ENTITIES
- * ============================ */
-
 export interface Player {
   id: number;
   name?: string;
   user?: SportUser;
   event?: Event;
-  // Nota: El backend puede enviar 'teamColor' si es DTO de stats,
-  // pero la entidad base usa 'user' y 'event'.
 }
 
 export interface Team {
   id: number;
   players: Player[];
   color: TeamColor;
-  name: string; // Agregado para nombres personalizados de equipo
+  name: string;
 }
 
 export interface TeamGoal {
@@ -158,13 +152,8 @@ export interface Event {
   isFinished: boolean;
   finishedStats?: FinishedEventStats;
   teams: Team[];
-  // Propiedad específica de FootballEvent pero útil tenerla opcional en base si el backend la manda
   pitchSize?: PitchSize;
 }
-
-/** ============================
- * ⚽ FOOTBALL EVENT
- * ============================ */
 
 export interface FootballEvent extends Event {
   sport: "FOOTBALL";
@@ -246,7 +235,7 @@ export interface EventStatsResponse {
   absentPlayers: number;
   attendanceRate: number;
 
-  totalGoals: number; // Goles o Sets jugados
+  totalGoals: number;
   scores: TeamScoreDTO[];
 
   goalsDetail: PlayerGoalsDTO[];
@@ -261,9 +250,9 @@ export interface EventStatsResponse {
 export interface TeamScoreDTO {
   teamId: number;
   color: TeamColor;
-  goals: number; // Goles o Sets ganados
+  goals: number;
   isWinner: boolean;
-  name?: string; // Nombre del equipo
+  name?: string;
 }
 
 export interface PlayerGoalsDTO {
@@ -282,11 +271,7 @@ export interface PlayerSummary {
 export interface TeamSummary {
   id: number;
   color: TeamColor;
-  name?: string; // Nombre del equipo
+  name?: string;
 }
-
-/** ============================
- * 🧩 UNION TYPE FOR EVENTS
- * ============================ */
 
 export type AnyEvent = FootballEvent | PaddleEvent | VolleyEvent;

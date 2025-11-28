@@ -39,19 +39,16 @@ import { formatAmountIntl } from "../../utils/formatAmount";
 const formatAiText = (text: string) => {
   if (!text) return null;
 
-  // Dividimos el texto por los dobles asteriscos
   const parts = text.split(/(\*\*.*?\*\*)/g);
 
   return parts.map((part, index) => {
     if (part.startsWith("**") && part.endsWith("**")) {
-      // Es un bloque de negrita: removemos los ** y devolvemos strong
       return (
         <strong key={index} style={{ color: "var(--color-secondary)" }}>
           {part.slice(2, -2)}
         </strong>
       );
     }
-    // Es texto normal
     return part;
   });
 };
@@ -407,7 +404,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             )}
             {aiSummary && (
               <div className="ai-result-container">
-                {/* CAMBIO: Usamos el helper en lugar de renderizar directo */}
                 <p className="ai-text">{formatAiText(aiSummary)}</p>
               </div>
             )}

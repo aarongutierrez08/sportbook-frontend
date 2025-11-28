@@ -49,7 +49,6 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
         className="form-full form-group flex"
         style={{ gap: "2rem", marginTop: "1rem", flexDirection: "row" }}
       >
-        {/* TEAM 1 */}
         <div style={{ flex: 1 }}>
           <div style={{ marginBottom: "1rem" }}>
             <FormField label="Nombre Equipo 1" error={errors.firstTeamName}>
@@ -79,7 +78,6 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
           )}
         </div>
 
-        {/* TEAM 2 */}
         <div style={{ flex: 1 }}>
           <div style={{ marginBottom: "1rem" }}>
             <FormField label="Nombre Equipo 2" error={errors.secondTeamName}>
@@ -116,7 +114,6 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
           selectedPlayers={firstTeamPlayers ?? []}
           onChange={(data) => setValue("firstTeamPlayersInput", data)}
           placeholder="Buscar jugadores para el primer equipo..."
-          // Pasamos los jugadores del equipo 2 para excluirlos
           excludePlayers={secondTeamPlayers ?? []}
         />
       </div>
@@ -127,7 +124,6 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
           selectedPlayers={secondTeamPlayers ?? []}
           onChange={(data) => setValue("secondTeamPlayersInput", data)}
           placeholder="Buscar jugadores para el segundo equipo..."
-          // Pasamos los jugadores del equipo 1 para excluirlos
           excludePlayers={firstTeamPlayers ?? []}
         />
       </div>

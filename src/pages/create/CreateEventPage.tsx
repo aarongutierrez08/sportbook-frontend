@@ -16,7 +16,7 @@ import type {
 } from "../../types/apiTypes.ts";
 
 export interface SportEventForm {
-  name: string; // <--- NUEVO CAMPO
+  name: string;
   sport: Sport;
   cost: number;
   cbu?: string;
@@ -33,8 +33,8 @@ export interface SportEventForm {
 
   firstTeamColor: TeamColor;
   secondTeamColor: TeamColor;
-  firstTeamName: string; // <--- NUEVO CAMPO
-  secondTeamName: string; // <--- NUEVO CAMPO
+  firstTeamName: string;
+  secondTeamName: string;
   firstTeamPlayersInput: Array<Player>;
   secondTeamPlayersInput: Array<Player>;
 
@@ -44,7 +44,7 @@ export interface SportEventForm {
 const CreateEventPage: React.FC = () => {
   const methods = useForm<SportEventForm>({
     defaultValues: {
-      name: "", // Default vacío
+      name: "",
       sport: undefined,
       cost: 0,
       location: { x: 0, y: 0, placeName: "" },
@@ -57,8 +57,8 @@ const CreateEventPage: React.FC = () => {
 
       firstTeamColor: "BLUE",
       secondTeamColor: "RED",
-      firstTeamName: "", // Default vacío
-      secondTeamName: "", // Default vacío
+      firstTeamName: "",
+      secondTeamName: "",
     },
   });
 
@@ -84,7 +84,7 @@ const CreateEventPage: React.FC = () => {
     const generalPlayers = simplifyPlayers(data.allEventPlayersInput);
 
     const payload: CreateEventRequest = {
-      name: data.name, // Enviamos el nombre
+      name: data.name,
       sport: data.sport as Sport,
       minPlayers: data.minPlayers,
       maxPlayers: data.maxPlayers,
@@ -104,12 +104,12 @@ const CreateEventPage: React.FC = () => {
       teams: [
         {
           color: data.firstTeamColor,
-          name: data.firstTeamName || "Equipo 1", // Enviamos nombre o fallback
+          name: data.firstTeamName || "Equipo 1",
           players: data.firstTeamPlayersInput,
         },
         {
           color: data.secondTeamColor,
-          name: data.secondTeamName || "Equipo 2", // Enviamos nombre o fallback
+          name: data.secondTeamName || "Equipo 2",
           players: data.secondTeamPlayersInput,
         },
       ],
@@ -135,7 +135,6 @@ const CreateEventPage: React.FC = () => {
               className="create-event-form"
               onSubmit={handleSubmit(onSubmit)}
             >
-              {/* --- NUEVO CAMPO: NOMBRE DEL EVENTO --- */}
               <div className="form-full">
                 <FormField
                   label="Nombre del Evento"

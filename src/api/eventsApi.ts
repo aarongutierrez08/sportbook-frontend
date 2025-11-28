@@ -168,3 +168,12 @@ export const removeTeam = async (
   );
   return res.data;
 };
+
+export const autoConfigureLineups = async (
+  eventId: number
+): Promise<FootballLineup[]> => {
+  const response = await api.post<FootballLineup[]>(
+    `/event/${eventId}/lineups/auto`
+  );
+  return response.data;
+};

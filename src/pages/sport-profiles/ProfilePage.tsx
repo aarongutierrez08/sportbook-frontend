@@ -24,13 +24,12 @@ const ProfilePage: React.FC = () => {
     "football"
   );
 
-  // Formularios con valores por defecto seguros
   const footballForm = useForm<FootballProfileDetail>({
     defaultValues: {
       positions: [],
       favoritePosition: "ST",
       ability: 5,
-      playsOften: "OFTEN", // String por defecto
+      playsOften: "OFTEN",
     },
   });
 
@@ -56,14 +55,11 @@ const ProfilePage: React.FC = () => {
     },
   });
 
-  // Cargar datos del backend al montar
   useEffect(() => {
     fetchProfiles()
       .then((profiles: SportProfile[]) => {
         const football = profiles.find((p) => p.sport === "FOOTBALL");
         if (football && football.details) {
-          // Reseteamos el formulario con los datos que vienen del backend
-          // Como el backend ya devuelve el detalle polimórfico correcto, lo casteamos.
           footballForm.reset(football.details as FootballProfileDetail);
         }
 

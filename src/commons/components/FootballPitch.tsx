@@ -1,10 +1,11 @@
-import "../../styles/footballPitch.css";
 import React, { useEffect, useState, useCallback } from "react";
 import footballPitch from "../../assets/soccer-pitch.png";
+import "../../styles/footballPitch.css";
 import {
   getLineups,
   addPlayerToPosition,
   removeFromPosition,
+  autoConfigureLineups,
 } from "../../api/eventsApi";
 import toast from "react-hot-toast";
 import type {
@@ -14,6 +15,7 @@ import type {
   TeamColor,
 } from "../../types/apiTypes";
 import { getTeamThemeClass } from "../../pages/event/event-stats/colorUtils";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 interface FootballPitchProps {
   eventId: number;
@@ -58,6 +60,7 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
   const [lineups, setLineups] = useState<FootballLineup[]>([]);
   const [draggedPosition, setDraggedPosition] = useState<string | null>(null);
   const [dragData, setDragData] = useState<DragData | null>(null);
+  const [isAutoOrganizing, setIsAutoOrganizing] = useState(false);
 
   const fetchLineups = useCallback(async () => {
     try {
@@ -71,6 +74,23 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
   useEffect(() => {
     fetchLineups();
   }, [fetchLineups, lastUpdate]);
+
+  const handleAutoOrganize = async () => {
+    if (!canEdit) return;
+    setIsAutoOrganizing(true);
+    const toastId = toast.loading("Calculando mejor formación...");
+
+    try {
+      const updatedLineups = await autoConfigureLineups(eventId);
+      setLineups(updatedLineups);
+      toast.success("¡Táctica aplicada!", { id: toastId });
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al organizar", { id: toastId });
+    } finally {
+      setIsAutoOrganizing(false);
+    }
+  };
 
   const handleDragStart = (
     e: React.DragEvent,
@@ -287,23 +307,40 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
     lineups.length >= 2 && firstTeamColor && secondTeamColor;
 
   return (
-    <div className="football-pitch-layout">
+    <div className="football-pitch-wrapper">
+      {canEdit && (
+        <div className="pitch-actions-overlay">
+          <button
+            className="btn-auto-tactics"
+            onClick={handleAutoOrganize}
+            disabled={isAutoOrganizing}
+            title="Organizar automáticamente basado en habilidad y posición favorita"
+          >
+            <AutoAwesomeIcon
+              fontSize="small"
+              className={isAutoOrganizing ? "spin" : ""}
+            />
+            <span>{isAutoOrganizing ? "Calculando..." : "Auto organizar"}</span>
+          </button>
+        </div>
+      )}
+
       {showComponent && (
-        <>
-          {renderBenchSide(lineups[0], firstTeamColor)}
+        <div className="football-pitch-layout">
+          {renderBenchSide(lineups[0], firstTeamColor!)}
 
           <div className="pitch-center-wrapper">
             <div className="pitch-background">
               <img src={footballPitch} alt="Cancha" />
             </div>
             <div className="field-players-overlay">
-              {renderFieldSide(lineups[0], true, firstTeamColor)}
-              {renderFieldSide(lineups[1], false, secondTeamColor)}
+              {renderFieldSide(lineups[0], true, firstTeamColor!)}
+              {renderFieldSide(lineups[1], false, secondTeamColor!)}
             </div>
           </div>
 
-          {renderBenchSide(lineups[1], secondTeamColor)}
-        </>
+          {renderBenchSide(lineups[1], secondTeamColor!)}
+        </div>
       )}
     </div>
   );

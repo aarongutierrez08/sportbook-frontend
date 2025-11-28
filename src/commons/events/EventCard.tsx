@@ -8,7 +8,6 @@ import {
 } from "../../utils/events";
 import { AmountText } from "../components/AmountText";
 
-// Iconos
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -23,7 +22,6 @@ interface EventCardProps {
   onDetails: (id: number) => void;
 }
 
-// Configuración de etiquetas por deporte
 const SPORT_CONFIG: Record<Sport, string> = {
   FOOTBALL: "FÚTBOL",
   PADDLE: "PÁDEL",
@@ -33,7 +31,6 @@ const SPORT_CONFIG: Record<Sport, string> = {
 const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
   const { user } = useAuth();
 
-  // Calcular jugadores
   const totalPlayers =
     (event.unnasignedPlayers?.length || 0) +
     (event.teams?.reduce((acc, team) => acc + (team.players?.length || 0), 0) ||
@@ -52,7 +49,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
         if (e.key === "Enter" || e.key === " ") onDetails(event.id);
       }}
     >
-      {/* HEADER: Badge Deporte + Hora */}
       <div className="card-header-row">
         <span className="sport-badge">
           {SPORT_CONFIG[event.sport] || event.sport}
@@ -60,24 +56,19 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
         <span className="event-time">{formatTime(event.dateTime)} hs</span>
       </div>
 
-      {/* TITULO */}
       <h3 className="card-title">{event.name || "Evento sin nombre"}</h3>
 
-      {/* LISTA DE DETALLES (Manteniendo todos los datos) */}
       <div className="card-details-list">
-        {/* Fecha */}
         <div className="detail-item">
           <CalendarTodayOutlinedIcon />
           <span>{formatDateFriendly(event.dateTime)}</span>
         </div>
 
-        {/* Lugar */}
         <div className="detail-item">
           <PlaceOutlinedIcon />
           <span>{event.location.placeName}</span>
         </div>
 
-        {/* Jugadores */}
         <div className={`detail-item ${isFull ? "text-warning" : ""}`}>
           <GroupsOutlinedIcon />
           <span style={{ fontWeight: isFull ? 700 : 500 }}>
@@ -86,7 +77,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
           </span>
         </div>
 
-        {/* Costo */}
         {event.cost && event.cost > 0 && (
           <div className="detail-item highlight">
             <AttachMoneyOutlinedIcon />
@@ -94,13 +84,11 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
           </div>
         )}
 
-        {/* Organizador */}
         <div className="detail-item">
           <PersonOutlineOutlinedIcon />
           <span>Org: {event.organizer?.name}</span>
         </div>
 
-        {/* Datos Bancarios (Alias/CBU) - Solo si existen */}
         {(event.transferData?.alias || event.transferData?.cbu) && (
           <div className="detail-item" style={{ fontSize: "0.8rem" }}>
             <AccountBalanceIcon sx={{ fontSize: "1rem !important" }} />
@@ -108,7 +96,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
           </div>
         )}
 
-        {/* Estado: Unido */}
         {isJoined && (
           <div className="status-badge">
             <CheckCircleIcon fontSize="inherit" />
@@ -127,7 +114,6 @@ const EventCard: React.FC<EventCardProps> = ({ event, onDetails }) => {
         )}
       </div>
 
-      {/* FOOTER: Botón Flecha */}
       <div className="card-footer">
         <div className="action-button">
           <ArrowForwardIosIcon sx={{ fontSize: "16px" }} />
