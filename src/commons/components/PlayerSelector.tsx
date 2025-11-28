@@ -9,6 +9,8 @@ interface PlayerSelectorProps {
   label: string;
   placeholder?: string;
   allowGuests?: boolean;
+  // Nueva prop opcional
+  excludePlayers?: Player[];
 }
 
 export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
@@ -17,6 +19,7 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
   label,
   placeholder = "Buscar jugadores por username...",
   allowGuests = true,
+  excludePlayers = [],
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<SportUser[]>([]);
@@ -39,12 +42,19 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
       setIsSearching(true);
       try {
         const users = await searchUsers(searchTerm);
-        const filtered = users.filter(
-          (user) =>
-            !selectedPlayers.some(
-              (player) => player.user?.username === user.username
-            )
-        );
+
+        // Filtramos usuarios que ya están seleccionados en ESTE selector
+        // Y TAMBIÉN los que están en la lista de excluidos (el otro equipo)
+        const filtered = users.filter((user) => {
+          const inCurrentList = selectedPlayers.some(
+            (player) => player.user?.username === user.username
+          );
+          const inExcludedList = excludePlayers.some(
+            (player) => player.user?.username === user.username
+          );
+          return !inCurrentList && !inExcludedList;
+        });
+
         setSearchResults(filtered);
         setShowDropdown(true);
       } catch (error) {
@@ -58,7 +68,7 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
     return () => {
       if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
     };
-  }, [searchTerm, selectedPlayers]);
+  }, [searchTerm, selectedPlayers, excludePlayers]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -75,9 +85,11 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
   }, []);
 
   const handleAddPlayer = (sportUser: SportUser) => {
-    const exists = selectedPlayers.some(
-      (p) => p.user?.username === sportUser.username
-    );
+    // Doble chequeo por seguridad al hacer click
+    const exists =
+      selectedPlayers.some((p) => p.user?.username === sportUser.username) ||
+      excludePlayers.some((p) => p.user?.username === sportUser.username);
+
     if (!exists) {
       const newPlayer: Player = {
         id: sportUser.id,
@@ -92,12 +104,17 @@ export const PlayerSelector: React.FC<PlayerSelectorProps> = ({
 
   const handleAddGuest = () => {
     const trimmedName = searchTerm.trim();
-    const exists = selectedPlayers.some((p) => p.name === trimmedName);
-    if (trimmedName.length >= 2 && !exists) {
+    const existsInCurrent = selectedPlayers.some((p) => p.name === trimmedName);
+    const existsInExcluded = excludePlayers.some((p) => p.name === trimmedName);
+
+    if (trimmedName.length >= 2 && !existsInCurrent && !existsInExcluded) {
       const newGuest: Player = { name: trimmedName, id: 0 };
       onChange([...selectedPlayers, newGuest]);
       setSearchTerm("");
       setShowDropdown(false);
+    } else if (existsInExcluded) {
+      // Opcional: Mostrar feedback visual o toast de que ya está en el otro equipo
+      console.warn("El jugador ya está en el otro equipo");
     }
   };
 

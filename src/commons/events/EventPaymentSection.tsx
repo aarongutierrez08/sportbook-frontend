@@ -27,7 +27,6 @@ const EventPaymentSection: React.FC<Props> = ({
   <div className="event-page-section">
     <h3>Datos de Pago</h3>
 
-    {}
     <div className="section-row">
       <AttachMoneyIcon className="section-icon" />
       <EditableField
@@ -44,7 +43,6 @@ const EventPaymentSection: React.FC<Props> = ({
 
     <div className="section-divider"></div>
 
-    {}
     <div className="section-row">
       <AlternateEmailIcon className="section-icon" />
       <EditableField
@@ -57,7 +55,6 @@ const EventPaymentSection: React.FC<Props> = ({
       />
     </div>
 
-    {}
     <div className="section-row">
       <AccountBalanceIcon className="section-icon" />
       <EditableField

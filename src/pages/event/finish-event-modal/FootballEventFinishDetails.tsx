@@ -201,7 +201,6 @@ const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
         <h3>Resumen del partido</h3>
         <div className="fem-summary-content">
           <div className="fem-score">
-            {}
             <div
               className={`fem-team-score ${firstTeamTheme} ${
                 winningTeamId === firstTeam.id ? "winner-score" : ""
@@ -215,7 +214,6 @@ const FootballEventFinishDetails: React.FC<FootballEventFinishDetailsProps> = ({
 
             <span className="fem-score-separator">−</span>
 
-            {}
             <div
               className={`fem-team-score ${secondTeamTheme} ${
                 winningTeamId === secondTeam.id ? "winner-score" : ""

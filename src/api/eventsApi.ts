@@ -21,6 +21,7 @@ export type SimplifiedPlayer = {
 };
 
 export type CreateEventRequest = {
+  name: string;
   sport: Sport;
   minPlayers: number;
   maxPlayers: number;

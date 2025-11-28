@@ -16,6 +16,7 @@ import type {
 } from "../../types/apiTypes.ts";
 
 export interface SportEventForm {
+  name: string; // <--- NUEVO CAMPO
   sport: Sport;
   cost: number;
   cbu?: string;
@@ -32,6 +33,8 @@ export interface SportEventForm {
 
   firstTeamColor: TeamColor;
   secondTeamColor: TeamColor;
+  firstTeamName: string; // <--- NUEVO CAMPO
+  secondTeamName: string; // <--- NUEVO CAMPO
   firstTeamPlayersInput: Array<Player>;
   secondTeamPlayersInput: Array<Player>;
 
@@ -41,6 +44,7 @@ export interface SportEventForm {
 const CreateEventPage: React.FC = () => {
   const methods = useForm<SportEventForm>({
     defaultValues: {
+      name: "", // Default vacío
       sport: undefined,
       cost: 0,
       location: { x: 0, y: 0, placeName: "" },
@@ -53,6 +57,8 @@ const CreateEventPage: React.FC = () => {
 
       firstTeamColor: "BLUE",
       secondTeamColor: "RED",
+      firstTeamName: "", // Default vacío
+      secondTeamName: "", // Default vacío
     },
   });
 
@@ -78,6 +84,7 @@ const CreateEventPage: React.FC = () => {
     const generalPlayers = simplifyPlayers(data.allEventPlayersInput);
 
     const payload: CreateEventRequest = {
+      name: data.name, // Enviamos el nombre
       sport: data.sport as Sport,
       minPlayers: data.minPlayers,
       maxPlayers: data.maxPlayers,
@@ -95,8 +102,16 @@ const CreateEventPage: React.FC = () => {
       pitchSize: data.pitchSize,
       players: generalPlayers,
       teams: [
-        { color: data.firstTeamColor, players: data.firstTeamPlayersInput },
-        { color: data.secondTeamColor, players: data.secondTeamPlayersInput },
+        {
+          color: data.firstTeamColor,
+          name: data.firstTeamName || "Equipo 1", // Enviamos nombre o fallback
+          players: data.firstTeamPlayersInput,
+        },
+        {
+          color: data.secondTeamColor,
+          name: data.secondTeamName || "Equipo 2", // Enviamos nombre o fallback
+          players: data.secondTeamPlayersInput,
+        },
       ],
     };
 
@@ -120,7 +135,21 @@ const CreateEventPage: React.FC = () => {
               className="create-event-form"
               onSubmit={handleSubmit(onSubmit)}
             >
-              {}
+              {/* --- NUEVO CAMPO: NOMBRE DEL EVENTO --- */}
+              <div className="form-full">
+                <FormField
+                  label="Nombre del Evento"
+                  error={errors.name}
+                  fullWidth
+                >
+                  <input
+                    type="text"
+                    placeholder="Ej: Torneo de Verano, Amistoso..."
+                    {...register("name", { required: REQUIRED })}
+                  />
+                </FormField>
+              </div>
+
               <FormField label="Deporte" error={errors.sport}>
                 <select {...register("sport", { required: REQUIRED })}>
                   <option value="">Seleccionar deporte...</option>
@@ -130,7 +159,6 @@ const CreateEventPage: React.FC = () => {
                 </select>
               </FormField>
 
-              {}
               <FormField label="Fecha y Hora" error={errors.dateTime}>
                 <input
                   type="datetime-local"
@@ -138,7 +166,6 @@ const CreateEventPage: React.FC = () => {
                 />
               </FormField>
 
-              {}
               <div className="form-group form-full">
                 <label>Ubicación</label>
                 <LocationPickerMap
@@ -161,7 +188,6 @@ const CreateEventPage: React.FC = () => {
                 />
               </div>
 
-              {}
               <FormField label="Jugadores Mínimos" error={errors.minPlayers}>
                 <input
                   type="number"
@@ -188,31 +214,28 @@ const CreateEventPage: React.FC = () => {
                 />
               </FormField>
 
-              {}
               <PaymentFields register={register} errors={errors} />
 
-              {}
               <MatchDetailsFields
                 sport={watch("sport")}
                 register={register}
                 errors={errors}
               />
 
-              {}
               <div className="buttons-container form-full">
-                <button
-                  type="submit"
-                  className="btn btn--lg"
-                  disabled={isSubmitting}
-                >
-                  Crear
-                </button>
                 <button
                   type="button"
                   className="btn btn--lg btn--secondary"
                   onClick={() => reset()}
                 >
                   Limpiar
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn--lg"
+                  disabled={isSubmitting}
+                >
+                  Crear
                 </button>
               </div>
             </form>

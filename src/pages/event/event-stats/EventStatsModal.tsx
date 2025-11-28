@@ -145,7 +145,6 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
           {loading && <div className="esm-loading">Cargando estadísticas…</div>}
           {!loading && eventStats && (
             <>
-              {}
               <div className="esm-kpis-grid">
                 <KpiCard
                   label="Registrados"
@@ -164,7 +163,6 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                 />
               </div>
 
-              {}
               <div className="esm-row--two">
                 <CardSection title="Equipo ganador">
                   {eventStats.winningTeam ? (
@@ -201,7 +199,6 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                 </CardSection>
               </div>
 
-              {}
               <CardSection title={`Marcador Final (${sportConfig.scoreUnit})`}>
                 <div className="esm-scores">
                   {[...eventStats.scores]
@@ -227,7 +224,6 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                 </div>
               </CardSection>
 
-              {}
               {eventStats.sets && eventStats.sets.length > 0 && (
                 <CardSection title="Desglose de Sets">
                   <div className="esm-sets-container">
@@ -267,9 +263,8 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                 </CardSection>
               )}
 
-              {}
               <CardSection title="Goleadores / Jugadores Destacados">
-                {eventStats.scorersRanking.length === 0 ? (
+                {eventStats.goalsDetail?.length === 0 ? (
                   <Muted>No hay datos individuales registrados</Muted>
                 ) : (
                   <div className="esm-table">
@@ -280,7 +275,7 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                       <div className="esm-goalsHeader">Goles</div>
                     </div>
                     <div className="esm-tbody">
-                      {eventStats.scorersRanking.map((row, index) => {
+                      {eventStats.goalsDetail?.map((row, index) => {
                         const teamScore = eventStats.scores.find(
                           (s) => s.teamId === row.teamId
                         );
@@ -325,7 +320,6 @@ const EventStatsModal: React.FC<EventStatsModalProps> = ({
                 )}
               </CardSection>
 
-              {}
               <CardSection title="Ausentes">
                 {eventStats.missingPlayers.length === 0 ? (
                   <Muted>No hubo ausentes</Muted>

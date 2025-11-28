@@ -452,7 +452,6 @@ const MyDataPage: React.FC = () => {
           {isLoading ? "Subiendo..." : "Cambiar foto"}
         </button>
 
-        {}
         {hasChanges && (
           <div className="edit-buttons-section" style={{ marginTop: "1rem" }}>
             <div className="edit-buttons">

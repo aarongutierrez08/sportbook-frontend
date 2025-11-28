@@ -3,27 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
 import { FootballPositionSelector } from "./FootballPositionSelector";
 import type { FootballProfileDetail } from "../../types/apiTypes";
-
-const playFrequencies = [
-  {
-    id: "rarely",
-    name: "Ocasional",
-    count: 1,
-    description: "De vez en cuando",
-  },
-  {
-    id: "often",
-    name: "Regular",
-    count: 2,
-    description: "Varias veces al mes",
-  },
-  {
-    id: "veryOften",
-    name: "Frecuente",
-    count: 3,
-    description: "Varias veces por semana",
-  },
-];
+import { PLAY_FREQUENCIES } from "../../constants/events";
 
 export const FootballProfileForm = () => {
   const { control } = useFormContext<FootballProfileDetail>();
@@ -97,7 +77,7 @@ export const FootballProfileForm = () => {
               ¿Con qué frecuencia juegas al fútbol?
             </p>
             <div className="sport-frequency-options">
-              {playFrequencies.map((freq) => (
+              {PLAY_FREQUENCIES.map((freq) => (
                 <label key={freq.id} className="sport-frequency-option">
                   <div
                     className={`sport-frequency-box ${

@@ -18,23 +18,16 @@ import EventFairnessRatingComponent from "../../pages/event/commons/EventFairnes
 import { PlayerList } from "../../pages/event/commons/PlayerList";
 
 import { isLoggedUserInEvent } from "../../utils/events";
-import { COLOR_MAPPER } from "../../constants/events";
+import { COLOR_MAPPER, SPORT_LABELS } from "../../constants/events";
 import type {
   Event,
   PitchSize,
-  Sport,
   FootballEvent,
   FinishEventRequest,
 } from "../../types/apiTypes";
 import AddPlayerButton from "../../commons/components/AddPlayerButton";
 import FootballPitch from "../../commons/components/FootballPitch";
 import FinishEventModal from "./finish-event-modal/FinishEventModal";
-
-const SPORT_LABELS: Record<Sport, string> = {
-  FOOTBALL: "Fútbol",
-  PADDLE: "Pádel",
-  VOLLEY: "Vóley",
-};
 
 export interface UpdateEventParams {
   cost?: number;
@@ -176,6 +169,12 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 
     return `${event.id}-${teamComposition}-${Date.now()}`;
   }, [event.teams, event.sport, event.id]);
+
+  const totalPlayersJoined =
+    event.unnasignedPlayers.length +
+    event.teams.reduce((acc, team) => acc + team.players.length, 0);
+
+  const isEventFull = totalPlayersJoined >= event.maxPlayers;
 
   return (
     <div className="event-page-root">
@@ -320,15 +319,26 @@ const ActiveEventDetails: React.FC<ActiveEventDetailsProps> = ({
 
               {/* 2. Botón UNIRSE/SALIR */}
               {!isLoggedUserInEvent(event, loggedUser) ? (
-                // Unirse: Verde (Primary), Grande, Redondo
-                <button
-                  onClick={() => joinOrLeave("join")}
-                  className="btn btn--lg btn--pill btn--shadow"
-                >
-                  Unirse ahora
-                </button>
+                // Caso: NO estoy unido
+                isEventFull ? (
+                  // Caso: Lleno -> Botón deshabilitado
+                  <button
+                    disabled
+                    className="btn btn--lg btn--disabled btn--pill"
+                  >
+                    Evento Lleno
+                  </button>
+                ) : (
+                  // Caso: Hay lugar -> Botón Unirse
+                  <button
+                    onClick={() => joinOrLeave("join")}
+                    className="btn btn--lg btn--pill btn--shadow"
+                  >
+                    Unirse ahora
+                  </button>
+                )
               ) : (
-                // Salir: Blanco con borde Rojo (Danger Outline), Grande, Redondo
+                // Caso: YA estoy unido -> Botón Salir
                 <button
                   onClick={() => joinOrLeave("leave")}
                   className="btn btn--lg btn--danger-outline btn--pill"

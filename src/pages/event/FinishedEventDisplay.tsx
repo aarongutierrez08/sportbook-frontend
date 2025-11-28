@@ -36,6 +36,26 @@ import {
 } from "./event-stats/colorUtils";
 import { formatAmountIntl } from "../../utils/formatAmount";
 
+const formatAiText = (text: string) => {
+  if (!text) return null;
+
+  // Dividimos el texto por los dobles asteriscos
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+
+  return parts.map((part, index) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      // Es un bloque de negrita: removemos los ** y devolvemos strong
+      return (
+        <strong key={index} style={{ color: "var(--color-secondary)" }}>
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    // Es texto normal
+    return part;
+  });
+};
+
 type SportConfigType = {
   label: string;
   icon: JSX.Element;
@@ -130,7 +150,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
   );
   const isDraw = stats.winningTeam === null;
 
-  const topScorers = stats.scorersRanking;
+  const topScorers = stats.goalsDetail;
 
   const rawTeam1 = event.teams[0];
   const rawTeam2 = event.teams[1];
@@ -200,7 +220,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
 
   return (
     <div className="dashboard-container">
-      {}
       <header className="dashboard-header">
         <h1 className="dashboard-title">
           {!event.name && <span className="sport-icon">{config.icon}</span>}
@@ -246,9 +265,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
       </header>
 
       <div className="dashboard-grid">
-        {}
         <section className="dashboard-main-column">
-          {}
           <div className="duel-wrapper">
             <div
               className={`duel-container ${isDraw ? "is-draw" : "has-winner"}`}
@@ -267,7 +284,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             </div>
           </div>
 
-          {}
           <div className="final-score-wrapper">
             <div className="final-score-display">
               {sortedTeams.map((team, idx) => {
@@ -286,7 +302,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
               })}
             </div>
 
-            {}
             {stats.sets && stats.sets.length > 0 && (
               <div className="sets-breakdown">
                 {stats.sets.map((set, idx) => {
@@ -319,7 +334,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             )}
           </div>
 
-          {}
           <div className="details-card comparison-card full-width-comparison">
             <div className="comparison-mini-header">
               <CompareArrowsIcon fontSize="small" />
@@ -342,9 +356,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
           </div>
         </section>
 
-        {}
         <aside className="dashboard-details-column">
-          {}
           <div className="details-card stats-row">
             <div className="mini-stat">
               <span className="mini-icon-wrapper">{config.statIcon}</span>
@@ -371,7 +383,6 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             </div>
           </div>
 
-          {}
           <div
             className={`details-card ai-section ${aiSummary ? "expanded" : ""}`}
           >
@@ -396,12 +407,12 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             )}
             {aiSummary && (
               <div className="ai-result-container">
-                <p className="ai-text">{aiSummary}</p>
+                {/* CAMBIO: Usamos el helper en lugar de renderizar directo */}
+                <p className="ai-text">{formatAiText(aiSummary)}</p>
               </div>
             )}
           </div>
 
-          {}
           {stats.mvp && (
             <div
               className={`details-card mvp-card-mini ${getColorThemeClass(
@@ -418,8 +429,7 @@ const FinishedEventDisplay: React.FC<FinishedEventDisplayProps> = ({
             </div>
           )}
 
-          {}
-          {topScorers.length > 0 && (
+          {topScorers?.length > 0 && (
             <div className="details-card scorers-card-mini">
               <div className="mini-card-title">
                 <GpsFixedIcon fontSize="small" />

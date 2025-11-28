@@ -290,10 +290,8 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
     <div className="football-pitch-layout">
       {showComponent && (
         <>
-          {}
           {renderBenchSide(lineups[0], firstTeamColor)}
 
-          {}
           <div className="pitch-center-wrapper">
             <div className="pitch-background">
               <img src={footballPitch} alt="Cancha" />
@@ -304,7 +302,6 @@ const FootballPitch: React.FC<FootballPitchProps> = ({
             </div>
           </div>
 
-          {}
           {renderBenchSide(lineups[1], secondTeamColor)}
         </>
       )}

@@ -1,5 +1,5 @@
 /** ============================
- * 📘 TYPE LITERALS (en lugar de enums)
+ * 📘 TYPE LITERALS
  * ============================ */
 
 export type Sport = "FOOTBALL" | "VOLLEY" | "PADDLE";
@@ -11,6 +11,8 @@ export type Gender = "MAN" | "WOMAN" | "NON_BINARY" | "PREFER_NOT_TO_SAY";
 export type TeamColor = "BLUE" | "GREEN" | "BLACK" | "RED" | "WHITE";
 
 export type PitchSize = 5 | 6 | 7 | 8 | 9 | 11;
+
+export type PlayFrequency = "RARELY" | "OFTEN" | "VERY_OFTEN";
 
 export type Position =
   | "GK"
@@ -59,7 +61,7 @@ export interface AdditionalInfo {
 
 export interface SportProfileDetail {
   id: number;
-  playsOften: boolean;
+  playsOften: PlayFrequency;
   ability?: number;
 }
 
@@ -79,6 +81,9 @@ export interface VolleyProfileDetail extends SportProfileDetail {
   favoritePosition?: string;
   blockHeight?: number;
   rolePreference?: string;
+  offensiveLevel?: number;
+  defensiveLevel?: number;
+  serveType?: string;
 }
 
 export type SportProfileDetails =
@@ -116,13 +121,15 @@ export interface Player {
   name?: string;
   user?: SportUser;
   event?: Event;
+  // Nota: El backend puede enviar 'teamColor' si es DTO de stats,
+  // pero la entidad base usa 'user' y 'event'.
 }
 
 export interface Team {
   id: number;
   players: Player[];
   color: TeamColor;
-  name: string;
+  name: string; // Agregado para nombres personalizados de equipo
 }
 
 export interface TeamGoal {
@@ -130,11 +137,6 @@ export interface TeamGoal {
   team: Team;
   player: Player;
   finishedEventStats?: FinishedEventStats;
-}
-
-export interface PartialTeamGoal {
-  team: Partial<Team>;
-  player: Partial<Player>;
 }
 
 /** ============================
@@ -156,6 +158,8 @@ export interface Event {
   isFinished: boolean;
   finishedStats?: FinishedEventStats;
   teams: Team[];
+  // Propiedad específica de FootballEvent pero útil tenerla opcional en base si el backend la manda
+  pitchSize?: PitchSize;
 }
 
 /** ============================
@@ -164,7 +168,7 @@ export interface Event {
 
 export interface FootballEvent extends Event {
   sport: "FOOTBALL";
-  pitchSize: number;
+  pitchSize: PitchSize;
 }
 
 /** ============================
@@ -218,7 +222,6 @@ export interface FinishEventRequest {
   goals: TeamGoalRequest[];
   missingPlayerIds: number[];
   mvpId?: number;
-
   sets?: SetResult[];
 }
 
@@ -229,7 +232,6 @@ export interface FinishedEventStats {
   winningTeam?: Team;
   mvp?: Player;
   missingPlayers: Player[];
-
   sets?: SetResult[];
 }
 
@@ -244,23 +246,24 @@ export interface EventStatsResponse {
   absentPlayers: number;
   attendanceRate: number;
 
-  totalGoals: number;
+  totalGoals: number; // Goles o Sets jugados
   scores: TeamScoreDTO[];
-  scorersRanking: PlayerGoalsDTO[];
+
+  goalsDetail: PlayerGoalsDTO[];
 
   winningTeam?: TeamSummary;
   mvp?: PlayerSummary;
   missingPlayers: PlayerSummary[];
-
   sets?: SetResult[];
+  insights: string[];
 }
 
 export interface TeamScoreDTO {
   teamId: number;
   color: TeamColor;
-  goals: number;
+  goals: number; // Goles o Sets ganados
   isWinner: boolean;
-  name: string;
+  name?: string; // Nombre del equipo
 }
 
 export interface PlayerGoalsDTO {
@@ -279,7 +282,7 @@ export interface PlayerSummary {
 export interface TeamSummary {
   id: number;
   color: TeamColor;
-  name: string;
+  name?: string; // Nombre del equipo
 }
 
 /** ============================

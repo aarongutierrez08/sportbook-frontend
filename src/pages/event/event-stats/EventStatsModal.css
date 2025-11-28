@@ -30,6 +30,8 @@
   overflow: hidden;
   position: relative;
   animation: modalFadeIn 0.2s ease-out;
+
+  max-height: 90vh;
 }
 
 .esm-header {

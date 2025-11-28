@@ -564,12 +564,20 @@
   scrollbar-color: var(--color-border) transparent;
 }
 .ai-text {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--color-text-dark);
-  line-height: 1.4;
+  line-height: 1.6; /* Un poco más de aire */
   margin: 0;
   white-space: pre-line;
-  font-style: italic;
+  font-style: normal; /* CAMBIO: Mejor normal que italic para lectura larga */
+  font-weight: 400;
+}
+
+.ai-text strong {
+  font-weight: 700;
+  color: var(
+    --color-secondary
+  ); /* Naranja de la marca para resaltar los datos */
 }
 
 .mvp-card-mini {

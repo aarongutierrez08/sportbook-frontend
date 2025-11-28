@@ -32,7 +32,6 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
 
   return (
     <div className="form-group form-full">
-      {}
       {sport === "FOOTBALL" && (
         <FormField label="Tamaño de cancha" error={errors.pitchSize} fullWidth>
           <select {...register("pitchSize", { valueAsNumber: true })}>
@@ -46,42 +45,79 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
         </FormField>
       )}
 
-      {}
       <div
         className="form-full form-group flex"
-        style={{ gap: "2rem", marginTop: "1rem" }}
+        style={{ gap: "2rem", marginTop: "1rem", flexDirection: "row" }}
       >
-        {(["firstTeamColor", "secondTeamColor"] as const).map(
-          (fieldName, index) => (
-            <div key={fieldName} style={{ flex: 1 }}>
-              <label>{`Color Equipo ${index + 1}`}</label>
-              <Controller
-                name={fieldName}
-                control={control}
-                rules={{ required: "Debes elegir un color" }}
-                render={({ field }) => (
-                  <ColorSelector
-                    value={field.value}
-                    onChange={field.onChange}
-                    error={!!errors[fieldName]}
-                  />
-                )}
+        {/* TEAM 1 */}
+        <div style={{ flex: 1 }}>
+          <div style={{ marginBottom: "1rem" }}>
+            <FormField label="Nombre Equipo 1" error={errors.firstTeamName}>
+              <input
+                type="text"
+                placeholder="Ej: Los Rayos"
+                {...register("firstTeamName")}
               />
-              {errors[fieldName] && (
-                <div className="input-error">{errors[fieldName]?.message}</div>
-              )}
-            </div>
-          )
-        )}
+            </FormField>
+          </div>
+
+          <label>Color Equipo 1</label>
+          <Controller
+            name="firstTeamColor"
+            control={control}
+            rules={{ required: "Debes elegir un color" }}
+            render={({ field }) => (
+              <ColorSelector
+                value={field.value}
+                onChange={field.onChange}
+                error={!!errors.firstTeamColor}
+              />
+            )}
+          />
+          {errors.firstTeamColor && (
+            <div className="input-error">{errors.firstTeamColor?.message}</div>
+          )}
+        </div>
+
+        {/* TEAM 2 */}
+        <div style={{ flex: 1 }}>
+          <div style={{ marginBottom: "1rem" }}>
+            <FormField label="Nombre Equipo 2" error={errors.secondTeamName}>
+              <input
+                type="text"
+                placeholder="Ej: Furia Roja"
+                {...register("secondTeamName")}
+              />
+            </FormField>
+          </div>
+
+          <label>Color Equipo 2</label>
+          <Controller
+            name="secondTeamColor"
+            control={control}
+            rules={{ required: "Debes elegir un color" }}
+            render={({ field }) => (
+              <ColorSelector
+                value={field.value}
+                onChange={field.onChange}
+                error={!!errors.secondTeamColor}
+              />
+            )}
+          />
+          {errors.secondTeamColor && (
+            <div className="input-error">{errors.secondTeamColor?.message}</div>
+          )}
+        </div>
       </div>
 
-      {}
       <div className="form-group form-full">
         <PlayerSelector
           label="Jugadores Equipo 1"
           selectedPlayers={firstTeamPlayers ?? []}
           onChange={(data) => setValue("firstTeamPlayersInput", data)}
           placeholder="Buscar jugadores para el primer equipo..."
+          // Pasamos los jugadores del equipo 2 para excluirlos
+          excludePlayers={secondTeamPlayers ?? []}
         />
       </div>
 
@@ -91,6 +127,8 @@ export const MatchDetailsFields: React.FC<MatchDetailsFieldsProps> = ({
           selectedPlayers={secondTeamPlayers ?? []}
           onChange={(data) => setValue("secondTeamPlayersInput", data)}
           placeholder="Buscar jugadores para el segundo equipo..."
+          // Pasamos los jugadores del equipo 1 para excluirlos
+          excludePlayers={firstTeamPlayers ?? []}
         />
       </div>
     </div>

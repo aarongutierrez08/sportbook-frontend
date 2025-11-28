@@ -1,5 +1,4 @@
 import { Controller, useFormContext, useWatch } from "react-hook-form";
-import type { VolleyProfileDTO } from "../../../types/user";
 import { useTheme } from "@mui/material/styles";
 
 import SportsVolleyballIcon from "@mui/icons-material/SportsVolleyball";
@@ -13,6 +12,8 @@ import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import type { VolleyProfileDetail } from "../../types/apiTypes";
+import { PLAY_FREQUENCIES } from "../../constants/events";
 
 const allVolleyPositions = [
   {
@@ -74,29 +75,8 @@ const serveTypes = [
   },
 ];
 
-const playFrequencies = [
-  {
-    id: "rarely",
-    name: "Ocasional",
-    count: 1,
-    description: "De vez en cuando",
-  },
-  {
-    id: "often",
-    name: "Regular",
-    count: 2,
-    description: "Varias veces al mes",
-  },
-  {
-    id: "veryOften",
-    name: "Frecuente",
-    count: 3,
-    description: "Varias veces por semana",
-  },
-];
-
 export const VolleyProfileForm = () => {
-  const { control } = useFormContext<VolleyProfileDTO>();
+  const { control } = useFormContext<VolleyProfileDetail>();
   const theme = useTheme();
 
   const favoritePosition = useWatch({
@@ -345,7 +325,7 @@ export const VolleyProfileForm = () => {
               ¿Con qué frecuencia juegas al voleibol?
             </p>
             <div className="sport-frequency-options">
-              {playFrequencies.map((freq) => (
+              {PLAY_FREQUENCIES.map((freq) => (
                 <label key={freq.id} className="sport-frequency-option">
                   <div
                     className={`sport-frequency-box ${

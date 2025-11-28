@@ -1,4 +1,4 @@
-import type { Position, TeamColor } from "../types/apiTypes";
+import type { Position, Sport, TeamColor } from "../types/apiTypes";
 
 export const REQUIRED = { value: true, message: "Este campo es obligatorio" };
 
@@ -37,4 +37,31 @@ export const positionLabels: Record<Position, string> = {
   LW: "Extremo Izquierdo",
   CT: "Centrodelantero",
   ST: "Segundo Delantero",
+};
+
+export const PLAY_FREQUENCIES = [
+  {
+    id: "RARELY",
+    name: "Ocasional",
+    count: 1,
+    description: "De vez en cuando",
+  },
+  {
+    id: "OFTEN",
+    name: "Regular",
+    count: 2,
+    description: "Varias veces al mes",
+  },
+  {
+    id: "VERY_OFTEN",
+    name: "Frecuente",
+    count: 3,
+    description: "Varias veces por semana",
+  },
+];
+
+export const SPORT_LABELS: Record<Sport, string> = {
+  FOOTBALL: "Fútbol",
+  PADDLE: "Pádel",
+  VOLLEY: "Vóley",
 };

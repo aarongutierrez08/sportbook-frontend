@@ -24,76 +24,80 @@ const ProfilePage: React.FC = () => {
     "football"
   );
 
+  // Formularios con valores por defecto seguros
   const footballForm = useForm<FootballProfileDetail>({
     defaultValues: {
-      sport: "FOOTBALL",
       positions: [],
       favoritePosition: "ST",
       ability: 5,
-      playsOften: "often",
+      playsOften: "OFTEN", // String por defecto
     },
   });
 
   const volleyForm = useForm<VolleyProfileDetail>({
     defaultValues: {
-      sport: "VOLLEY",
       positions: [],
       favoritePosition: "Setter",
       ability: 5,
       blockHeight: undefined,
-      offensiveLevel: 5,
-      defensiveLevel: 5,
+      rolePreference: "",
       serveType: "",
-      playsOften: "often",
+      playsOften: "OFTEN",
     },
   });
 
   const paddleForm = useForm<PaddleProfileDetail>({
     defaultValues: {
-      sport: "PADDLE",
       preferredSide: "DRIVE",
       ability: 5,
       playStyle: "MIXTO",
       playedTournaments: false,
-      playsOften: "often",
+      playsOften: "OFTEN",
     },
   });
 
+  // Cargar datos del backend al montar
   useEffect(() => {
-    fetchProfiles().then((profiles: SportProfile[]) => {
-      const football = profiles.find((profile) => profile.sport === "FOOTBALL");
-      if (football)
-        footballForm.reset(football.details as FootballProfileDetail);
+    fetchProfiles()
+      .then((profiles: SportProfile[]) => {
+        const football = profiles.find((p) => p.sport === "FOOTBALL");
+        if (football && football.details) {
+          // Reseteamos el formulario con los datos que vienen del backend
+          // Como el backend ya devuelve el detalle polimórfico correcto, lo casteamos.
+          footballForm.reset(football.details as FootballProfileDetail);
+        }
 
-      const volley = profiles.find((profile) => profile.sport === "VOLLEY");
-      if (volley) volleyForm.reset(volley.details as VolleyProfileDetail);
+        const volley = profiles.find((p) => p.sport === "VOLLEY");
+        if (volley && volley.details) {
+          volleyForm.reset(volley.details as VolleyProfileDetail);
+        }
 
-      const paddle = profiles.find((profile) => profile.sport === "PADDLE");
-      if (paddle) paddleForm.reset(paddle.details as PaddleProfileDetail);
-    });
+        const paddle = profiles.find((p) => p.sport === "PADDLE");
+        if (paddle && paddle.details) {
+          paddleForm.reset(paddle.details as PaddleProfileDetail);
+        }
+      })
+      .catch(() => {
+        toast.error("No se pudieron cargar tus perfiles deportivos");
+      });
   }, [footballForm, volleyForm, paddleForm]);
 
   const handleSubmit = async (
     data: FootballProfileDetail | VolleyProfileDetail | PaddleProfileDetail
   ) => {
-    if (tab === "football") {
-      toast.promise(updateFootballProfile(data as FootballProfileDetail), {
-        loading: "Guardando perfil de fútbol...",
-        success: "Perfil de fútbol actualizado",
-        error: "Error al guardar fútbol",
-      });
-    } else if (tab === "volley") {
-      toast.promise(updateVolleyProfile(data as VolleyProfileDetail), {
-        loading: "Guardando perfil de vóley...",
-        success: "Perfil de vóley actualizado",
-        error: "Error al guardar vóley",
-      });
-    } else if (tab === "paddle") {
-      toast.promise(updatePaddleProfile(data as PaddleProfileDetail), {
-        loading: "Guardando perfil de pádel...",
-        success: "Perfil de pádel actualizado",
-        error: "Error al guardar pádel",
-      });
+    try {
+      if (tab === "football") {
+        await updateFootballProfile(data as FootballProfileDetail);
+        toast.success("Perfil de fútbol actualizado");
+      } else if (tab === "volley") {
+        await updateVolleyProfile(data as VolleyProfileDetail);
+        toast.success("Perfil de vóley actualizado");
+      } else if (tab === "paddle") {
+        await updatePaddleProfile(data as PaddleProfileDetail);
+        toast.success("Perfil de pádel actualizado");
+      }
+    } catch {
+      toast.error(`Error al guardar el perfil de ${tab}`);
     }
   };
 

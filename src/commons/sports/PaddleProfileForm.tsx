@@ -8,7 +8,8 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import type { PaddleProfileDetail } from "../../../types/apiTypes";
+import type { PaddleProfileDetail } from "../../types/apiTypes";
+import { PLAY_FREQUENCIES } from "../../constants/events";
 
 const preferredSides = [
   {
@@ -39,27 +40,6 @@ const playStyles = [
     description: "Juego controlado",
   },
   { id: "MIXTO", name: "Mixto", icon: BalanceIcon, description: "Equilibrado" },
-];
-
-const playFrequencies = [
-  {
-    id: "rarely",
-    name: "Ocasional",
-    count: 1,
-    description: "De vez en cuando",
-  },
-  {
-    id: "often",
-    name: "Regular",
-    count: 2,
-    description: "Varias veces al mes",
-  },
-  {
-    id: "veryOften",
-    name: "Frecuente",
-    count: 3,
-    description: "Varias veces por semana",
-  },
 ];
 
 export const PaddleProfileForm = () => {
@@ -264,7 +244,7 @@ export const PaddleProfileForm = () => {
               ¿Con qué frecuencia juegas al pádel?
             </p>
             <div className="sport-frequency-options">
-              {playFrequencies.map((freq) => (
+              {PLAY_FREQUENCIES.map((freq) => (
                 <label key={freq.id} className="sport-frequency-option">
                   <div
                     className={`sport-frequency-box ${
